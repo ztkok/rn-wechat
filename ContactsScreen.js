@@ -17,6 +17,8 @@ import {
 
 var { width, height} = Dimensions.get('window');
 var global = require('./global.js');
+var data = require('./data.js');
+var pinyinUtil = require('./pinyinutil.js');
 
 export default class ContactsScreen extends Component {
   static navigationOptions = {
@@ -46,13 +48,18 @@ export default class ContactsScreen extends Component {
         icon: headerImages[i],
       });
     }
-    for (var i = 0; i < 20; i++) {
+    var contacts = data.contacts;
+    for (var i = 0; i < contacts.length; i++) {
       listData.push({
         key: index++,
         icon: null,
-        title: "list item " + i,
+        title: contacts[i] + ", " + pinyinUtil.getFullChars(contacts[i]),
+        pinyin: pinyinUtil.getFullChars(contacts[i])
       })
     }
+    listData.sort(function(a, b) {
+      return a.pinyin - b.pinyin;
+    });
     return (
       <View style={styles.container}>
         <TitleBar />
