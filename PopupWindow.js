@@ -60,11 +60,11 @@ export default class MenuModal extends React.Component {
                     visible={this.state.isVisible}
                     animationType={'fade'}
                     onRequestClose={() => this.closeModal()}>
-                    <View style={styles.container} onPress={() => this.closeModal()}>
+                    <TouchableOpacity style={styles.container} onPress={() => this.closeModal()}>
                         <View style={styles.modal}>
                             {menuItems}
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </Modal>
             </View>
         )
