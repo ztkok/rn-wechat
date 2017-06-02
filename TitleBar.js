@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MenuPopWindow from './PopupWindow.js';
 import {
   StyleSheet,
   Text,
@@ -17,6 +18,9 @@ export default class TitleBar extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      showPop: false,
+    }
   }
 
   render() {
@@ -33,12 +37,23 @@ export default class TitleBar extends Component {
               style={styles.titleBarImg}
             />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleAddClick}>
             <Image
               source={require('./images/ic_add.png')}
               style={styles.titleBarImg}
             />
           </TouchableOpacity>
+          <View style={{ position: 'absolute', top: 0, left: 0, width: width, height: height }}>
+            <MenuPopWindow
+              width={140}
+              height={200}
+              show={this.state.showPop}
+              closeModal={(show) => { this.setState({ showPop: show }) }}
+              menuIcons={[require('./images/ic_pop_group_chat.png'), require('./images/ic_pop_add_friends.png'), require('./images/ic_pop_scan.png'),
+                           require('./images/ic_pop_pay.png'), require('./images/ic_pop_help.png')]}
+              menuTexts={['发起群聊', '添加朋友', '扫一扫', '收付款', '帮助与反馈']}
+              />
+          </View>
         </View>
       </View>
     );
@@ -46,6 +61,10 @@ export default class TitleBar extends Component {
 
   handleSearchClick = () => {
     this.refs.modal.openModal();
+  }
+
+  handleAddClick = () => {
+    this.setState({showPop: !this.state.showPop});
   }
 
 }
