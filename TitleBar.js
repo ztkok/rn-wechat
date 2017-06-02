@@ -4,7 +4,9 @@ import {
   Text,
   View,
   Image,
-  Dimensions
+  Dimensions,
+  TouchableOpacity,
+  Modal,
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
@@ -12,24 +14,46 @@ var global = require('./global.js');
 
 export default class TitleBar extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+    }
+  }
+
   render() {
     return (
       <View style={styles.titleBarContainer}>
+        <Modal
+          animationType={"slide"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}>
+          <Text>Hello World!</Text>
+        </Modal>
         <View style={styles.titleBarTextContainer}>
           <Text style={styles.title}>微信</Text>
         </View>
         <View style={styles.titleBarButtonContainer}>
-          <Image
-            source={require('./images/ic_search.png')}
-            style={styles.titleBarImg}
-          />
-          <Image
-            source={require('./images/ic_add.png')}
-            style={styles.titleBarImg}
-          />
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleSearchClick}>
+            <Image
+              source={require('./images/ic_search.png')}
+              style={styles.titleBarImg}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.5}>
+            <Image
+              source={require('./images/ic_add.png')}
+              style={styles.titleBarImg}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
+  }
+
+  handleSearchClick = () => {
+    this.setState({modalVisible: true});
   }
 
 }

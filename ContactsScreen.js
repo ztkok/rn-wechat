@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TitleBar from './TitleBar.js';
 import ListItem from './ListItem.js';
 import ListItemDivider from './ListItemDivider.js';
+import SideBar from './SideBar.js';
 import {
   StyleSheet,
   Text,
@@ -52,13 +53,6 @@ export default class ContactsScreen extends Component {
         title: "list item " + i,
       })
     }
-    var letters = ['☆', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'G', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'];
-    var letterViewArr = [];
-    for (var i = 0; i < letters.length; i++) {
-      letterViewArr.push(
-        <Text style={{color: '#999999', fontSize: 12,}} key={"letter" + i}>{letters[i]}</Text>
-      );
-    }
     return (
       <View style={styles.container}>
         <TitleBar />
@@ -68,7 +62,7 @@ export default class ContactsScreen extends Component {
             data={listData}
             renderItem={this.renderItem}
           />
-          <View style={{flexDirection: 'column', paddingLeft: 2, paddingRight: 2, justifyContent: 'center', alignItems: 'center'}}>{letterViewArr}</View>
+          <SideBar />
         </View>
         <View style={styles.divider}></View>
       </View>
@@ -105,6 +99,8 @@ const listItemStyle = StyleSheet.create({
     height: 35,
   },
   itemText: {
+    fontSize: 15,
+    color: '#000000'
   }
 });
 
