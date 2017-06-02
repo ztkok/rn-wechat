@@ -8,16 +8,21 @@ import {
   Button,
   PixelRatio,
   ScrollView,
+  TouchableHighlight,
 } from 'react-native';
 
 export default class ListItem extends Component {
   render() {
     return (
-      <View style={listItemStyles.container}>
-        <Image style={listItemStyles.icon} source={this.props.icon} />
-        <View style={listItemStyles.menuContainer}>
-          <Text style={listItemStyles.menuText}>{this.props.text}</Text>
-        </View>
+      <View>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+          <View style={listItemStyles.container}>
+            <Image style={listItemStyles.icon} source={this.props.icon} />
+            <View style={listItemStyles.menuContainer}>
+              <Text style={listItemStyles.menuText}>{this.props.text}</Text>
+            </View>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }

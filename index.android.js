@@ -15,6 +15,7 @@ import {
   PixelRatio,
   StatusBar,
   FlatList,
+  TouchableHighlight,
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
@@ -25,7 +26,8 @@ for (var i = 0; i < 20; i++) {
   listData.push({
     key: i,
     title: "item " + i,
-    subtitle: "subtitle item " + i
+    subtitle: "subtitle item " + i,
+    time: "昨天"
   })
 }
 
@@ -65,13 +67,18 @@ export default class HomeScreen extends Component {
   renderItem = (data) => {
     return (
       <View key={data.index}>
-        <View style={styles.listItemContainer}>
-          <Image source={require('./images/ic_list_icon.png')} style={{width: 50, height: 50}} />
-          <View style={styles.listItemTextContainer}>
-            <Text style={styles.listItemTitle}>{data.item.title}</Text>
-            <Text style={styles.listItemSubtitle}>{data.item.subtitle}</Text>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+          <View style={styles.listItemContainer}>
+            <Image source={require('./images/ic_list_icon.png')} style={{width: 50, height: 50}} />
+            <View style={styles.listItemTextContainer}>
+              <View style={styles.listItemSubContainer}>
+                  <Text style={styles.listItemTitle}>{data.item.title}</Text>
+                  <Text style={styles.listItemTime}>{data.item.time}</Text>
+              </View>
+              <Text style={styles.listItemSubtitle}>{data.item.subtitle}</Text>
+            </View>
           </View>
-        </View>
+        </TouchableHighlight>
         <View style={styles.divider} />
       </View>
     );
@@ -111,11 +118,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     paddingLeft: 15,
-    paddingRight: 15,
+  },
+  listItemSubContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   listItemTitle: {
     color: '#333333',
-    fontSize: 16
+    fontSize: 16,
+    flex: 1,
+  },
+  listItemTime: {
+    color: '#999999',
+    fontSize: 12,
   },
   listItemSubtitle: {
     color: '#999999',

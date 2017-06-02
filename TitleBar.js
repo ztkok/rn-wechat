@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FFFFFF',
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   titleBarImg: {
     width: 25,

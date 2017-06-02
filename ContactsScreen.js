@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import TitleBar from './TitleBar.js';
+import ListItem from './ListItem.js';
+import ListItemDivider from './ListItemDivider.js';
 import {
   StyleSheet,
   Text,
@@ -9,6 +11,7 @@ import {
   Button,
   PixelRatio,
   FlatList,
+  TouchableHighlight,
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
@@ -31,9 +34,21 @@ export default class ContactsScreen extends Component {
 
   render() {
     var listData = [];
+    var headerImages = [require('./images/ic_new_friends.png'), require('./images/ic_group_chat.png'),
+                        require('./images/ic_tag.png'), require('./images/ic_common.png')];
+    var headerTitles = ['新的朋友', '群聊', '标签', '公众号'];
+    var index = 0;
+    for (var i = 0; i < headerTitles.length; i++) {
+      listData.push({
+        key: index++,
+        title: headerTitles[i],
+        icon: headerImages[i],
+      });
+    }
     for (var i = 0; i < 20; i++) {
       listData.push({
-        key: i,
+        key: index++,
+        icon: null,
         title: "list item " + i,
       })
     }
@@ -62,10 +77,12 @@ export default class ContactsScreen extends Component {
   renderItem = (item) => {
     return (
       <View>
-        <View style={listItemStyle.container} key={item.item.key}>
-            <Image style={listItemStyle.image} source={require('./images/avatar.png')} />
-            <Text style={listItemStyle.itemText}>{item.item.title}</Text>
-        </View>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+          <View style={listItemStyle.container} key={item.item.key}>
+              <Image style={listItemStyle.image} source={item.item.icon == null ? require('./images/avatar.png') : item.item.icon} />
+              <Text style={listItemStyle.itemText}>{item.item.title}</Text>
+          </View>
+        </TouchableHighlight>
         <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: global.dividerColor}}/>
       </View>
     );
@@ -82,10 +99,10 @@ const listItemStyle = StyleSheet.create({
   image: {
     marginLeft: 15,
     marginRight: 15,
-    marginTop: 10,
-    marginBottom: 10,
-    width: 45,
-    height: 45,
+    marginTop: 8,
+    marginBottom: 8,
+    width: 35,
+    height: 35,
   },
   itemText: {
   }

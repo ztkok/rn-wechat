@@ -3,4 +3,5 @@ module.exports = {
   titleTextColor: '#FFFFFF',
   dividerColor: '#D3D3D3',
   pageBackgroundColor: '#EBEBEB',
+  touchableHighlightColor: '#D9D9D9',
 }
