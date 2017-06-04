@@ -15,7 +15,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-var { width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get('window');
 var global = require('./global.js');
 var data = require('./data.js');
 var pinyinUtil = require('./pinyinutil.js');
@@ -46,20 +46,49 @@ export default class ContactsScreen extends Component {
         key: index++,
         title: headerTitles[i],
         icon: headerImages[i],
+        sectionStart: false,
       });
     }
     var contacts = data.contacts;
     for (var i = 0; i < contacts.length; i++) {
+      var pinyin = pinyinUtil.getFullChars(contacts[i]);
+      var firstLetter = pinyin.substring(0, 1);
+      console.log('pinyin = ' + pinyin + ', firstLetter = ' + firstLetter);
       listData.push({
         key: index++,
         icon: null,
-        title: contacts[i] + ", " + pinyinUtil.getFullChars(contacts[i]),
-        pinyin: pinyinUtil.getFullChars(contacts[i])
+        title: contacts[i],
+        pinyin: pinyin,
+        firstLetter: firstLetter,
+        sectionStart: false,
       })
     }
     listData.sort(function(a, b) {
-      return a.pinyin - b.pinyin;
+      if (a.pinyin === undefined || b.pinyin === undefined) {
+        return 1;
+      }
+      if(a.pinyin > b.pinyin) {
+        return 1;
+      }
+      if (a.pinyin < b.pinyin) {
+        return -1;
+      }
+      return 0;
     });
+    for (var i = 0; i < listData.length; i++) {
+      var obj = listData[i];
+      if (obj.pinyin === undefined) {
+        continue;
+      }
+      if (i > 0 && i < listData.length - 1) {
+        var preObj = listData[i - 1];
+        if (preObj.pinyin === undefined && obj.pinyin !== undefined) {
+          obj.sectionStart = true;
+        } else if (preObj.pinyin !== undefined && obj.pinyin !== undefined && preObj.firstLetter !== obj.firstLetter) {
+          obj.sectionStart = true;  
+        }
+      }
+    }
     return (
       <View style={styles.container}>
         <TitleBar />
@@ -76,8 +105,13 @@ export default class ContactsScreen extends Component {
     );
   }
   renderItem = (item) => {
+    var section = [];
+    if (item.item.sectionStart) {
+      section.push(<Text style={listItemStyle.sectionView}>{item.item.firstLetter}</Text>);
+    }
     return (
       <View>
+        {section}
         <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
           <View style={listItemStyle.container} key={item.item.key}>
               <Image style={listItemStyle.image} source={item.item.icon == null ? require('./images/avatar.png') : item.item.icon} />
@@ -108,6 +142,15 @@ const listItemStyle = StyleSheet.create({
   itemText: {
     fontSize: 15,
     color: '#000000'
+  },
+  sectionView: {
+    width: width,
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 2,
+    paddingBottom: 2,
+    color: '#999999'
   }
 });
 
