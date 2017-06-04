@@ -18,9 +18,8 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-var { width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get('window');
 var global = require('./global.js');
-// var listData = require('./data.js');
 var listData = [];
 for (var i = 0; i < 20; i++) {
   listData.push({
