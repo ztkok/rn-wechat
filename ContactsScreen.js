@@ -53,6 +53,9 @@ export default class ContactsScreen extends Component {
     for (var i = 0; i < contacts.length; i++) {
       var pinyin = pinyinUtil.getFullChars(contacts[i]);
       var firstLetter = pinyin.substring(0, 1);
+      if (firstLetter < 'A' || firstLetter > 'Z') {
+        firstLetter = '#';
+      }
       console.log('pinyin = ' + pinyin + ', firstLetter = ' + firstLetter);
       listData.push({
         key: index++,
@@ -107,7 +110,7 @@ export default class ContactsScreen extends Component {
   renderItem = (item) => {
     var section = [];
     if (item.item.sectionStart) {
-      section.push(<Text style={listItemStyle.sectionView}>{item.item.firstLetter}</Text>);
+      section.push(<Text key={"section" + item.item.key} style={listItemStyle.sectionView}>{item.item.firstLetter}</Text>);
     }
     return (
       <View>
