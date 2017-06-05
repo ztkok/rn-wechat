@@ -6,6 +6,7 @@ import FindScreen from './FindScreen.js';
 import MeScreen from './MeScreen.js';
 import SearchScreen from './SearchScreen.js';
 import ContactDetailScreen from './ContactDetailScreen.js';
+import ChattingScreen from './ChattingScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -68,7 +69,7 @@ export default class HomeScreen extends Component {
   renderItem = (data) => {
     return (
       <View key={data.index}>
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('Chat')}}>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('Chatting')}}>
           <View style={styles.listItemContainer}>
             <Image source={require('./images/ic_list_icon.png')} style={{width: 50, height: 50}} />
             <View style={styles.listItemTextContainer}>
@@ -172,7 +173,8 @@ const tabNavigatorScreen = TabNavigator({
 const MyApp = StackNavigator({
   Home: { screen: tabNavigatorScreen },
   Search: { screen: SearchScreen },
-  ContactDetail: { screen: ContactDetailScreen }
+  ContactDetail: { screen: ContactDetailScreen },
+  Chatting: { screen: ChattingScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

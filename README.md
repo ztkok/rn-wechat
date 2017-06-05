@@ -8,6 +8,8 @@
 * apk目录下有RNWeChat-release.apk文件，可直接安装查看效果
 
 # 截图
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/5.jpg)
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/6.jpg)
 ![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/1.jpg)
 ![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/2.jpg)
 ![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/3.jpg)
