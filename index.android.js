@@ -1,9 +1,10 @@
-import { DrawerNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import React, { Component } from 'react';
 import TitleBar from './TitleBar.js';
 import ContactsScreen from './ContactsScreen.js';
 import FindScreen from './FindScreen.js';
 import MeScreen from './MeScreen.js';
+import SearchScreen from './SearchScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -51,7 +52,7 @@ export default class HomeScreen extends Component {
            backgroundColor='#393A3E'
            barStyle="light-content"
          />
-        <TitleBar />
+        <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <View style={styles.content}>
           <FlatList
@@ -66,7 +67,7 @@ export default class HomeScreen extends Component {
   renderItem = (data) => {
     return (
       <View key={data.index}>
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('Chat')}}>
           <View style={styles.listItemContainer}>
             <Image source={require('./images/ic_list_icon.png')} style={{width: 50, height: 50}} />
             <View style={styles.listItemTextContainer}>
@@ -142,37 +143,36 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyApp = TabNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-  Contacts: {
-    screen: ContactsScreen,
-  },
-  Find: {
-    screen: FindScreen,
-  },
-  Me: {
-    screen: MeScreen,
-  }
+const tabNavigatorScreen = TabNavigator({
+  Home: { screen: HomeScreen },
+  Contacts: { screen: ContactsScreen },
+  Find: { screen: FindScreen },
+  Me: { screen: MeScreen }
 },{
-    tabBarOptions: {
-      activeTintColor: '#45C018',
-      inactiveTintColor: '#999999',
-      showIcon: true,
-      labelStyle: {
-        fontSize: 12,
-        marginTop: 0,
-        marginBottom: 0,
-      },
-      style: {
-        marginBottom: -2,
-        backgroundColor: '#FCFCFC',
-      },
-      tabStyle: {
-      }
+  tabBarOptions: {
+    activeTintColor: '#45C018',
+    inactiveTintColor: '#999999',
+    showIcon: true,
+    labelStyle: {
+      fontSize: 12,
+      marginTop: 0,
+      marginBottom: 0,
     },
-    tabBarPosition: 'bottom',
+    style: {
+      marginBottom: -2,
+      backgroundColor: '#FCFCFC',
+    },
+    tabStyle: {
+    }
+  },
+  tabBarPosition: 'bottom',
+});
+
+const MyApp = StackNavigator({
+  Home: { screen: tabNavigatorScreen },
+  Search: { screen: SearchScreen }
+}, {
+  headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });
 
 AppRegistry.registerComponent('TestReactNavigation', () => MyApp);

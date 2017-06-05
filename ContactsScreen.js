@@ -56,7 +56,6 @@ export default class ContactsScreen extends Component {
       if (firstLetter < 'A' || firstLetter > 'Z') {
         firstLetter = '#';
       }
-      console.log('pinyin = ' + pinyin + ', firstLetter = ' + firstLetter);
       listData.push({
         key: index++,
         icon: null,
@@ -66,6 +65,7 @@ export default class ContactsScreen extends Component {
         sectionStart: false,
       })
     }
+    // 按拼音排序
     listData.sort(function(a, b) {
       if (a.pinyin === undefined || b.pinyin === undefined) {
         return 1;
@@ -78,17 +78,18 @@ export default class ContactsScreen extends Component {
       }
       return 0;
     });
+    // 根据首字母分区
     for (var i = 0; i < listData.length; i++) {
       var obj = listData[i];
       if (obj.pinyin === undefined) {
         continue;
       }
-      if (i > 0 && i < listData.length - 1) {
+      if (i > 0 && i < listData.length) {
         var preObj = listData[i - 1];
         if (preObj.pinyin === undefined && obj.pinyin !== undefined) {
           obj.sectionStart = true;
         } else if (preObj.pinyin !== undefined && obj.pinyin !== undefined && preObj.firstLetter !== obj.firstLetter) {
-          obj.sectionStart = true;  
+          obj.sectionStart = true;
         }
       }
     }

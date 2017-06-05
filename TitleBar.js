@@ -7,7 +7,6 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Modal,
   Button,
 } from 'react-native';
 
@@ -26,7 +25,6 @@ export default class TitleBar extends Component {
   render() {
     return (
       <View style={styles.titleBarContainer}>
-        <CustomModal ref="modal"/>
         <View style={styles.titleBarTextContainer}>
           <Text style={styles.title}>微信</Text>
         </View>
@@ -60,7 +58,8 @@ export default class TitleBar extends Component {
   }
 
   handleSearchClick = () => {
-    this.refs.modal.openModal();
+    // 跳转到SearchScreen界面
+    this.props.nav.navigate('Search');
   }
 
   handleAddClick = () => {
