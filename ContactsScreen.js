@@ -95,7 +95,7 @@ export default class ContactsScreen extends Component {
     }
     return (
       <View style={styles.container}>
-        <TitleBar />
+        <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <View style={styles.content}>
           <FlatList

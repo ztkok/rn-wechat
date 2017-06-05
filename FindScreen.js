@@ -34,7 +34,7 @@ export default class FindScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TitleBar />
+        <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <ScrollView style={styles.content}>
           <View style={{width: width, height: 20}} />
