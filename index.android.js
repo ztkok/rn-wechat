@@ -5,6 +5,7 @@ import ContactsScreen from './ContactsScreen.js';
 import FindScreen from './FindScreen.js';
 import MeScreen from './MeScreen.js';
 import SearchScreen from './SearchScreen.js';
+import ContactDetailScreen from './ContactDetailScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -170,7 +171,8 @@ const tabNavigatorScreen = TabNavigator({
 
 const MyApp = StackNavigator({
   Home: { screen: tabNavigatorScreen },
-  Search: { screen: SearchScreen }
+  Search: { screen: SearchScreen },
+  ContactDetail: { screen: ContactDetailScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

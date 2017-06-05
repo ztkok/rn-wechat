@@ -116,7 +116,7 @@ export default class ContactsScreen extends Component {
     return (
       <View>
         {section}
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('ContactDetail', {title: '详细资料', name: item.item.title})}}>
           <View style={listItemStyle.container} key={item.item.key}>
               <Image style={listItemStyle.image} source={item.item.icon == null ? require('./images/avatar.png') : item.item.icon} />
               <Text style={listItemStyle.itemText}>{item.item.title}</Text>

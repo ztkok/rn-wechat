@@ -15,7 +15,7 @@ import {
 var { width, height } = Dimensions.get('window');
 var global = require('./global.js');
 
-export default class SearchTitleBar extends Component {
+export default class CommonTitleBar extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -23,20 +23,16 @@ export default class SearchTitleBar extends Component {
            backgroundColor='#393A3E'
            barStyle="light-content"
          />
-        <View style={styles.content}>
-          <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
-            <Image source={require('./images/ic_back.png')} style={styles.backBtn} />
-          </TouchableOpacity>
-          <View style={styles.btnDivider} />
-          <View style={styles.inputContainer}>
-            <View style={styles.inputSubContainer}>
-              <Image source={require('./images/ic_search_bar_search.png')} style={styles.icon} />
-              <TextInput style={styles.textInput} underlineColorAndroid="transparent" />
-              <Image source={require('./images/ic_recorder.png')} style={styles.icon} />
-            </View>
-            <View style={styles.inputLine} />
-          </View>
-        </View>
+         <View style={styles.content}>
+           <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
+             <Image source={require('./images/ic_back.png')} style={styles.backBtn} />
+           </TouchableOpacity>
+           <View style={styles.btnDivider} />
+           <View style={styles.titleContainer}>
+             <Text style={styles.title}>{this.props.title}</Text>
+             <Image style={styles.img} source={require('./images/ic_search_bar_search.png')} />
+           </View>
+         </View>
       </View>
     );
   }
@@ -70,26 +66,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#888888'
   },
-  inputContainer: {
-    flexDirection: 'column',
+  titleContainer: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: 10,
     paddingRight: 10,
   },
-  inputSubContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  title: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    flex: 1,
   },
-  inputLine: {
-    height: 1,
-    backgroundColor: '#49BC1C'
-  },
-  icon: {
+  img: {
     width: 30,
     height: 30,
-  },
-  textInput: {
-    padding: 0,
-    flex: 1,
   }
 });
