@@ -15,7 +15,7 @@ export default class ListItem extends Component {
   render() {
     return (
       <View>
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={this.props.handleClick}>
           <View style={listItemStyles.container}>
             <Image style={listItemStyles.icon} source={this.props.icon} />
             <View style={listItemStyles.menuContainer}>

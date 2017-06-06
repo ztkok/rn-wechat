@@ -38,7 +38,7 @@ export default class FindScreen extends Component {
         <View style={styles.divider}></View>
         <ScrollView style={styles.content}>
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_friends_circle.png')} text={"朋友圈"} />
+          <ListItem icon={require('../../images/ic_friends_circle.png')} text={"朋友圈"} handleClick={()=>{this.props.navigation.navigate("Moment")}} />
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_scan.png')} text={"扫一扫"} />
           <ListItemDivider />

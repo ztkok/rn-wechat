@@ -7,6 +7,7 @@ import MeScreen from './app/screens/MeScreen.js';
 import SearchScreen from './app/screens/SearchScreen.js';
 import ContactDetailScreen from './app/screens/ContactDetailScreen.js';
 import ChattingScreen from './app/screens/ChattingScreen.js';
+import MomentScreen from './app/screens/MomentScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -174,7 +175,8 @@ const MyApp = StackNavigator({
   Home: { screen: tabNavigatorScreen },
   Search: { screen: SearchScreen },
   ContactDetail: { screen: ContactDetailScreen },
-  Chatting: { screen: ChattingScreen }
+  Chatting: { screen: ChattingScreen },
+  Moment: { screen: MomentScreen },
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });
