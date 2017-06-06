@@ -1,12 +1,12 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import React, { Component } from 'react';
-import TitleBar from './TitleBar.js';
-import ContactsScreen from './ContactsScreen.js';
-import FindScreen from './FindScreen.js';
-import MeScreen from './MeScreen.js';
-import SearchScreen from './SearchScreen.js';
-import ContactDetailScreen from './ContactDetailScreen.js';
-import ChattingScreen from './ChattingScreen.js';
+import TitleBar from './app/views/TitleBar.js';
+import ContactsScreen from './app/screens/ContactsScreen.js';
+import FindScreen from './app/screens/FindScreen.js';
+import MeScreen from './app/screens/MeScreen.js';
+import SearchScreen from './app/screens/SearchScreen.js';
+import ContactDetailScreen from './app/screens/ContactDetailScreen.js';
+import ChattingScreen from './app/screens/ChattingScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('./global.js');
+var global = require('./app/utils/global.js');
 var listData = [];
 for (var i = 0; i < 20; i++) {
   listData.push({
