@@ -3,6 +3,7 @@ import TitleBar from '../views/TitleBar.js';
 import ListItem from '../views/ListItem.js';
 import ListItemDivider from '../views/ListItemDivider.js';
 import SideBar from '../views/SideBar.js';
+import CommonLoadingView from '../views/CommonLoadingView.js';
 import {
   StyleSheet,
   Text,
@@ -35,31 +36,102 @@ export default class ContactsScreen extends Component {
     },
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadingState: global.loading,
+      contactData: null,
+    }
+  }
+
+  getContacts() {
+    var url = "http://yubo.applinzi.com/contacts/30";
+    fetch(url).then((res)=>res.json())
+      .then((json)=>{
+        console.log('get contacts result: ');
+        console.log(json);
+        this.setState({
+          loadingState: global.loadSuccess,
+          contactData: json
+        })
+      })
+  }
+
   render() {
+    console.log('render, loadingState = ' + this.state.loadingState);
+    switch (this.state.loadingState) {
+      case global.loading:
+        this.getContacts();
+        return this.renderLoadingView();
+      case global.loadSuccess:
+        return this.renderSuccessView();
+      case global.loadError:
+        return this.renderErrorView();
+      default:
+    }
+  }
+
+  renderLoadingView() {
+    return (
+      <View style={styles.container}>
+        <TitleBar nav={this.props.navigation}/>
+        <View style={styles.content}>
+          <CommonLoadingView hintText={"正在获取联系人数据..."}/>
+        </View>
+      </View>
+    );
+  }
+
+  renderErrorView() {
+    return (
+      <View>
+        <Text>Error</Text>
+      </View>
+    );
+  }
+
+  renderSuccessView() {
     var listData = [];
+    var headerListData = [];
     var headerImages = [require('../../images/ic_new_friends.png'), require('../../images/ic_group_chat.png'),
                         require('../../images/ic_tag.png'), require('../../images/ic_common.png')];
     var headerTitles = ['新的朋友', '群聊', '标签', '公众号'];
     var index = 0;
     for (var i = 0; i < headerTitles.length; i++) {
-      listData.push({
+      headerListData.push({
         key: index++,
         title: headerTitles[i],
         icon: headerImages[i],
         sectionStart: false,
       });
     }
-    var contacts = data.contacts;
+    // var contacts = data.contacts;
+    // for (var i = 0; i < contacts.length; i++) {
+    //   var pinyin = pinyinUtil.getFullChars(contacts[i]);
+    //   var firstLetter = pinyin.substring(0, 1);
+    //   if (firstLetter < 'A' || firstLetter > 'Z') {
+    //     firstLetter = '#';
+    //   }
+    //   listData.push({
+    //     key: index++,
+    //     icon: null,
+    //     title: contacts[i],
+    //     pinyin: pinyin,
+    //     firstLetter: firstLetter,
+    //     sectionStart: false,
+    //   })
+    // }
+    var contacts = this.state.contactData;
     for (var i = 0; i < contacts.length; i++) {
-      var pinyin = pinyinUtil.getFullChars(contacts[i]);
+      var pinyin = pinyinUtil.getFullChars(contacts[i].name);
       var firstLetter = pinyin.substring(0, 1);
       if (firstLetter < 'A' || firstLetter > 'Z') {
         firstLetter = '#';
       }
       listData.push({
         key: index++,
-        icon: null,
-        title: contacts[i],
+        icon: {uri: contacts[i].avatar},
+        title: contacts[i].name,
         pinyin: pinyin,
         firstLetter: firstLetter,
         sectionStart: false,
@@ -78,6 +150,10 @@ export default class ContactsScreen extends Component {
       }
       return 0;
     });
+    listData = headerListData.concat(listData);
+    for (var i = 0; i < listData.length; i++) {
+      console.log(listData[i].title)
+    }
     // 根据首字母分区
     for (var i = 0; i < listData.length; i++) {
       var obj = listData[i];
@@ -116,7 +192,7 @@ export default class ContactsScreen extends Component {
     return (
       <View>
         {section}
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('ContactDetail', {title: '详细资料', name: item.item.title})}}>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('ContactDetail', {title: '详细资料', data: item.item})}}>
           <View style={listItemStyle.container} key={item.item.key}>
               <Image style={listItemStyle.image} source={item.item.icon == null ? require('../../images/avatar.png') : item.item.icon} />
               <Text style={listItemStyle.itemText}>{item.item.title}</Text>

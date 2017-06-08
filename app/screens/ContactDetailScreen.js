@@ -20,16 +20,18 @@ var global = require('../utils/global.js');
 
 export default class ContactDetailScreen extends Component {
   render() {
+    console.log('params: ');
+    console.log(this.props.navigation.state.params);
     return (
       <View style={styles.container}>
         <CommonTitleBar nav={this.props.navigation} title={this.props.navigation.state.params.title}/>
         <ScrollView>
           <View style={styles.content}>
             <View style={styles.contactInfoContainer}>
-              <Image style={styles.avatar} source={require('../../images/avatar.png')} />
+              <Image style={styles.avatar} source={this.props.navigation.state.params.data.icon} />
               <View style={styles.contactInfoTextContainer}>
-                <Text style={styles.contactNameText}>{this.props.navigation.state.params.name}</Text>
-                <Text style={styles.conatactNickNameText}>昵称：王小帅~</Text>
+                <Text style={styles.contactNameText}>{this.props.navigation.state.params.data.title}</Text>
+                <Text style={styles.conatactNickNameText}>{"昵称：" + this.props.navigation.state.params.data.title}</Text>
               </View>
             </View>
             <View style={styles.markContainer}>

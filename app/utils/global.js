@@ -5,4 +5,7 @@ module.exports = {
   pageBackgroundColor: '#EBEBEB',
   touchableHighlightColor: '#D9D9D9',
   emojiViewHeight: 170,
+  loading: 1,
+  loadSuccess: 2,
+  loadError: 3
 }
