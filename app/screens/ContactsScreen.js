@@ -48,8 +48,6 @@ export default class ContactsScreen extends Component {
     var url = "http://yubo.applinzi.com/contacts/30";
     fetch(url).then((res)=>res.json())
       .then((json)=>{
-        console.log('get contacts result: ');
-        console.log(json);
         this.setState({
           loadingState: global.loadSuccess,
           contactData: json
@@ -58,7 +56,6 @@ export default class ContactsScreen extends Component {
   }
 
   render() {
-    console.log('render, loadingState = ' + this.state.loadingState);
     switch (this.state.loadingState) {
       case global.loading:
         this.getContacts();
@@ -105,22 +102,6 @@ export default class ContactsScreen extends Component {
         sectionStart: false,
       });
     }
-    // var contacts = data.contacts;
-    // for (var i = 0; i < contacts.length; i++) {
-    //   var pinyin = pinyinUtil.getFullChars(contacts[i]);
-    //   var firstLetter = pinyin.substring(0, 1);
-    //   if (firstLetter < 'A' || firstLetter > 'Z') {
-    //     firstLetter = '#';
-    //   }
-    //   listData.push({
-    //     key: index++,
-    //     icon: null,
-    //     title: contacts[i],
-    //     pinyin: pinyin,
-    //     firstLetter: firstLetter,
-    //     sectionStart: false,
-    //   })
-    // }
     var contacts = this.state.contactData;
     for (var i = 0; i < contacts.length; i++) {
       var pinyin = pinyinUtil.getFullChars(contacts[i].name);
@@ -151,9 +132,6 @@ export default class ContactsScreen extends Component {
       return 0;
     });
     listData = headerListData.concat(listData);
-    for (var i = 0; i < listData.length; i++) {
-      console.log(listData[i].title)
-    }
     // 根据首字母分区
     for (var i = 0; i < listData.length; i++) {
       var obj = listData[i];

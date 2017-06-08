@@ -9,13 +9,20 @@ import {
   Button,
   StatusBar,
   PixelRatio,
-  TextInput
+  TextInput,
+  ToastAndroid
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
 var global = require('../utils/global.js');
 
 export default class SearchTitleBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputContent: ''
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -31,8 +38,8 @@ export default class SearchTitleBar extends Component {
           <View style={styles.inputContainer}>
             <View style={styles.inputSubContainer}>
               <Image source={require('../../images/ic_search_bar_search.png')} style={styles.icon} />
-              <TextInput style={styles.textInput} underlineColorAndroid="transparent" />
-              <Image source={require('../../images/ic_recorder.png')} style={styles.icon} />
+              <TextInput onChangeText={(text)=>{this.setState({inputContent: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
+              <Button onPress={()=>{this.props.handleSearchClick(this.state.inputContent)}} color={'#49BC1C'} title={"搜索"} />
             </View>
             <View style={styles.inputLine} />
           </View>
@@ -91,5 +98,6 @@ const styles = StyleSheet.create({
   textInput: {
     padding: 0,
     flex: 1,
-  }
+    color: '#FFFFFF'
+  },
 });
