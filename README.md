@@ -7,6 +7,9 @@
 * 上面两步执行结束后，再执行react-native run-android即可
 * apk目录下有RNWeChat-release.apk文件，可直接安装查看效果
 
+# 更新
+* 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等
+
 # 截图
 ![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/5.jpg)
 ![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/6.jpg)
