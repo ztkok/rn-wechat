@@ -8,7 +8,7 @@
 * apk目录下有RNWeChat-release.apk文件，可直接安装查看效果
 
 # 更新
-* 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等
+* 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 
 # 截图
 ![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/5.jpg)
