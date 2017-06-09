@@ -82,14 +82,22 @@ export default class SearchScreen extends Component {
     );
   }
   renderItem = (item) => {
+    var title = item.item.name;
+    var icon = item.item.avatar;
+    var param = {
+      title: title,
+      icon: {uri: icon},
+    };
     return (
-      <TouchableOpacity activeOpacity={0.5} onPress={()=>{}} style={{flexDirection: 'column', flex: 1}}>
-        <View style={listItemStyle.container}>
-          <Image style={listItemStyle.listItemAvatar} source={{uri: item.item.avatar}} />
-          <Text style={listItemStyle.listItemText}>{item.item.name}</Text>
-        </View>
+      <View key={item.item.key}>
+        <TouchableOpacity activeOpacity={0.5} onPress={()=>{this.props.navigation.navigate('ContactDetail', {title: "详细资料", data: param})}} style={{flexDirection: 'column', flex: 1}}>
+          <View style={listItemStyle.container}>
+            <Image style={listItemStyle.listItemAvatar} source={{uri: item.item.avatar}} />
+            <Text style={listItemStyle.listItemText}>{item.item.name}</Text>
+          </View>
+        </TouchableOpacity>
         <View style={listItemStyle.divider} />
-      </TouchableOpacity>
+      </View>
     );
   }
   renderEmptyView() {
@@ -127,7 +135,10 @@ export default class SearchScreen extends Component {
       body: params
     }).then((res)=>res.json())
       .then(json=>{
-        console.log('search result: ' + JSON.stringify(json));
+        for (var i = 0; i < json.length; i++) {
+          var item = json[i];
+          item.key = item.id;
+        }
         this.setState({
           loadingState: global.loadSuccess,
           searchResult: json
