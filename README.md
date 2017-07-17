@@ -1,5 +1,5 @@
 # RNWeChat
-使用ReactNative开发的仿微信客户端（UI部分）
+使用ReactNative开发的仿微信客户端
 
 # 运行方法
 * 在项目根目录下执行npm install
