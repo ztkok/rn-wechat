@@ -11,7 +11,7 @@
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 
 # 截图
-![image](http://git.oschina.net/yubo725/RNWeChat/blob/master/screenshots/5.jpg)
+![image](http://git.oschina.net/yubo725/RNWeChat/blob/master/screenshots/5.jpg?type=raw)
 ![image](http://git.oschina.net/yubo725/RNWeChat/blob/master/screenshots/6.jpg)
 ![image](http://git.oschina.net/yubo725/RNWeChat/blob/master/screenshots/7.jpg)
 ![image](http://git.oschina.net/yubo725/RNWeChat/blob/master/screenshots/8.jpg)
