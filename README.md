@@ -11,4 +11,15 @@
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 
 # 截图
-![输入图片说明](http://git.oschina.net/yubo725/RNWeChat/blob/master/screenshots/5.jpg "在这里输入图片标题")
+<div style="display: flex; flex-direction: 'row'; justify-content: 'space-between'">
+  <img src='./screenshots/5.jpg' width='375'>
+  <img src='./screenshots/6.jpg' width='375'>
+  <img src='./screenshots/7.jpg' width='375'>
+  <img src='./screenshots/8.jpg' width='375'>
+  <img src='./screenshots/1.jpg' width='375'>
+  <img src='./screenshots/2.jpg' width='375'>
+  <img src='./screenshots/3.jpg' width='375'>
+  <img src='./screenshots/4.jpg' width='375'>
+  <img src='./screenshots/9.jpg' width='375'>
+  <img src='./screenshots/10.jpg' width='375'>
+</div>
