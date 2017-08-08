@@ -11,7 +11,6 @@
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 
 # 截图
-<div style="display: flex; flex-direction: 'row'; justify-content: 'space-between'">
   <img src='./screenshots/5.jpg' width='300'>
   <img src='./screenshots/6.jpg' width='300'>
   <img src='./screenshots/7.jpg' width='300'>
@@ -22,4 +21,3 @@
   <img src='./screenshots/4.jpg' width='300'>
   <img src='./screenshots/9.jpg' width='300'>
   <img src='./screenshots/10.jpg' width='300'>
-</div>
