@@ -1,5 +1,6 @@
 # RNWeChat
-使用ReactNative开发的仿微信客户端
+* 使用ReactNative开发的仿微信客户端，欢迎大家给个star或fork，谢谢~~
+* 如果在项目构建过程中有任何问题，欢迎提issue，我有空一定帮忙解答O(∩_∩)O~~
 
 # 运行方法
 * 在项目根目录下执行npm install
@@ -10,14 +11,27 @@
 # 更新
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 
+# 注意
+打release包时请使用自己的签名文件和签名配置，请注意android/app/build.gradle文件中的
+```
+signingConfigs {
+    release {
+        storeFile file(MYAPP_RELEASE_STORE_FILE)
+        storePassword MYAPP_RELEASE_STORE_PASSWORD
+        keyAlias MYAPP_RELEASE_KEY_ALIAS
+        keyPassword MYAPP_RELEASE_KEY_PASSWORD
+    }
+}
+```
+
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/5.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/6.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/7.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/8.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/1.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/2.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/3.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/4.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/9.jpg)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/10.jpg)
+  <img src='./screenshots/5.jpg' width='300'>
+  <img src='./screenshots/6.jpg' width='300'>
+  <img src='./screenshots/7.jpg' width='300'>
+  <img src='./screenshots/8.jpg' width='300'>
+  <img src='./screenshots/1.jpg' width='300'>
+  <img src='./screenshots/2.jpg' width='300'>
+  <img src='./screenshots/3.jpg' width='300'>
+  <img src='./screenshots/4.jpg' width='300'>
+  <img src='./screenshots/9.jpg' width='300'>
+  <img src='./screenshots/10.jpg' width='300'>
