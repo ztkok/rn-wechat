@@ -11,6 +11,19 @@
 # 更新
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 
+# 注意
+打release包时请使用自己的签名文件和签名配置，请注意android/app/build.gradle文件中的
+```
+signingConfigs {
+    release {
+        storeFile file(MYAPP_RELEASE_STORE_FILE)
+        storePassword MYAPP_RELEASE_STORE_PASSWORD
+        keyAlias MYAPP_RELEASE_KEY_ALIAS
+        keyPassword MYAPP_RELEASE_KEY_PASSWORD
+    }
+}
+```
+
 # 截图
   <img src='./screenshots/5.jpg' width='300'>
   <img src='./screenshots/6.jpg' width='300'>
