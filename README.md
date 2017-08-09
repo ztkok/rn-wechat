@@ -1,5 +1,6 @@
 # RNWeChat
-使用ReactNative开发的仿微信客户端，欢迎大家给个star或fork，谢谢~~
+* 使用ReactNative开发的仿微信客户端，欢迎大家给个star或fork，谢谢~~
+* 如果在项目构建过程中有任何问题，欢迎提issue，我有空一定帮忙解答O(∩_∩)O~~
 
 # 运行方法
 * 在项目根目录下执行npm install
