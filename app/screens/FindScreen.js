@@ -40,7 +40,7 @@ export default class FindScreen extends Component {
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_friends_circle.png')} text={"朋友圈"} handleClick={()=>{this.props.navigation.navigate("Moment")}} />
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_scan.png')} text={"扫一扫"} />
+          <ListItem icon={require('../../images/ic_scan.png')} text={"扫一扫"} handleClick={()=>{this.props.navigation.navigate("Scan")}} />
           <ListItemDivider />
           <ListItem icon={require('../../images/ic_shake.png')} text={"摇一摇"} />
           <View style={{width: width, height: 20}} />

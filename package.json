@@ -6,8 +6,10 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "ac-qrcode": "^1.0.1",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.2",
+    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-navigation": "^1.0.0-beta.11"
   }
 }

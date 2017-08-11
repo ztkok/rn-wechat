@@ -71,6 +71,7 @@ export default class ChattingScreen extends Component {
         <CommonTitleBar title={"聊天"} nav={this.props.navigation} />
         <View style={styles.content}>
           <FlatList
+            ref={"flatList"}
             data={listData}
             renderItem={this.renderItem}
             />
@@ -82,6 +83,9 @@ export default class ChattingScreen extends Component {
         {moreView}
       </View>
     );
+  }
+
+  componentDidMount() {
   }
 
   updateView = (emoji, more) => {

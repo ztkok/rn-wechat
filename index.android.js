@@ -8,6 +8,8 @@ import SearchScreen from './app/screens/SearchScreen.js';
 import ContactDetailScreen from './app/screens/ContactDetailScreen.js';
 import ChattingScreen from './app/screens/ChattingScreen.js';
 import MomentScreen from './app/screens/MomentScreen.js';
+import ScanScreen from './app/screens/ScanScreen.js';
+import ScanResultScreen from './app/screens/ScanResultScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -177,6 +179,8 @@ const MyApp = StackNavigator({
   ContactDetail: { screen: ContactDetailScreen },
   Chatting: { screen: ChattingScreen },
   Moment: { screen: MomentScreen },
+  Scan: { screen: ScanScreen },
+  ScanResult: { screen: ScanResultScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

@@ -11,6 +11,7 @@ import {
   Button,
   PixelRatio,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
@@ -58,6 +59,7 @@ export default class MeScreen extends Component {
           <ListItem icon={require('../../images/ic_emoji.png')} text={"表情"} />
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} />
+          <View style={{width: width, height: 20}} />
         </ScrollView>
         <View style={styles.divider}></View>
       </View>
