@@ -48,7 +48,7 @@ export default class FindScreen extends Component {
           <ListItemDivider />
           <ListItem icon={require('../../images/ic_bottle.png')} text={"漂流瓶"} />
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_shopping.png')} text={"购物"} />
+          <ListItem icon={require('../../images/ic_shopping.png')} text={"购物"} handleClick={()=>{this.props.navigation.navigate("Shopping")}} />
           <ListItemDivider />
           <ListItem icon={require('../../images/ic_game.png')} text={"游戏"} />
           <View style={{width: width, height: 20}} />

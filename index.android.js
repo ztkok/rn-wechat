@@ -10,6 +10,11 @@ import ChattingScreen from './app/screens/ChattingScreen.js';
 import MomentScreen from './app/screens/MomentScreen.js';
 import ScanScreen from './app/screens/ScanScreen.js';
 import ScanResultScreen from './app/screens/ScanResultScreen.js';
+import ShoppingScreen from './app/screens/ShoppingScreen.js';
+import CardPackageScreen from './app/screens/CardPackageScreen.js';
+import SplashScreen from './app/screens/SplashScreen.js';
+import LoginScreen from './app/screens/LoginScreen.js';
+import RegisterScreen from './app/screens/RegisterScreen.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -180,7 +185,12 @@ const MyApp = StackNavigator({
   Chatting: { screen: ChattingScreen },
   Moment: { screen: MomentScreen },
   Scan: { screen: ScanScreen },
-  ScanResult: { screen: ScanResultScreen }
+  ScanResult: { screen: ScanResultScreen },
+  Shopping: { screen: ShoppingScreen },
+  CardPackage: { screen: CardPackageScreen },
+  Splash: { screen: SplashScreen },
+  Login: { screen: LoginScreen },
+  Register: { screen: RegisterScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

@@ -26,7 +26,7 @@ signingConfigs {
 
 # 更新
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
-* 2017-8-11 加入扫一扫功能
+* 2017-8-11 加入扫一扫功能，加入登录注册页面，登录和注册的功能后面实现，加入购物页面和卡包页面
 
 # 截图
 <img src='./screenshots/5.jpg' width='300'>
@@ -41,3 +41,5 @@ signingConfigs {
 <img src='./screenshots/10.jpg' width='300'>
 <img src='./screenshots/11.jpg' width='300'>
 <img src='./screenshots/12.jpg' width='300'>
+<img src='./screenshots/13.jpg' width='300'>
+<img src='./screenshots/14.jpg' width='300'>

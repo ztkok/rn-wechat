@@ -52,13 +52,13 @@ export default class MeScreen extends Component {
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_collect.png')} text={"收藏"} showDivider={true} />
           <ListItemDivider />
-          <ListItem icon={require('../../images/ic_gallery.png')} text={"相册"} showDivider={true} />
+          <ListItem icon={require('../../images/ic_gallery.png')} text={"相册"} showDivider={true} handleClick={()=>{this.props.navigation.navigate('Moment')}} />
           <ListItemDivider />
-          <ListItem icon={require('../../images/ic_kabao.png')} text={"卡包"} showDivider={true} />
+          <ListItem icon={require('../../images/ic_kabao.png')} text={"卡包"} showDivider={true} handleClick={()=>{this.props.navigation.navigate('CardPackage')}} />
           <ListItemDivider />
           <ListItem icon={require('../../images/ic_emoji.png')} text={"表情"} />
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} />
+          <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} handleClick={()=>{this.props.navigation.navigate('Splash')}} />
           <View style={{width: width, height: 20}} />
         </ScrollView>
         <View style={styles.divider}></View>

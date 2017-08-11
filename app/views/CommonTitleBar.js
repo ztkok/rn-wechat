@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   backBtn: {
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 8,
+    marginRight: 8,
     width: 30,
     height: 30,
   },
