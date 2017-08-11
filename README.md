@@ -29,8 +29,8 @@ signingConfigs {
 * 2017-8-11 加入扫一扫功能，加入登录注册页面，登录和注册的功能后面实现，加入购物页面和卡包页面
 
 # 截图
-<img src='./screenshots/111.jpg'>
-<img src='./screenshots/222.jpg'>
-<img src='./screenshots/333.jpg'>
-<img src='./screenshots/444.jpg'>
-<img src='./screenshots/555.jpg'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>
