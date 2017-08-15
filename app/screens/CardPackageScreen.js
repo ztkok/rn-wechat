@@ -21,7 +21,7 @@ export default class CardPackageScreen extends Component {
         <View style={styles.content}>
           <Text style={styles.listTitle}>会员卡</Text>
           <View style={styles.blueCard}>
-            <Image source={require('../../images/ic_card_img1.png')} style={{width: 70, height: 70, marginTop: 10, marginBottom: 10}}/>
+            <Image source={require('../../images/ic_card_img1.png')} style={{width: 60, height: 60, marginTop: 10, marginBottom: 10}}/>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 15,}}>
               <Text style={{fontSize: 15, color: '#FFFFFF'}}>迪卡侬</Text>
               <Text style={{fontSize: 25, color: '#FFFFFF'}}>会员卡</Text>
@@ -29,11 +29,11 @@ export default class CardPackageScreen extends Component {
           </View>
           <Text style={[styles.listTitle, {marginTop: 30,}]}>优惠券</Text>
           <View style={styles.whiteCard}>
-            <Image source={require('../../images/ic_card_img2.png')} style={{width: 60, height: 50, marginTop: 15, marginBottom: 15}}/>
+            <Image source={require('../../images/ic_card_img2.png')} style={{width: 60, height: 50, marginTop: 10, marginBottom: 10}}/>
             <Text style={{fontSize: 20, color: '#000000', marginLeft: 10}}>朋友的优惠券</Text>
           </View>
           <View style={[styles.whiteCard, {marginTop: 10}]}>
-            <Image source={require('../../images/ic_card_img3.png')} style={{width: 60, height: 50, marginTop: 15, marginBottom: 15}}/>
+            <Image source={require('../../images/ic_card_img3.png')} style={{width: 60, height: 50, marginTop: 10, marginBottom: 10}}/>
             <Text style={{fontSize: 20, color: '#000000', marginLeft: 10}}>我的票券(0)</Text>
           </View>
         </View>

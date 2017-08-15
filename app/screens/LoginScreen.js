@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { NavigationActions } from 'react-navigation'
 import CommonTitleBar from '../views/CommonTitleBar.js';
+import StorageUtil from '../utils/StorageUtil.js';
+import LoadingView from '../views/LoadingView.js';
 import {
   StyleSheet,
   Text,
@@ -11,25 +14,50 @@ import {
   WebView,
   Animated,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
+var utils = require('../utils/utils.js');
 
 export default class LoginScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      showProgress: false,
+    };
+  }
+  componentWillMount() {
+    StorageUtil.get('username', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({username: object.username});
+      }
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
         <CommonTitleBar nav={this.props.navigation} title={"登录"}/>
         <View style={styles.content}>
           <Image source={require('../../images/avatar.png')} style={{width: 100, height: 100, marginTop: 100}} />
+          {
+            utils.isEmpty(this.state.username) ? null : <Text style={styles.usernameText}>{this.state.username}</Text>
+          }
+          {
+            this.state.showProgress ? (
+              <LoadingView cancel={()=>this.setState({showProgress: false})} />
+            ) : (null)
+          }
           <View style={styles.pwdView}>
             <View style={styles.pwdContainer}>
               <Text style={{fontSize: 16}}>密码：</Text>
-              <TextInput secureTextEntry={true} onChangeText={(text)=>{}} style={styles.textInput} underlineColorAndroid="transparent" />
+              <TextInput secureTextEntry={true} onChangeText={(text)=>{this.setState({password: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
             </View>
             <View style={styles.pwdDivider}></View>
-            <TouchableOpacity activeOpacity={0.6}>
+            <TouchableOpacity activeOpacity={0.6} onPress={()=>this.login()}>
               <View style={styles.loginBtn}>
                 <Text style={{color: '#FFFFFF', fontSize: 16}}>登录</Text>
               </View>
@@ -38,6 +66,46 @@ export default class LoginScreen extends Component {
         </View>
       </View>
     );
+  }
+  login() {
+    var username = this.state.username;
+    var password = this.state.password;
+    if (utils.isEmpty(username) || utils.isEmpty(password)) {
+      ToastAndroid.show('用户名或密码不能为空', ToastAndroid.SHORT);
+      return;
+    }
+    var url = 'http://yubo.applinzi.com/login'
+    let formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    this.setState({showProgress: true});
+    fetch(url, {method: 'POST', body: formData})
+      .then((res)=>res.json())
+      .then((json)=>{
+        this.setState({showProgress: false});
+        if (!utils.isEmpty(json)) {
+          if (json.code === 1) {
+            ToastAndroid.show(json.msg, ToastAndroid.SHORT);
+            // 登录成功
+            // 清除所有路由状态，并跳转到actions中的路由
+            StorageUtil.set('hasLogin', {'hasLogin': true});
+            const resetAction = NavigationActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Home'})
+              ]
+            });
+            this.props.navigation.dispatch(resetAction);
+          } else {
+            ToastAndroid.show(json.msg, ToastAndroid.SHORT);
+          }
+        } else {
+          ToastAndroid.show('登录失败', ToastAndroid.SHORT);
+        }
+      }).catch((e)=>{
+        this.setState({showProgress: false});
+        ToastAndroid.show('网络请求出错: ' + e, ToastAndroid.SHORT);
+      });
   }
 }
 
@@ -59,6 +127,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1
+  },
+  usernameText: {
+    marginTop: 10,
+    fontSize: 16
   },
   pwdContainer: {
     flexDirection: 'row',

@@ -179,6 +179,7 @@ const tabNavigatorScreen = TabNavigator({
 });
 
 const MyApp = StackNavigator({
+  Splash: { screen: SplashScreen },
   Home: { screen: tabNavigatorScreen },
   Search: { screen: SearchScreen },
   ContactDetail: { screen: ContactDetailScreen },
@@ -188,7 +189,6 @@ const MyApp = StackNavigator({
   ScanResult: { screen: ScanResultScreen },
   Shopping: { screen: ShoppingScreen },
   CardPackage: { screen: CardPackageScreen },
-  Splash: { screen: SplashScreen },
   Login: { screen: LoginScreen },
   Register: { screen: RegisterScreen }
 }, {

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { NavigationActions } from 'react-navigation';
 import TitleBar from '../views/TitleBar.js';
 import ListItem from '../views/ListItem.js';
 import ListItemDivider from '../views/ListItemDivider.js';
+import StorageUtil from '../utils/StorageUtil.js';
 import {
   StyleSheet,
   Text,
@@ -60,10 +62,22 @@ export default class MeScreen extends Component {
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} handleClick={()=>{this.props.navigation.navigate('Splash')}} />
           <View style={{width: width, height: 20}} />
+          <ListItem icon={require('../../images/ic_settings.png')} text={"注销"} handleClick={()=>{this.logout()}} />
         </ScrollView>
         <View style={styles.divider}></View>
       </View>
     );
+  }
+  logout() {
+    StorageUtil.set('hasLogin', {'hasLogin': false});
+    ToastAndroid.show('注销成功', ToastAndroid.SHORT);
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Splash' })
+      ]
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 }
 

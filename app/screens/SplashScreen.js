@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { NavigationActions } from 'react-navigation';
+import StorageUtil from '../utils/StorageUtil.js';
 import {
   StyleSheet,
   Text,
@@ -10,43 +12,78 @@ import {
   WebView,
   Animated,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  ToastAndroid
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
+var global = require('../utils/global.js');
 
 export default class SplashScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fadeAnim: new Animated.Value(0)
+      fadeAnim: new Animated.Value(0),
+      hasLogin: false
     };
+    StorageUtil.get('hasLogin', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({hasLogin: object.hasLogin});
+      }
+    });
   }
   render() {
     return (
       <View>
         <StatusBar backgroundColor="#000000"/>
         <Image source={require("../../images/splash.jpg")} style={{width: width, height: height}} />
-        <Animated.View style={[styles.buttonContainer, {opacity: this.state.fadeAnim}]}>
-          <TouchableOpacity style={{flex: 1}} activeOpacity={0.6} onPress={()=>{this.props.navigation.navigate('Login')}}>
-            <View style={[styles.btnLogin, styles.btnColumn]}>
-              <Text style={styles.button}>登录</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}} activeOpacity={0.6} onPress={()=>{}}>
-            <View style={[styles.btnRegister, styles.btnColumn]}>
-              <Text style={[styles.button, {color: '#FFFFFF'}]}>注册</Text>
-            </View>
-          </TouchableOpacity>
-        </Animated.View>
+        {
+          this.state.hasLogin ? null : (
+            <Animated.View style={[styles.buttonContainer, {opacity: this.state.fadeAnim}]}>
+              <TouchableOpacity style={{flex: 1}} activeOpacity={0.6} onPress={()=>{this.props.navigation.navigate('Login')}}>
+                <View style={[styles.btnLogin, styles.btnColumn]}>
+                  <Text style={styles.button}>登录</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={{flex: 1}} activeOpacity={0.6} onPress={()=>{this.props.navigation.navigate('Register')}}>
+                <View style={[styles.btnRegister, styles.btnColumn]}>
+                  <Text style={[styles.button, {color: '#FFFFFF'}]}>注册</Text>
+                </View>
+              </TouchableOpacity>
+            </Animated.View>
+          )
+        }
       </View>
     );
   }
   componentDidMount() {
-    Animated.timing(this.state.fadeAnim, {
-      duration: 2000,
-      toValue: 1
-    }).start();//开始
+    // 这里不要用this.state.hasLogin判断
+    StorageUtil.get('hasLogin', (error, object)=>{
+      if (!error && object != null && object.hasLogin) {
+        // 已登录
+        this.timer = setTimeout(
+          ()=>{
+            const resetAction = NavigationActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Home' })
+              ]
+            });
+            this.props.navigation.dispatch(resetAction);
+          }, 500
+        )
+      } else {
+        // 未登录
+        Animated.timing(this.state.fadeAnim, {
+          duration: 2000,
+          toValue: 1
+        }).start();//开始
+      }
+    });
+  }
+  componentWillUnmount() {
+    // 取消定时器
+    this.timer && clearTimeout(this.timer);
   }
 }
 
@@ -65,7 +102,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 6,
+    borderRadius: 3,
   },
   button: {
     flex: 1,

@@ -31,4 +31,5 @@ function convertPinyin(code, letter) {
 
 module.exports = {
   convertPinyin: convertPinyin,
+  isEmpty: isEmpty
 }
