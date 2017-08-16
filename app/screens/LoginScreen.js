@@ -25,6 +25,7 @@ export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      inputUsername: '',
       username: '',
       password: '',
       showProgress: false,
@@ -42,9 +43,22 @@ export default class LoginScreen extends Component {
       <View style={styles.container}>
         <CommonTitleBar nav={this.props.navigation} title={"登录"}/>
         <View style={styles.content}>
-          <Image source={require('../../images/avatar.png')} style={{width: 100, height: 100, marginTop: 100}} />
           {
-            utils.isEmpty(this.state.username) ? null : <Text style={styles.usernameText}>{this.state.username}</Text>
+            utils.isEmpty(this.state.username) ? (
+              <View style={styles.pwdView}>
+                <Image source={require('../../images/ic_launcher.png')} style={{width: 100, height: 100, marginBottom: 50}} />
+                <View style={styles.pwdContainer}>
+                  <Text style={{fontSize: 16}}>用户名：</Text>
+                  <TextInput onChangeText={(text)=>{this.setState({inputUsername: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
+                </View>
+                <View style={styles.pwdDivider}></View>
+              </View>
+            ) : (
+              <View>
+                <Image source={require('../../images/avatar.png')} style={{width: 100, height: 100, marginTop: 100}} />
+                <Text style={styles.usernameText}>{this.state.username}</Text>
+              </View>
+            )
           }
           {
             this.state.showProgress ? (
@@ -64,17 +78,32 @@ export default class LoginScreen extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        {
+          utils.isEmpty(this.state.username) ? null : (
+            <TouchableOpacity onPress={()=>{this.changeAccount()}}>
+              <Text style={styles.changeAccount}>切换账号</Text>
+            </TouchableOpacity>
+          )
+        }
       </View>
     );
   }
+  changeAccount() {
+    this.setState({username: ''});
+  }
   login() {
-    var username = this.state.username;
+    var username = '';
+    if (utils.isEmpty(this.state.username)) {
+      username = this.state.inputUsername;
+    } else {
+      username = this.state.username;
+    }
     var password = this.state.password;
     if (utils.isEmpty(username) || utils.isEmpty(password)) {
       ToastAndroid.show('用户名或密码不能为空', ToastAndroid.SHORT);
       return;
     }
-    var url = 'http://yubo.applinzi.com/login'
+    var url = 'http://yubo.applinzi.com/login';
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -89,10 +118,11 @@ export default class LoginScreen extends Component {
             // 登录成功
             // 清除所有路由状态，并跳转到actions中的路由
             StorageUtil.set('hasLogin', {'hasLogin': true});
+            StorageUtil.set('username', {'username': username});
             const resetAction = NavigationActions.reset({
               index: 0,
               actions: [
-                NavigationActions.navigate({ routeName: 'Home'})
+                NavigationActions.navigate({routeName: 'Home'})
               ]
             });
             this.props.navigation.dispatch(resetAction);
@@ -117,10 +147,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   pwdView: {
-    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: 50,
@@ -130,7 +159,8 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     marginTop: 10,
-    fontSize: 16
+    fontSize: 16,
+    textAlign: 'center'
   },
   pwdContainer: {
     flexDirection: 'row',
@@ -156,5 +186,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#00BC0C',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  changeAccount: {
+    fontSize: 16,
+    color: '#00BC0C',
+    textAlign: 'center',
+    marginBottom: 20
   }
 });
