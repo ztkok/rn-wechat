@@ -3,6 +3,8 @@ import { NavigationActions } from 'react-navigation'
 import CommonTitleBar from '../views/CommonTitleBar.js';
 import StorageUtil from '../utils/StorageUtil.js';
 import LoadingView from '../views/LoadingView.js';
+import NIM from 'react-native-netease-im';
+
 import {
   StyleSheet,
   Text,
@@ -114,18 +116,8 @@ export default class LoginScreen extends Component {
         this.setState({showProgress: false});
         if (!utils.isEmpty(json)) {
           if (json.code === 1) {
-            ToastAndroid.show(json.msg, ToastAndroid.SHORT);
-            // 登录成功
-            // 清除所有路由状态，并跳转到actions中的路由
-            StorageUtil.set('hasLogin', {'hasLogin': true});
-            StorageUtil.set('username', {'username': username});
-            const resetAction = NavigationActions.reset({
-              index: 0,
-              actions: [
-                NavigationActions.navigate({routeName: 'Home'})
-              ]
-            });
-            this.props.navigation.dispatch(resetAction);
+            // 登录服务器成功，再登录NIM的服务器
+            this.loginToNIM(username, json.msg);
           } else {
             ToastAndroid.show(json.msg, ToastAndroid.SHORT);
           }
@@ -136,6 +128,31 @@ export default class LoginScreen extends Component {
         this.setState({showProgress: false});
         ToastAndroid.show('网络请求出错: ' + e, ToastAndroid.SHORT);
       });
+  }
+  loginToNIM(username, token) {
+    // {
+    //   "code": 200,
+    //   "info": {
+    //     "token": "0370534061877ef540bb6be9395b5efb",
+    //     "accid": "yubo",
+    //     "name": ""
+    //   }
+    // }
+    NIM.login(username, token).then((data)=>{
+      ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+      StorageUtil.set('hasLogin', {'hasLogin': true});
+      StorageUtil.set('username', {'username': username});
+      // 清除所有路由状态，并跳转到actions中的路由
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName: 'Home'})
+        ]
+      });
+      this.props.navigation.dispatch(resetAction);
+    }, (error)=>{
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+    });
   }
 }
 

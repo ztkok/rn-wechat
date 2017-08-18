@@ -3,6 +3,8 @@ package com.testreactnavigation;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.netease.im.RNNeteaseImPackage;
+import com.netease.im.IMApplication;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,6 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNNeteaseImPackage(),
           new RCTCameraPackage()
       );
     }
@@ -38,5 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    IMApplication.init(this, MainActivity.class,R.drawable.ic_stat_notify_msg,
+        new IMApplication.MiPushConfig("xiaomi","2882303761517606714","5401760627714"));
   }
 }

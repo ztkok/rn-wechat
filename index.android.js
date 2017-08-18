@@ -1,20 +1,22 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import React, { Component } from 'react';
-import TitleBar from './app/views/TitleBar.js';
-import ContactsScreen from './app/screens/ContactsScreen.js';
-import FindScreen from './app/screens/FindScreen.js';
-import MeScreen from './app/screens/MeScreen.js';
-import SearchScreen from './app/screens/SearchScreen.js';
-import ContactDetailScreen from './app/screens/ContactDetailScreen.js';
-import ChattingScreen from './app/screens/ChattingScreen.js';
-import MomentScreen from './app/screens/MomentScreen.js';
-import ScanScreen from './app/screens/ScanScreen.js';
-import ScanResultScreen from './app/screens/ScanResultScreen.js';
-import ShoppingScreen from './app/screens/ShoppingScreen.js';
-import CardPackageScreen from './app/screens/CardPackageScreen.js';
-import SplashScreen from './app/screens/SplashScreen.js';
-import LoginScreen from './app/screens/LoginScreen.js';
-import RegisterScreen from './app/screens/RegisterScreen.js';
+import TitleBar from './app/views/TitleBar';
+import ContactsScreen from './app/screens/ContactsScreen';
+import FindScreen from './app/screens/FindScreen';
+import MeScreen from './app/screens/MeScreen';
+import SearchScreen from './app/screens/SearchScreen';
+import ContactDetailScreen from './app/screens/ContactDetailScreen';
+import ChattingScreen from './app/screens/ChattingScreen';
+import MomentScreen from './app/screens/MomentScreen';
+import ScanScreen from './app/screens/ScanScreen';
+import ScanResultScreen from './app/screens/ScanResultScreen';
+import ShoppingScreen from './app/screens/ShoppingScreen';
+import CardPackageScreen from './app/screens/CardPackageScreen';
+import SplashScreen from './app/screens/SplashScreen';
+import LoginScreen from './app/screens/LoginScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
+import NIM from 'react-native-netease-im';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -27,11 +29,13 @@ import {
   StatusBar,
   FlatList,
   TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
 var global = require('./app/utils/global.js');
 var listData = [];
+
 for (var i = 0; i < 20; i++) {
   listData.push({
     key: i,
