@@ -5,9 +5,10 @@
 # 运行方法
 1. 在项目根目录下执行npm install
 2. 项目中的导航组件使用的ReactNavigation，所以还需要执行npm install --save react-navigation
-3. 二维码扫描组件使用了开源项目react-native-camera和AC-QRCode-RN，请按这两个项目的文档添加至项目中，地址为：
+3. 二维码扫描组件使用了开源项目react-native-camera和AC-QRCode-RN，即时通讯使用了网易云react-native-netease-im库，请按这三个项目的文档添加至项目中，地址为：
   * https://github.com/lwansbrough/react-native-camera
   * https://github.com/MarnoDev/AC-QRCode-RN/blob/master/README_CN.md
+  * https://github.com/reactnativecomponent/react-native-netease-im
 4. 上面几步执行结束后，再执行react-native run-android即可
 5. apk目录下有RNWeChat-release.apk文件，可直接安装查看效果
 
@@ -27,7 +28,8 @@ signingConfigs {
 # 更新
 * 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 * 2017-8-11 加入扫一扫功能，加入登录注册页面，登录和注册的功能后面实现，加入购物页面和卡包页面
-* 2017-8-15 加入注册、登录和注销功能，可以注册新用户，下一步考虑接入环信SDK实现IM功能
+* 2017-8-15 加入注册、登录和注销功能，可以注册新用户，~~下一步考虑接入环信SDK实现IM功能~~IM功能采用了网易云SDK
+* 2017-8-18 修改注册和登录功能，加入了网易云SDK
 
 # 截图
 <img src='./screenshots/111.png'>
