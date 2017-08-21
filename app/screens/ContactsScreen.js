@@ -162,6 +162,15 @@ export default class ContactsScreen extends Component {
       </View>
     );
   }
+  onListItemClick(item) {
+    let index = item.item.key;
+    if (index == 0) {
+      // 新的朋友
+      this.props.navigation.navigate('NewFriend', {title: '新的朋友', data: item.item})
+    } else {
+      this.props.navigation.navigate('ContactDetail', {title: '详细资料', data: item.item})
+    }
+  }
   renderItem = (item) => {
     var section = [];
     if (item.item.sectionStart) {
@@ -170,7 +179,7 @@ export default class ContactsScreen extends Component {
     return (
       <View>
         {section}
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('ContactDetail', {title: '详细资料', data: item.item})}}>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.onListItemClick(item)}}>
           <View style={listItemStyle.container} key={item.item.key}>
               <Image style={listItemStyle.image} source={item.item.icon == null ? require('../../images/avatar.png') : item.item.icon} />
               <Text style={listItemStyle.itemText}>{item.item.title}</Text>
