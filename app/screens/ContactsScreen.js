@@ -45,7 +45,7 @@ export default class ContactsScreen extends Component {
   }
 
   getContacts() {
-    var url = "http://yubo.applinzi.com/contacts/30";
+    var url = "http://rnwechat.applinzi.com/contacts/30";
     fetch(url).then((res)=>res.json())
       .then((json)=>{
         this.setState({

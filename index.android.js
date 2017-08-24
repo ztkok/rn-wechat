@@ -16,6 +16,7 @@ import SplashScreen from './app/screens/SplashScreen';
 import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
 import NewFriendsScreen from './app/screens/NewFriendsScreen';
+import PersonInfoScreen from './app/screens/PersonInfoScreen';
 import NIM from 'react-native-netease-im';
 
 import {
@@ -196,7 +197,8 @@ const MyApp = StackNavigator({
   CardPackage: { screen: CardPackageScreen },
   Login: { screen: LoginScreen },
   Register: { screen: RegisterScreen },
-  NewFriend: { screen: NewFriendsScreen }
+  NewFriend: { screen: NewFriendsScreen },
+  PersonInfo: { screen: PersonInfoScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

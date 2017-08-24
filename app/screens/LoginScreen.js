@@ -31,7 +31,13 @@ export default class LoginScreen extends Component {
       username: '',
       password: '',
       showProgress: false,
+      avatar: ''
     };
+    StorageUtil.get('avatar', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({avatar: object.avatar});
+      }
+    });
   }
   componentWillMount() {
     StorageUtil.get('username', (error, object)=>{
@@ -57,7 +63,7 @@ export default class LoginScreen extends Component {
               </View>
             ) : (
               <View>
-                <Image source={require('../../images/avatar.png')} style={{width: 100, height: 100, marginTop: 100}} />
+                <Image source={utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}} style={{width: 100, height: 100, marginTop: 100}} />
                 <Text style={styles.usernameText}>{this.state.username}</Text>
               </View>
             )
@@ -105,7 +111,7 @@ export default class LoginScreen extends Component {
       ToastAndroid.show('用户名或密码不能为空', ToastAndroid.SHORT);
       return;
     }
-    var url = 'http://yubo.applinzi.com/login';
+    var url = 'http://rnwechat.applinzi.com/login';
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -117,7 +123,16 @@ export default class LoginScreen extends Component {
         if (!utils.isEmpty(json)) {
           if (json.code === 1) {
             // 登录服务器成功，再登录NIM的服务器
-            this.loginToNIM(username, json.msg);
+            var msg = json.msg;
+            var arr = msg.split(',');
+            if (arr != null) {
+              var token = arr[0];
+              var avatarUrl = arr[1];
+              this.loginToNIM(username, token);
+              if (avatarUrl != 'None') {
+                StorageUtil.set('avatar', {'avatar': arr[1]});
+              }
+            }
           } else {
             ToastAndroid.show(json.msg, ToastAndroid.SHORT);
           }

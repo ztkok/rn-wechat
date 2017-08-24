@@ -4,6 +4,8 @@ import TitleBar from '../views/TitleBar.js';
 import ListItem from '../views/ListItem.js';
 import ListItemDivider from '../views/ListItemDivider.js';
 import StorageUtil from '../utils/StorageUtil.js';
+import CountEmitter from '../event/CountEmitter.js';
+
 import {
   StyleSheet,
   Text,
@@ -14,10 +16,12 @@ import {
   PixelRatio,
   ScrollView,
   ToastAndroid,
+  TouchableHighlight
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
 var global = require('../utils/global.js');
+var utils = require('../utils/utils.js');
 
 export default class MeScreen extends Component {
   static navigationOptions = {
@@ -33,21 +37,44 @@ export default class MeScreen extends Component {
       );
     },
   };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      avatar: ''
+    };
+    StorageUtil.get('username', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({username: object.username});
+      }
+    });
+    StorageUtil.get('avatar', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({avatar: object.avatar});
+      }
+    })
+  }
+  componentWillMount() {
+    CountEmitter.addListener('updateAvatar', ()=>{
+      ToastAndroid.show('MeScreen receive updateAvatar msg...');
+    });
+  }
   render() {
     return (
       <View style={styles.container}>
         <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <ScrollView style={styles.content}>
-          <View style={styles.meInfoContainer}>
-            <Image style={styles.meInfoAvatar} source={require('../../images/avatar.png')} />
-            <View style={styles.meInfoTextContainer}>
-              <Text style={styles.meInfoNickName}>yubo</Text>
-              <Text style={styles.meInfoWeChatId}>微信号：大王叫我来巡山</Text>
+          <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('PersonInfo')}}>
+            <View style={styles.meInfoContainer}>
+              <Image style={styles.meInfoAvatar} source={utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}} />
+              <View style={styles.meInfoTextContainer}>
+                <Text style={styles.meInfoNickName}>{this.state.username}</Text>
+                <Text style={styles.meInfoWeChatId}>微信号：大王叫我来巡山</Text>
+              </View>
+              <Image style={styles.meInfoQRCode} source={require('../../images/ic_qr_code.png')} />
             </View>
-            <Image style={styles.meInfoQRCode} source={require('../../images/ic_qr_code.png')} />
-          </View>
+          </TouchableHighlight>
           <View />
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_wallet.png')} text={"钱包"} />
@@ -98,6 +125,8 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'column',
     backgroundColor: global.pageBackgroundColor,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   tabBarIcon: {
     width: 24,
@@ -112,7 +141,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingTop: 10,
     paddingBottom: 10,
-    marginTop: 20,
   },
   meInfoAvatar: {
     width: 60,

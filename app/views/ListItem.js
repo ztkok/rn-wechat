@@ -11,6 +11,8 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+var global = require('../utils/global.js');
+
 export default class ListItem extends Component {
   render() {
     return (

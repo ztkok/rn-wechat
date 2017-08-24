@@ -82,7 +82,7 @@ export default class LoginScreen extends Component {
     }
     this.setState({showProgress: true});
     //请求服务器注册接口
-    var registerUrl = 'http://yubo.applinzi.com/register';
+    var registerUrl = 'http://rnwechat.applinzi.com/register';
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);

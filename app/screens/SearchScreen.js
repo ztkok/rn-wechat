@@ -126,7 +126,7 @@ export default class SearchScreen extends Component {
     );
   }
   startSearch = (key) => {
-    const URL = "http://yubo.applinzi.com/search";
+    const URL = "http://rnwechat.applinzi.com/search";
     var data = {key: key};
     let params = new FormData();
     params.append("key", key);
