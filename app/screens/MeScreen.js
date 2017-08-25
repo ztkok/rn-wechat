@@ -48,6 +48,9 @@ export default class MeScreen extends Component {
         this.setState({username: object.username});
       }
     });
+    this.getAvatar();
+  }
+  getAvatar() {
     StorageUtil.get('avatar', (error, object)=>{
       if (!error && object != null) {
         this.setState({avatar: object.avatar});
@@ -56,7 +59,8 @@ export default class MeScreen extends Component {
   }
   componentWillMount() {
     CountEmitter.addListener('updateAvatar', ()=>{
-      ToastAndroid.show('MeScreen receive updateAvatar msg...');
+      // 刷新头像
+      this.getAvatar();
     });
   }
   render() {

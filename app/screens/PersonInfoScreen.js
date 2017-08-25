@@ -19,6 +19,7 @@ import {
   ToastAndroid
 } from 'react-native';
 
+var { width, height} = Dimensions.get('window');
 var global = require('../utils/global.js');
 var utils = require('../utils/utils.js');
 
@@ -63,14 +64,14 @@ export default class PersonInfoScreen extends Component {
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>昵称</Text>
             <View style={styles.rightContainer}>
-              <Text>大王叫我来巡山</Text>
+              <Text>{this.state.username}</Text>
             </View>
           </View>
           <ListItemDivider />
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>微信号</Text>
             <View style={styles.rightContainer}>
-              <Text>{this.state.username}</Text>
+              <Text>大王叫我来巡山</Text>
             </View>
           </View>
           <ListItemDivider />
@@ -84,9 +85,12 @@ export default class PersonInfoScreen extends Component {
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>更多</Text>
           </View>
-          <View style={[styles.listItem, {marginTop: 20}]}>
-            <Text style={styles.listItemLeftText}>我的地址</Text>
-          </View>
+          <View style={{height: 20, width: width}} />
+          <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+            <View style={styles.listItem}>
+              <Text style={styles.listItemLeftText}>我的地址</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -120,7 +124,8 @@ export default class PersonInfoScreen extends Component {
                 ToastAndroid.show("修改头像成功", ToastAndroid.SHORT);
                 StorageUtil.set('avatar', {'avatar': json.msg});
                 this.setState({avatar: json.msg});
-                // CountEmitter.emit('updateAvatar');
+                // 发送消息通知其他界面更新头像
+                CountEmitter.emit('updateAvatar');
               } else {
                 ToastAndroid.show(json.msg, ToastAndroid.SHORT);
               }
