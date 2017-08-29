@@ -5,10 +5,11 @@
 # 运行方法
 1. 在项目根目录下执行npm install
 2. 项目中的导航组件使用的ReactNavigation，所以还需要执行npm install --save react-navigation
-3. 二维码扫描组件使用了开源项目react-native-camera和AC-QRCode-RN，即时通讯使用了网易云react-native-netease-im库，请按这三个项目的文档添加至项目中，地址为：
+3. 二维码扫描组件使用了开源项目react-native-camera和AC-QRCode-RN，即时通讯使用了网易云react-native-netease-im库，图片选择和裁剪使用了react-native-image-crop-picker库，请按这四个项目的文档添加至项目中，地址为：
   * https://github.com/lwansbrough/react-native-camera
   * https://github.com/MarnoDev/AC-QRCode-RN/blob/master/README_CN.md
   * https://github.com/reactnativecomponent/react-native-netease-im
+  * https://github.com/ivpusic/react-native-image-crop-picker
 4. 上面几步执行结束后，再执行react-native run-android即可
 5. apk目录下有RNWeChat-release.apk文件，可直接安装查看效果
 
