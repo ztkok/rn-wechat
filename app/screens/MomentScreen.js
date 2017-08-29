@@ -17,6 +17,7 @@ import {
   FlatList,
   ScrollView,
   TouchableHighlight,
+  TouchableOpacity,
   ART,
   ToastAndroid
 } from 'react-native';
@@ -109,7 +110,11 @@ export default class MomentScreen extends Component {
     let images = [];
     for (let i = start; i < end; i++) {
       let img = {uri: arr[i]};
-      images.push(<Image key={"row-image-" + i} source={img} style={listItemStyle.imageCell} />);
+      images.push(
+        <TouchableOpacity key={"row-image-" + i} activeOpacity={0.6} onPress={()=>this.props.navigation.navigate('ImageShow', {'image': arr[i]})}>
+          <Image source={img} style={listItemStyle.imageCell} />
+        </TouchableOpacity>
+      );
     }
     return (
       <View key={"row-" + start} style={{flexDirection: 'row'}}>

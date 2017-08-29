@@ -131,6 +131,8 @@ export default class LoginScreen extends Component {
               this.loginToNIM(username, token);
               if (avatarUrl != 'None') {
                 StorageUtil.set('avatar', {'avatar': arr[1]});
+              } else {
+                StorageUtil.set('avatar', {'avatar': ''});
               }
             }
           } else {

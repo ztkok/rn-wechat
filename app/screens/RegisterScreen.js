@@ -68,12 +68,23 @@ export default class LoginScreen extends Component {
       </View>
     );
   }
+  isContainChinese(str) {
+    var reg = /[\u4e00-\u9fa5]/g;
+    if(reg.test(str)){
+        return true;
+    }
+    return false;
+  }
   register() {
     var username = this.state.username;
     var password = this.state.password;
     var confirmPwd = this.state.confirmPwd;
     if (utils.isEmpty(username) || utils.isEmpty(password) || utils.isEmpty(confirmPwd)) {
       ToastAndroid.show('用户名或密码不能为空！', ToastAndroid.SHORT);
+      return ;
+    }
+    if (this.isContainChinese(username)) {
+      ToastAndroid.show('用户名不能包含中文！', ToastAndroid.SHORT);
       return ;
     }
     if (password !== confirmPwd) {
