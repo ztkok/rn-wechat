@@ -14,8 +14,12 @@ import {
 
 var { width, height } = Dimensions.get('window');
 var global = require('../utils/global.js');
+var utils = require('../utils/utils.js');
 
 export default class CommonTitleBar extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -30,13 +34,32 @@ export default class CommonTitleBar extends Component {
            <View style={styles.btnDivider} />
            <View style={styles.titleContainer}>
              <Text style={styles.title}>{this.props.title}</Text>
-             <Image style={styles.img} source={require('../../images/ic_search_bar_search.png')} />
+             {
+               utils.isEmpty(this.props.rightIcon) ? (null) : (
+                  <TouchableOpacity activeOpacity={0.6} onPress={()=>this.handleRightClick()}>
+                    <Image style={styles.img} source={this.props.rightIcon} />
+                  </TouchableOpacity>
+               )
+             }
+             {
+               utils.isEmpty(this.props.rightBtnText) ? (null) : (
+                 <Button
+                   onPress={()=>this.props.handleRightBtnClick()}
+                   title={this.props.rightBtnText}
+                   color="#19AD17"
+                 />
+               )
+             }
            </View>
          </View>
       </View>
     );
   }
-
+  handleRightClick() {
+    if (!utils.isEmpty(this.props.handleRightClick)) {
+      this.props.handleRightClick();
+    }
+  }
   handleBackClick = () => {
     this.props.nav.goBack();
   }
@@ -81,5 +104,6 @@ const styles = StyleSheet.create({
   img: {
     width: 30,
     height: 30,
+    marginRight: 5
   }
 });

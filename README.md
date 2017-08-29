@@ -31,8 +31,10 @@ signingConfigs {
 * 2017-8-15 加入注册、登录和注销功能，可以注册新用户，~~下一步考虑接入环信SDK实现IM功能~~IM功能采用了网易云信SDK
 * 2017-8-18 修改注册和登录功能，加入了网易云信SDK
 * 2017-8-24 加入个人信息页面，加入修改头像的功能
+* 2017-8-29 完成发朋友圈的功能
 
 # 截图
+<img src='./screenshots/666.png'>
 <img src='./screenshots/111.png'>
 <img src='./screenshots/222.png'>
 <img src='./screenshots/333.png'>

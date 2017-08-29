@@ -38,7 +38,7 @@ export default class NewFriendsScreen extends Component {
         <View style={styles.searchView}>
           <View style={styles.searchEditText}>
             <Image style={styles.searchImg} source={require('../../images/ic_search_gray.png')} />
-            <TextInput style={styles.searchInput} underlineColorAndroid="transparent" defaultValue="微信号/QQ号/手机号" />
+            <TextInput style={styles.searchInput} underlineColorAndroid="transparent" placeholder="微信号/QQ号/手机号" />
           </View>
           <View style={styles.searchLine}></View>
         </View>
