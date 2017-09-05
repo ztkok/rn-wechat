@@ -91,7 +91,7 @@ export default class MeScreen extends Component {
           <ListItemDivider />
           <ListItem icon={require('../../images/ic_emoji.png')} text={"表情"} />
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} handleClick={()=>{this.props.navigation.navigate('Splash')}} />
+          <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} handleClick={()=>{}} />
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_settings.png')} text={"注销"} handleClick={()=>{this.logout()}} />
         </ScrollView>

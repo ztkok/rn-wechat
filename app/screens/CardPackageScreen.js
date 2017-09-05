@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CommonTitleBar from '../views/CommonTitleBar.js';
+
 import {
   StyleSheet,
   Text,

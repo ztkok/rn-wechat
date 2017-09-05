@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import CommonTitleBar from '../views/CommonTitleBar.js';
+import CommonTitleBar from '../views/CommonTitleBar';
 import CountEmitter from '../event/CountEmitter';
 import StorageUtil from '../utils/StorageUtil';
-import LoadingView from '../views/LoadingView.js';
+import LoadingView from '../views/LoadingView';
+import MomentMenuView from '../views/MomentMenuView';
+import { UIManager } from 'NativeModules';
+import ReplyPopWin from '../views/ReplyPopWin';
 
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -18,8 +20,11 @@ import {
   ScrollView,
   TouchableHighlight,
   TouchableOpacity,
+  ToastAndroid,
   ART,
-  ToastAndroid
+  TextInput,
+  KeyboardAvoidingView,
+  Keyboard
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
@@ -36,42 +41,84 @@ export default class MomentScreen extends Component {
     this.state = {
       moments: [],
       avatar: '',
-      showProgress: false
+      showProgress: false,
+      menuPos: {},
+      menuShow: false,
+      doFavorMomentId: -1,
+      isUpdate: false,
+      isLoadMore: false,
+      hasMoreData: true,
+      showReplyInput: false
     };
+    // 分页需要使用的两个参数offset:偏移量, pagesize:一页的大小,pagesize=-1代表获取所有数据
+    this.offset = 0;
+    this.pagesize = 5;
     StorageUtil.get('avatar', (error, object)=>{
       if (!error && object != null) {
         this.setState({avatar: object.avatar});
+      }
+    });
+    StorageUtil.get('username', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({username: object.username});
       }
     });
   }
   componentWillMount() {
     CountEmitter.addListener('updateMomentList', ()=>{
       // 刷新朋友圈列表
-      this.getMoments();
+      this.setState({isUpdate: true, isLoadMore: false});
+      this.getMoments(true);
     });
   }
   componentDidMount() {
-    this.getMoments();
+    if (!this.state.isUpdate) {
+      this.setState({isLoadMore: false});
+      this.getMoments(true);
+    }
+    let replyInput = this.refs.replyInput;
+    if (!utils.isEmpty(replyInput)) {
+      replyInput.focus();
+    }
   }
-  getMoments() {
-    this.showLoading();
-    let url = 'http://rnwechat.applinzi.com/moments';
+  getMoments(useLoading) {
+    if (useLoading) {
+      this.showLoading();
+    }
+    let url = 'http://rnwechat.applinzi.com/moments?offset=' + this.offset + '&pagesize=' + this.pagesize;
     fetch(url).then((res)=>res.json())
     .then((json)=>{
-      if (json != null) {
+      if (useLoading) {
         this.hideLoading();
+      }
+      if (json != null) {
         if (json.code == 1) {
           let data = json.msg; // 数组
+          if (data.length == 0) {
+            ToastAndroid.show('没有更多数据了', ToastAndroid.SHORT);
+            this.setState({hasMoreData: false});
+            return ;
+          }
+          let moments = this.state.moments;
           if (data != null && data.length > 0) {
             for(let i = 0; i < data.length; i++) {
-              data[i].key = i;
+              data[i].key = i + '-' + this.offset;
+              if (this.state.isLoadMore) {
+                moments.push(data[i]);
+              }
             }
+          }
+          if (this.state.isLoadMore) {
+            this.setState({moments: moments});
+          } else {
             this.setState({moments: data});
           }
         }
       }
     }).catch((e)=>{
-      this.hideLoading();
+      if (useLoading) {
+        this.hideLoading();
+      }
       ToastAndroid.show(e.toString(), ToastAndroid.SHORT);
     })
   }
@@ -80,6 +127,15 @@ export default class MomentScreen extends Component {
   }
   hideLoading() {
     this.setState({showProgress: false});
+  }
+  renderHeaderView(username, avatar) {
+    return (
+      <View>
+        <Image style={styles.momentImg} source={require('../../images/moment.jpg')} />
+        <Text style={styles.userNameText}>{this.state.username}</Text>
+        <Image style={styles.avatarImg} source={avatar} />
+      </View>
+    );
   }
   render() {
     let avatar = require('../../images/avatar.png');
@@ -94,15 +150,24 @@ export default class MomentScreen extends Component {
             <LoadingView cancel={()=>this.setState({showProgress: false})} />
           ) : (null)
         }
-        <ScrollView>
-          <Image style={styles.momentImg} source={require('../../images/moment.jpg')} />
-          <Text style={styles.userNameText}>yubo</Text>
-          <Image style={styles.avatarImg} source={avatar} />
-          <FlatList
-            data={this.state.moments}
-            renderItem={this.renderItem}
-            />
-        </ScrollView>
+        <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
+          <MomentMenuView ref="momentMenuView" />
+        </View>
+        <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
+          <ReplyPopWin ref="replyPopWin" />
+        </View>
+        <FlatList
+          ListHeaderComponent={()=>this.renderHeaderView(this.state.username, avatar)}
+          data={this.state.moments}
+          renderItem={this.renderItem}
+          onEndReached={()=>{this.loadNextPage()}}
+          onEndReachedThreshold={0.2}
+          />
+        {
+          this.state.showReplyInput ? (
+            <TextInput autoFocus={true} ref="replyInput" style={{position: 'absolute', left: 0, bottom: 0, width: width}} />
+          ) : (null)
+        }
       </View>
     );
   }
@@ -111,13 +176,13 @@ export default class MomentScreen extends Component {
     for (let i = start; i < end; i++) {
       let img = {uri: arr[i]};
       images.push(
-        <TouchableOpacity key={"row-image-" + i} activeOpacity={0.6} onPress={()=>this.props.navigation.navigate('ImageShow', {'image': arr[i]})}>
+        <TouchableOpacity key={"row-image-" + i} activeOpacity={0.6} onPress={()=>this.props.navigation.navigate('ImageShow', {'images': arr, 'index': i})}>
           <Image source={img} style={listItemStyle.imageCell} />
         </TouchableOpacity>
       );
     }
     return (
-      <View key={"row-" + start} style={{flexDirection: 'row'}}>
+      <View key={"row-" + start} style={{flexDirection: 'row', marginTop: 3}}>
         {images}
       </View>
     );
@@ -131,7 +196,7 @@ export default class MomentScreen extends Component {
     let images = [];
     if (len > 0) {
       let rowNum = Math.ceil(len / 3);
-      for (let i = 0; i < rowNum; i++) { // 行
+      for (let i = 0; i < rowNum; i++) {
         let start = i * 3;
         let end = i * 3 + 3;
         if (end > len) {
@@ -145,6 +210,31 @@ export default class MomentScreen extends Component {
         {images}
       </View>
     );
+  }
+  loadNextPage = (info)=>{
+    if (!this.state.hasMoreData) {
+      return ;
+    }
+    this.setState({isLoadMore: true});
+    ToastAndroid.show('加载下一页', ToastAndroid.SHORT)
+    this.offset = this.offset + this.pagesize;
+    this.getMoments(false);
+  }
+  renderReplys(item) {
+    let replys = [];
+    let arr = item.item.replys;
+    if (!utils.isEmpty(arr) && arr.length > 0) {
+      for (let i = 0; i < arr.length; i++) {
+        replys.push(<Text key={item.item.moment_id + "-" + i} style={listItemStyle.commentText}>{arr[i].username + "：" + base64Utils.decoder(arr[i].content)}</Text>);
+      }
+    }
+    return replys;
+  }
+  isCommentEmpty(item) {
+    if (utils.isEmpty(item.item.favor_names) && (item.item.replys == null || item.item.replys.length == 0)) {
+      return true;
+    }
+    return false;
   }
   renderItem = (item) => {
     const path = ART.Path();
@@ -166,29 +256,77 @@ export default class MomentScreen extends Component {
             {this.renderImages(item.item.pictures)}
             <View style={listItemStyle.timeContainer}>
               <Text style={listItemStyle.timeText}>{timeUtils.getFormattedTime(item.item.time)}</Text>
-              <Image style={listItemStyle.commentImg} source={require('../../images/ic_comment.png')} />
+              <TouchableOpacity activeOpacity={0.6} onPress={(e)=>this.showMenuView(e, item.item.moment_id, item.item.username, this.doFavorSuccessCallback, this.doCommentCallback)} style={{marginLeft: 10}}>
+                <Image style={listItemStyle.commentImg} source={require('../../images/ic_comment.png')} />
+              </TouchableOpacity>
             </View>
-            <View style={listItemStyle.commentContainer}>
-              <ART.Surface width={30} height={10} >
-                <ART.Shape d={path} fill={'#EEEEEE'} />
-              </ART.Surface>
-              <View style={listItemStyle.commentContent}>
-                <View style={listItemStyle.favorContainer}>
-                  <Image style={listItemStyle.favorImg} source={require('../../images/ic_favor.png')} />
-                  <Text style={listItemStyle.commentText}>yubo</Text>
+            {
+              this.isCommentEmpty(item) ? (null) : (
+                <View style={listItemStyle.commentContainer}>
+                  <ART.Surface width={30} height={10} >
+                    <ART.Shape d={path} fill={'#EEEEEE'} />
+                  </ART.Surface>
+                  <View style={listItemStyle.commentContent}>
+                    {
+                      utils.isEmpty(item.item.favor_names) ? (null) : (
+                        <View style={{flexDirection: 'column'}}>
+                          <View style={listItemStyle.favorContainer}>
+                            <Image style={listItemStyle.favorImg} source={require('../../images/ic_favor.png')} />
+                            <Text style={listItemStyle.commentText}>{item.item.favor_names}</Text>
+                          </View>
+                          {
+                            (item.item.replys == null || item.item.replys.length == 0) ? (null) : (
+                              <View style={[listItemStyle.divider, {marginTop: 3, marginBottom: 3}]} />
+                            )
+                          }
+                        </View>
+                      )
+                    }
+                    <View style={{flexDirection: 'column', width}}>
+                      {this.renderReplys(item)}
+                    </View>
+                  </View>
                 </View>
-                <View style={[listItemStyle.divider, {marginTop: 3, marginBottom: 3}]} />
-                <Text style={listItemStyle.commentText}>习主席：小伙子我要是骗你我习主席倒过来念。</Text>
-                <Text style={listItemStyle.commentText}>李总理：小伙子我要是骗你我李总理倒过来念。</Text>
-                <Text style={listItemStyle.commentText}>金三胖：小伙子我看好你！</Text>
-                <Text style={listItemStyle.commentText}>普京大帝：二营长，把他娘的意大利.........面给我端上来！</Text>
-              </View>
-            </View>
+              )
+            }
           </View>
         </View>
         <View style={listItemStyle.divider} />
       </View>
     );
+  }
+  showMenuView(event, momentId, momentUsername, callback1, callback2) {
+    this.setState({doFavorMomentId: momentId});
+    this.refs.momentMenuView.showModal(event.nativeEvent.pageX, event.nativeEvent.pageY, momentId, momentUsername, callback1, callback2);
+  }
+  doFavorSuccessCallback = (favorNames)=>{
+    let arr = this.state.moments.concat();
+    if (!utils.isEmpty(arr)) {
+      for (let i = 0; i < arr.length; i++) {
+        let momentId = arr[i].moment_id;
+        if (momentId == this.state.doFavorMomentId) {
+          arr[i].favor_names = favorNames;
+        }
+      }
+    }
+    this.setState({moments: arr});
+  }
+  doCommentSuccessCallback = (momentId, data) => {
+    // 评论成功后，刷新列表
+    let arr = this.state.moments.concat();
+    if (!utils.isEmpty(arr)) {
+      for (let i = 0; i < arr.length; i++) {
+        let id = arr[i].moment_id;
+        if (momentId == id) {
+          arr[i].replys = data;
+          break;
+        }
+      }
+    }
+    this.setState({moments: arr});
+  }
+  doCommentCallback = (momentId, momentUsername) => {
+    this.refs.replyPopWin.showModal(momentId, momentUsername, this.doCommentSuccessCallback);
   }
 }
 
@@ -200,7 +338,7 @@ const listItemStyle = StyleSheet.create({
   },
   imageContainer: {
     flexDirection: 'column',
-    marginTop: 10,
+    marginTop: 6,
   },
   imageCell: {
     width: 80,

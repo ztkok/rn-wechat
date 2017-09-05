@@ -27,17 +27,18 @@ signingConfigs {
 ```
 
 # 更新
-* 2017-6-8 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
+* 2017-6-8  修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 * 2017-8-11 加入扫一扫功能，加入登录注册页面，登录和注册的功能后面实现，加入购物页面和卡包页面
-* 2017-8-15 加入注册、登录和注销功能，可以注册新用户，~~下一步考虑接入环信SDK实现IM功能~~IM功能采用了网易云信SDK
-* 2017-8-18 修改注册和登录功能，加入了网易云信SDK
+* 2017-8-15 加入注册、登录和注销功能，可以注册新用户，IM功能采用了网易云信SDK
+* 2017-8-18 修改注册和登录功能，加入了网易云信SDK。（聊天功能暂未完成，还在开发中）
 * 2017-8-24 加入个人信息页面，加入修改头像的功能
 * 2017-8-29 完成发朋友圈的功能
+* 2017-9-5  完成朋友圈的点赞和评论功能，为了逻辑简单，只做了针对楼主的评论，没有做针对回复人的评论
 
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
+<img src='./screenshots/666.png'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>

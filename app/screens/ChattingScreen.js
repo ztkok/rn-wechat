@@ -17,6 +17,7 @@ import {
   StatusBar,
   FlatList,
   TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
@@ -71,7 +72,7 @@ export default class ChattingScreen extends Component {
         <CommonTitleBar title={"聊天"} nav={this.props.navigation} />
         <View style={styles.content}>
           <FlatList
-            ref={"flatList"}
+            ref="flatList"
             data={listData}
             renderItem={this.renderItem}
             />
@@ -86,6 +87,10 @@ export default class ChattingScreen extends Component {
   }
 
   componentDidMount() {
+    setTimeout(()=>{
+      ToastAndroid.show('scroll', ToastAndroid.SHORT)
+      this.refs.flatList.scrollToEnd();
+    }, 3000);
   }
 
   updateView = (emoji, more) => {
