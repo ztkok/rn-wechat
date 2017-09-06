@@ -37,9 +37,9 @@ signingConfigs {
 * 2017-09-06  加入摇一摇页面，加入APP更新对话框（该更新不是热更新，而是下载apk覆盖安装的更新，等后面完成所有功能的开发后再加入热更新功能），修复某些bug
 
 # 截图
-<img src='./screenshots/666.png'>
-<img src='./screenshots/111.png'>
-<img src='./screenshots/222.png'>
-<img src='./screenshots/333.png'>
-<img src='./screenshots/444.png'>
-<img src='./screenshots/555.png'>
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
+![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
