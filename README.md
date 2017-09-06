@@ -36,9 +36,9 @@ signingConfigs {
 * 2017-9-5  完成朋友圈的点赞和评论功能，为了逻辑简单，只做了针对楼主的评论，没有做针对回复人的评论
 
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
+<img src='./screenshots/666.png'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>

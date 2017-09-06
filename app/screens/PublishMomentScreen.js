@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import CommonTitleBar from '../views/CommonTitleBar.js';
+import CommonTitleBar from '../views/CommonTitleBar';
 import ImagePicker from 'react-native-image-crop-picker';
 import StorageUtil from '../utils/StorageUtil';
-import LoadingView from '../views/LoadingView.js';
+import LoadingView from '../views/LoadingView';
 import CountEmitter from '../event/CountEmitter';
+import global from '../utils/global';
+import utils from '../utils/utils';
+import base64Utils from '../utils/base64';
 
 import {
   AppRegistry,
@@ -25,9 +28,6 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('../utils/global.js');
-var utils = require('../utils/utils.js');
-var base64Utils = require('../utils/base64.js');
 
 export default class PublishMomentScreen extends Component {
   constructor(props) {

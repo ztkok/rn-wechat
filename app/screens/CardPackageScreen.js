@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CommonTitleBar from '../views/CommonTitleBar.js';
+import CommonTitleBar from '../views/CommonTitleBar';
 
 import {
   StyleSheet,

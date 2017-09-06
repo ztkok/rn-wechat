@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import SearchTitleBar from '../views/SearchTitleBar.js';
-import CommonLoadingView from '../views/CommonLoadingView.js';
+import SearchTitleBar from '../views/SearchTitleBar';
+import CommonLoadingView from '../views/CommonLoadingView';
+import global from '../utils/global';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -18,7 +20,6 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('../utils/global.js');
 const stateNormal = -1;
 const stateNoData = -2;
 

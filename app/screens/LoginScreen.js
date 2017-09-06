@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation'
-import CommonTitleBar from '../views/CommonTitleBar.js';
-import StorageUtil from '../utils/StorageUtil.js';
-import LoadingView from '../views/LoadingView.js';
+import CommonTitleBar from '../views/CommonTitleBar';
+import StorageUtil from '../utils/StorageUtil';
+import LoadingView from '../views/LoadingView';
 import NIM from 'react-native-netease-im';
+import utils from '../utils/utils';
 
 import {
   StyleSheet,
@@ -21,7 +22,6 @@ import {
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
-var utils = require('../utils/utils.js');
 
 export default class LoginScreen extends Component {
   constructor(props) {

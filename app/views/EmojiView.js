@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import global from '../utils/global.js';
-import smiley from '../utils/smiley.js';
+import global from '../utils/global';
+import smiley from '../utils/smiley';
 
 import {
   AppRegistry,

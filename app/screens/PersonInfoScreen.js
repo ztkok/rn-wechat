@@ -4,7 +4,9 @@ import ListItemDivider from '../views/ListItemDivider';
 import ImagePicker from 'react-native-image-crop-picker';
 import StorageUtil from '../utils/StorageUtil';
 import CountEmitter from '../event/CountEmitter';
-import LoadingView from '../views/LoadingView.js';
+import LoadingView from '../views/LoadingView';
+import global from '../utils/global';
+import utils from '../utils/utils';
 
 import {
   StyleSheet,
@@ -20,8 +22,6 @@ import {
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
-var global = require('../utils/global.js');
-var utils = require('../utils/utils.js');
 
 export default class PersonInfoScreen extends Component {
   constructor(props) {

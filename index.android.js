@@ -19,7 +19,10 @@ import NewFriendsScreen from './app/screens/NewFriendsScreen';
 import PersonInfoScreen from './app/screens/PersonInfoScreen';
 import PublishMomentScreen from './app/screens/PublishMomentScreen';
 import ImageShowScreen from './app/screens/ImageShowScreen';
+import ShakeScreen from './app/screens/ShakeScreen';
 import NIM from 'react-native-netease-im';
+import UpgradeModule from './app/utils/UpgradeModule';
+import UpgradeDialog from './app/views/UpgradeDialog';
 
 import {
   AppRegistry,
@@ -33,11 +36,13 @@ import {
   StatusBar,
   FlatList,
   TouchableHighlight,
-  ToastAndroid
+  ToastAndroid,
+  Platform
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
 var global = require('./app/utils/global.js');
+var utils = require('./app/utils/utils.js');
 var listData = [];
 
 for (var i = 0; i < 20; i++) {
@@ -63,6 +68,12 @@ export default class HomeScreen extends Component {
       );
     },
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedUpgrade: false, // 标记是否检查了更新
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -79,8 +90,44 @@ export default class HomeScreen extends Component {
           />
         </View>
         <View style={styles.divider}></View>
+        <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
+          <UpgradeDialog ref="upgradeDialog" content={this.state.upgradeContent} />
+        </View>
       </View>
     );
+  }
+  componentDidMount() {
+    // 组件挂载完成后检查是否有更新，只针对Android平台检查
+    if (!this.state.checkedUpgrade) {
+      if (Platform.OS === 'android') {
+        UpgradeModule.getVersionCodeName((versionCode, versionName) => {
+          if (versionCode > 0 && !utils.isEmpty(versionName)) {
+            // 请求服务器查询更新
+            let url = 'http://rnwechat.applinzi.com/upgrade?versionCode=' + versionCode + '&versionName=' + versionName;
+            fetch(url).then((res)=>res.json())
+              .then((json)=>{
+                if (json != null && json.code == 1) {
+                  // 有新版本
+                  let data = json.msg;
+                  if (data != null) {
+                    let newVersionCode = data.versionCode;
+                    let newVersionName = data.versionName;
+                    let newVersionDesc = data.versionDesc;
+                    let downUrl = data.downUrl;
+                    let content = "版本号：" + newVersionCode + "\n\n版本名称：" + newVersionName + "\n\n更新说明：" + newVersionDesc;
+                    this.setState({upgradeContent: content}, () => {
+                      // 显示更新dialog
+                      this.refs.upgradeDialog.showModal();
+                    });
+                  }
+                }
+              }).catch((e)=>{
+              })
+          }
+        })
+      }
+      this.setState({checkedUpgrade: true});
+    }
   }
   renderItem = (data) => {
     return (
@@ -90,8 +137,8 @@ export default class HomeScreen extends Component {
             <Image source={require('./images/ic_list_icon.png')} style={{width: 50, height: 50}} />
             <View style={styles.listItemTextContainer}>
               <View style={styles.listItemSubContainer}>
-                  <Text style={styles.listItemTitle}>{data.item.title}</Text>
-                  <Text style={styles.listItemTime}>{data.item.time}</Text>
+                <Text style={styles.listItemTitle}>{data.item.title}</Text>
+                <Text style={styles.listItemTime}>{data.item.time}</Text>
               </View>
               <Text style={styles.listItemSubtitle}>{data.item.subtitle}</Text>
             </View>
@@ -202,7 +249,8 @@ const MyApp = StackNavigator({
   NewFriend: { screen: NewFriendsScreen },
   PersonInfo: { screen: PersonInfoScreen },
   PublishMoment: { screen: PublishMomentScreen },
-  ImageShow: { screen: ImageShowScreen }
+  ImageShow: { screen: ImageShowScreen },
+  Shake: { screen: ShakeScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

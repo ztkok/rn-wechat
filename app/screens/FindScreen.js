@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TitleBar from '../views/TitleBar.js';
 import ListItem from '../views/ListItem.js';
 import ListItemDivider from '../views/ListItemDivider.js';
+import global from '../utils/global';
+
 import {
   StyleSheet,
   Text,
@@ -14,7 +16,6 @@ import {
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
-var global = require('../utils/global.js');
 
 export default class FindScreen extends Component {
   static navigationOptions = {
@@ -42,7 +43,7 @@ export default class FindScreen extends Component {
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_scan.png')} text={"扫一扫"} handleClick={()=>{this.props.navigation.navigate("Scan")}} />
           <ListItemDivider />
-          <ListItem icon={require('../../images/ic_shake.png')} text={"摇一摇"} />
+          <ListItem icon={require('../../images/ic_shake.png')} text={"摇一摇"} handleClick={()=>{this.props.navigation.navigate("Shake")}} />
           <View style={{width: width, height: 20}} />
           <ListItem icon={require('../../images/ic_nearby.png')} text={"附近的人"} />
           <ListItemDivider />

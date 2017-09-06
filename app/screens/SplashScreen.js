@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
-import StorageUtil from '../utils/StorageUtil.js';
+import StorageUtil from '../utils/StorageUtil';
+import global from '../utils/global';
+
 import {
   StyleSheet,
   Text,
@@ -17,7 +19,6 @@ import {
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
-var global = require('../utils/global.js');
 
 export default class SplashScreen extends Component {
   constructor(props) {

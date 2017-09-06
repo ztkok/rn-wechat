@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import CommonTitleBar from '../views/CommonTitleBar.js';
-import global from '../utils/global.js';
-import ChatBottomBar from '../views/ChatBottomBar.js';
-import EmojiView from '../views/EmojiView.js';
-import MoreView from '../views/MoreView.js';
+import CommonTitleBar from '../views/CommonTitleBar';
+import global from '../utils/global';
+import ChatBottomBar from '../views/ChatBottomBar';
+import EmojiView from '../views/EmojiView';
+import MoreView from '../views/MoreView';
+import LoadingView from '../views/LoadingView';
 
 import {
   AppRegistry,
@@ -29,6 +30,7 @@ export default class ChattingScreen extends Component {
     this.state = {
       showEmojiView: false,
       showMoreView: false,
+      showProgress: false,
     }
   }
   render() {
@@ -70,6 +72,11 @@ export default class ChattingScreen extends Component {
     return (
       <View style={styles.container}>
         <CommonTitleBar title={"聊天"} nav={this.props.navigation} />
+        {
+          this.state.showProgress ? (
+            <LoadingView cancel={()=>this.setState({showProgress: false})} />
+          ) : (null)
+        }
         <View style={styles.content}>
           <FlatList
             ref="flatList"
@@ -87,10 +94,10 @@ export default class ChattingScreen extends Component {
   }
 
   componentDidMount() {
-    setTimeout(()=>{
-      ToastAndroid.show('scroll', ToastAndroid.SHORT)
-      this.refs.flatList.scrollToEnd();
-    }, 3000);
+    // setTimeout(()=>{
+    //   this.refs.flatList.scrollToEnd();
+    //   this.setState({showProgress: false});
+    // }, 1000);
   }
 
   updateView = (emoji, more) => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StorageUtil from '../utils/StorageUtil';
+import utils from '../utils/utils';
 
 import {
   AppRegistry,
@@ -15,7 +16,6 @@ import {
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-var utils = require('../utils/utils.js');
 
 export default class MomentMenuView extends Component {
   constructor(props) {

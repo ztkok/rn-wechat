@@ -35,18 +35,6 @@ export default class ImageShowScreen extends Component {
   }
 }
 
-// export default class ImageShowScreen extends Component {
-//   render() {
-//     return (
-//       <TouchableOpacity style={styles.container} activeOpacity={1.0} onPress={()=>{}}>
-//         <View style={styles.container}>
-//           <Image resizeMode="contain" style={styles.image} source={{uri: this.props.navigation.state.params.image}} />
-//         </View>
-//       </TouchableOpacity>
-//     );
-//   }
-// }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

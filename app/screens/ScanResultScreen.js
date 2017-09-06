@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import CommonTitleBar from '../views/CommonTitleBar.js';
+import CommonTitleBar from '../views/CommonTitleBar';
+import global from '../utils/global';
+
 import {
   StyleSheet,
   Text,
@@ -13,7 +15,6 @@ import {
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
-var global = require('../utils/global.js');
 
 export default class ScanResultScreen extends Component {
   render() {

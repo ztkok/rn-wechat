@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
-import TitleBar from '../views/TitleBar.js';
-import ListItem from '../views/ListItem.js';
-import ListItemDivider from '../views/ListItemDivider.js';
-import StorageUtil from '../utils/StorageUtil.js';
-import CountEmitter from '../event/CountEmitter.js';
+import TitleBar from '../views/TitleBar';
+import ListItem from '../views/ListItem';
+import ListItemDivider from '../views/ListItemDivider';
+import StorageUtil from '../utils/StorageUtil';
+import CountEmitter from '../event/CountEmitter';
+import global from '../utils/global';
+import utils from '../utils/utils';
 
 import {
   StyleSheet,
@@ -20,8 +22,6 @@ import {
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
-var global = require('../utils/global.js');
-var utils = require('../utils/utils.js');
 
 export default class MeScreen extends Component {
   static navigationOptions = {

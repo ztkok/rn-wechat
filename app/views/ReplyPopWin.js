@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import StorageUtil from '../utils/StorageUtil';
+import utils from '../utils/utils';
+import base64Utils from '../utils/base64';
 
 import {
   StyleSheet,
@@ -16,8 +18,6 @@ import {
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-var utils = require('../utils/utils.js');
-var base64Utils = require('../utils/base64.js');
 
 export default class ReplyPopWin extends Component {
   constructor(props) {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import global from '../utils/global';
+
 import {
   View,
   PixelRatio,
   Dimensions,
 } from 'react-native';
 
-var global = require('../utils/global.js');
 var { width, height} = Dimensions.get('window');
 
 export default class ListItemDivider extends Component {

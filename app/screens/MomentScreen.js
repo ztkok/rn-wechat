@@ -6,6 +6,10 @@ import LoadingView from '../views/LoadingView';
 import MomentMenuView from '../views/MomentMenuView';
 import { UIManager } from 'NativeModules';
 import ReplyPopWin from '../views/ReplyPopWin';
+import global from '../utils/global';
+import utils from '../utils/utils';
+import base64Utils from '../utils/base64';
+import timeUtils from '../utils/timeutil';
 
 import {
   StyleSheet,
@@ -28,10 +32,6 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('../utils/global.js');
-var utils = require('../utils/utils.js');
-var base64Utils = require('../utils/base64.js');
-var timeUtils = require('../utils/timeutil.js');
 const AVATAR_WIDTH = 80;
 const HEIGHT = width * 7 / 10;
 
@@ -282,7 +282,7 @@ export default class MomentScreen extends Component {
                         </View>
                       )
                     }
-                    <View style={{flexDirection: 'column', width}}>
+                    <View style={{flexDirection: 'column'}}>
                       {this.renderReplys(item)}
                     </View>
                   </View>
@@ -379,11 +379,12 @@ const listItemStyle = StyleSheet.create({
     height: 17,
   },
   divider: {
-    width: width,
+    flex: 1,
     height: 1 / PixelRatio.get(),
     backgroundColor: global.dividerColor,
   },
   commentContainer: {
+    flex: 1,
   },
   commentContent: {
     backgroundColor: '#EEEEEE',
@@ -400,6 +401,7 @@ const listItemStyle = StyleSheet.create({
     marginTop: 5,
   },
   commentText: {
+    flex:1,
     fontSize: 13,
     color: '#54688D',
     marginTop: 2,

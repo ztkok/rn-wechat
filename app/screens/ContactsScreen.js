@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import TitleBar from '../views/TitleBar.js';
-import ListItem from '../views/ListItem.js';
-import ListItemDivider from '../views/ListItemDivider.js';
-import SideBar from '../views/SideBar.js';
-import CommonLoadingView from '../views/CommonLoadingView.js';
+import TitleBar from '../views/TitleBar';
+import ListItem from '../views/ListItem';
+import ListItemDivider from '../views/ListItemDivider';
+import SideBar from '../views/SideBar';
+import CommonLoadingView from '../views/CommonLoadingView';
+import global from '../utils/global';
+import data from '../utils/data';
+import pinyinUtil from '../utils/pinyinutil';
+
 import {
   StyleSheet,
   Text,
@@ -17,9 +21,6 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('../utils/global.js');
-var data = require('../utils/data.js');
-var pinyinUtil = require('../utils/pinyinutil.js');
 
 export default class ContactsScreen extends Component {
   static navigationOptions = {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import MenuPopWindow from '../views/PopupWindow.js';
+import MenuPopWindow from '../views/PopupWindow';
+import global from '../utils/global';
 import {
   StyleSheet,
   Text,
@@ -11,7 +12,6 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('../utils/global.js');
 
 export default class TitleBar extends Component {
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
-import CommonTitleBar from '../views/CommonTitleBar.js';
+import CommonTitleBar from '../views/CommonTitleBar';
 
 import {
   StyleSheet,

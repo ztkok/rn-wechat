@@ -1,4 +1,6 @@
 import React from 'react'
+import global from '../utils/global';
+
 import {
     StyleSheet,
     View,
@@ -11,13 +13,14 @@ import {
     ToastAndroid,
     PixelRatio,
 } from 'react-native'
+
 const { width, height } = Dimensions.get('window');
-import global from '../utils/global.js';
 let mwidth = 140;
 let mheight = 200;
 const bgColor = global.titleBackgroundColor;
 const top = 50;
 let dataArray;
+
 export default class MenuModal extends React.Component {
 
     constructor(props) {

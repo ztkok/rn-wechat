@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import global from '../utils/global';
+
 import {
   StyleSheet,
   Text,
@@ -10,8 +12,6 @@ import {
   ScrollView,
   TouchableHighlight,
 } from 'react-native';
-
-var global = require('../utils/global.js');
 
 export default class ListItem extends Component {
   render() {

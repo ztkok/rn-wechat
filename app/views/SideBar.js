@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import global from '../utils/global.js';
+import global from '../utils/global';
 import {
   StyleSheet,
   View,

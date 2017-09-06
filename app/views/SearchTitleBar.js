@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import global from '../utils/global';
+
 import {
   StyleSheet,
   Text,
@@ -14,7 +16,6 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-var global = require('../utils/global.js');
 
 export default class SearchTitleBar extends Component {
   constructor(props) {
