@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
 import TitleBar from '../views/TitleBar';
 import ListItem from '../views/ListItem';
 import ListItemDivider from '../views/ListItemDivider';
@@ -14,7 +13,6 @@ import {
   View,
   Image,
   Dimensions,
-  Button,
   PixelRatio,
   ScrollView,
   ToastAndroid,
@@ -69,6 +67,7 @@ export default class MeScreen extends Component {
         <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <ScrollView style={styles.content}>
+          <View style={{width: width, height: 20}} />
           <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('PersonInfo')}}>
             <View style={styles.meInfoContainer}>
               <Image style={styles.meInfoAvatar} source={utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}} />
@@ -91,24 +90,12 @@ export default class MeScreen extends Component {
           <ListItemDivider />
           <ListItem icon={require('../../images/ic_emoji.png')} text={"表情"} />
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} handleClick={()=>{}} />
+          <ListItem icon={require('../../images/ic_settings.png')} text={"设置"} handleClick={()=>{this.props.navigation.navigate('Settings')}} />
           <View style={{width: width, height: 20}} />
-          <ListItem icon={require('../../images/ic_settings.png')} text={"注销"} handleClick={()=>{this.logout()}} />
         </ScrollView>
         <View style={styles.divider}></View>
       </View>
     );
-  }
-  logout() {
-    StorageUtil.set('hasLogin', {'hasLogin': false});
-    ToastAndroid.show('注销成功', ToastAndroid.SHORT);
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Splash' })
-      ]
-    });
-    this.props.navigation.dispatch(resetAction);
   }
 }
 
@@ -129,8 +116,6 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'column',
     backgroundColor: global.pageBackgroundColor,
-    paddingTop: 20,
-    paddingBottom: 20,
   },
   tabBarIcon: {
     width: 24,

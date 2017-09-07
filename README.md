@@ -1,6 +1,7 @@
 # RNWeChat
 * 使用ReactNative开发的仿微信客户端，欢迎大家给个star或fork，谢谢~~
 * 如果在项目构建过程中有任何问题，欢迎提issue，我有空一定帮忙解答~~
+* 我新建了一个QQ群，各位如果有任何与该项目有关的问题，或者想交流下ReactNative相关的技术，都可以加进来：419213248
 
 # 运行方法
 1. 在项目根目录下执行npm install
@@ -27,19 +28,19 @@ signingConfigs {
 ```
 
 # 更新
-* 2017-06-08  修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
+* 2017-06-08 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
 * 2017-08-11 加入扫一扫功能，加入登录注册页面，登录和注册的功能后面实现，加入购物页面和卡包页面
 * 2017-08-15 加入注册、登录和注销功能，可以注册新用户，IM功能采用了网易云信SDK
 * 2017-08-18 修改注册和登录功能，加入了网易云信SDK。（聊天功能暂未完成，还在开发中）
 * 2017-08-24 加入个人信息页面，加入修改头像的功能
 * 2017-08-29 完成发朋友圈的功能
-* 2017-09-05  完成朋友圈的点赞和评论功能，为了逻辑简单，只做了针对楼主的评论，没有做针对回复人的评论
-* 2017-09-06  加入摇一摇页面，加入APP更新对话框（该更新不是热更新，而是下载apk覆盖安装的更新，等后面完成所有功能的开发后再加入热更新功能），修复某些bug
+* 2017-09-05 完成朋友圈的点赞和评论功能，为了逻辑简单，只做了针对楼主的评论，没有做针对回复人的评论
+* 2017-09-06 加入摇一摇页面，加入APP更新对话框（该更新不是热更新，而是下载apk覆盖安装的更新，等后面完成所有功能的开发后再加入热更新功能），修复某些bug
 
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
+<img src='./screenshots/666.png'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>

@@ -15,8 +15,8 @@ import {
 } from 'react-native'
 
 const { width, height } = Dimensions.get('window');
-let mwidth = 140;
-let mheight = 200;
+let mwidth = 180;
+let mheight = 220;
 const bgColor = global.titleBackgroundColor;
 const top = 50;
 let dataArray;
@@ -106,11 +106,15 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: '#fff',
-        fontSize: 15,
+        fontSize: 16,
         marginLeft: 5,
     },
     imgStyle: {
-        width: 30,
-        height: 30,
+        width: 32,
+        height: 32,
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 5,
+        marginRight: 5,
     }
 });

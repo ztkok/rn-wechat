@@ -20,6 +20,7 @@ import PersonInfoScreen from './app/screens/PersonInfoScreen';
 import PublishMomentScreen from './app/screens/PublishMomentScreen';
 import ImageShowScreen from './app/screens/ImageShowScreen';
 import ShakeScreen from './app/screens/ShakeScreen';
+import SettingsScreen from './app/screens/SettingsScreen';
 import NIM from 'react-native-netease-im';
 import UpgradeModule from './app/utils/UpgradeModule';
 import UpgradeDialog from './app/views/UpgradeDialog';
@@ -71,7 +72,7 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkedUpgrade: false, // 标记是否检查了更新
+      checkedUpgrade: true, // 标记是否检查了更新
     }
   }
   render() {
@@ -250,7 +251,8 @@ const MyApp = StackNavigator({
   PersonInfo: { screen: PersonInfoScreen },
   PublishMoment: { screen: PublishMomentScreen },
   ImageShow: { screen: ImageShowScreen },
-  Shake: { screen: ShakeScreen }
+  Shake: { screen: ShakeScreen },
+  Settings: { screen: SettingsScreen }
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

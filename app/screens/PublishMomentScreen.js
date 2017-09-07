@@ -54,7 +54,7 @@ export default class PublishMomentScreen extends Component {
           ) : (null)
         }
         <View style={styles.content}>
-          <TextInput style={styles.input} underlineColorAndroid="transparent" placeholder="这一刻的想法..." onChangeText={(text)=>{this.setState({content: text})}} />
+          <TextInput multiline={true} style={styles.input} underlineColorAndroid="transparent" placeholder="这一刻的想法..." onChangeText={(text)=>{this.setState({content: text})}} />
           {this.renderSelectedImages()}
           <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 18, paddingBottom: 10}}>
             <Image source={require('../../images/ic_position.png')} style={{width: 25, height: 25}} />
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   input: {
-    width: width,
+    width: width - 20,
     height: 120,
     textAlignVertical: 'top',
     fontSize: 15,
