@@ -47,9 +47,9 @@ signingConfigs {
 * 2017-09-13 加入单聊功能，目前仅支持文本消息，加入修改昵称的功能。
 
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
+<img src='./screenshots/666.png'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>
