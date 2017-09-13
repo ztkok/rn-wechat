@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import global from '../utils/global';
+import utils from '../utils/utils';
 
 import {
   AppRegistry,
@@ -28,6 +29,7 @@ export default class ChatBottomBar extends Component {
       barState: BAR_STATE_SHOW_KEYBOARD,
       showEmojiView: false,
       showMoreView: false,
+      inputMsg: ''
     };
   }
   render() {
@@ -47,15 +49,30 @@ export default class ChatBottomBar extends Component {
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "soundBtn")}>
           <Image style={styles.icon} source={require('../../images/ic_chat_sound.png')} />
         </TouchableOpacity>
-        <TextInput style={styles.input} />
+        <TextInput value={this.state.inputMsg} onChangeText={(text)=>{this.setState({inputMsg: text})}} style={styles.input} />
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "emojiBtn")}>
           <Image style={styles.icon} source={require('../../images/ic_chat_emoji.png')} />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "moreBtn")}>
-          <Image style={[styles.icon, {marginLeft: 10}]} source={require('../../images/ic_chat_add.png')} />
-        </TouchableOpacity>
+        {
+          utils.isEmpty(this.state.inputMsg) ? (
+            <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "moreBtn")}>
+              <Image style={[styles.icon, {marginLeft: 10}]} source={require('../../images/ic_chat_add.png')} />
+            </TouchableOpacity>
+          ) : (
+            <View style={{marginLeft: 10}}>
+              <Button color={'#49BC1C'} title={"发送"} onPress={()=>this.sendMsg()} />
+            </View>
+          )
+        }
       </View>
     );
+  }
+  sendMsg() {
+    let onSendBtnClickListener = this.props.handleSendBtnClick;
+    if (!utils.isEmpty(onSendBtnClickListener)) {
+      onSendBtnClickListener(this.state.inputMsg);
+    }
+    this.setState({inputMsg: ''});
   }
   renderRecorderView() {
     return (

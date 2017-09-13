@@ -24,7 +24,8 @@ export default class ReplyPopWin extends Component {
     super(props);
     this.state = {
       show: false,
-      inputContent: ''
+      inputContent: '',
+      isUpdateUserInfo: false
     };
     StorageUtil.get('username', (error, object)=>{
       if (!error && object != null) {
@@ -39,6 +40,12 @@ export default class ReplyPopWin extends Component {
     }
   }
   render() {
+    let placeholderText = '';
+    if (!this.state.isUpdateUserInfo) {
+      placeholderText = "回复" + this.state.momentUsername;
+    } else {
+      placeholderText = "取个中文昵称，当然英文的也没啥问题";
+    }
     return (
       <View style={styles.container}>
         <Modal transparent={true}
@@ -50,12 +57,14 @@ export default class ReplyPopWin extends Component {
                 <TextInput
                   style={{flex: 1}}
                   ref="textInput"
-                  placeholder={"回复" + this.state.momentUsername}
+                  placeholder={placeholderText}
                   autoFocus={true}
                   onChangeText={(text)=>this.setState({inputContent: text})}
                 />
                 {
-                  !utils.isEmpty(this.state.inputContent) ? (<Button color={'#49BC1C'} title={"回复"} onPress={()=>this.sendPost()} />) : (null)
+                  !utils.isEmpty(this.state.inputContent) ? (
+                    <Button color={'#49BC1C'} title={this.state.isUpdateUserInfo ? "修改" : "回复"} onPress={()=>this.handleBtnClick()} />
+                  ) : (null)
                 }
               </View>
             </View>
@@ -63,6 +72,13 @@ export default class ReplyPopWin extends Component {
         </Modal>
       </View>
     );
+  }
+  handleBtnClick() {
+    if (!this.state.isUpdateUserInfo) {
+      this.sendPost();
+    } else {
+      this.updateUserInfo();
+    }
   }
   sendPost() {
     let momentId = this.state.momentId;
@@ -106,7 +122,37 @@ export default class ReplyPopWin extends Component {
     this.setState({show: false})
   }
   showModal(momentId, momentUsername, successCallback) {
-    this.setState({momentId: momentId, momentUsername: momentUsername, show: true, successCallback: successCallback});
+    this.setState({
+      momentId: momentId,
+      momentUsername: momentUsername,
+      show: true, successCallback: successCallback,
+      isUpdateUserInfo: false
+    });
+  }
+  showModalWhenUpdateInfo(contactId, updateCallback) {
+    this.setState({
+      show: true,
+      contactId: contactId,
+      isUpdateUserInfo: true,
+      updateCallback: updateCallback
+    });
+  }
+  updateUserInfo() {
+    let contactId = this.state.contactId;
+    let newNickName = this.state.inputContent;
+    if (utils.isEmpty(newNickName)) {
+      ToastAndroid.show('请输入昵称', ToastAndroid.SHORT);
+      return;
+    }
+    if (newNickName.length > 8) {
+      ToastAndroid.show('昵称要不要取这么长', ToastAndroid.SHORT);
+      return;
+    }
+    // 请求服务器修改昵称
+    if (this.state.updateCallback) {
+      this.closeModal();
+      this.state.updateCallback(contactId, newNickName);
+    }
   }
 }
 

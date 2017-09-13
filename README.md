@@ -26,6 +26,14 @@ signingConfigs {
     }
 }
 ```
+## 本项目做了什么
+目前实现了登录、注册、修改昵称、修改头像、单聊（仅文本消息）、发朋友圈、朋友圈点赞和评论、扫一扫等功能
+## 本项目没有做什么
+本项目没有做图片的压缩，所以在修改头像时请不要上传太大的图片
+本项目没有做隐私数据的加密，所以在注册时请使用测试数据，不要透露个人信息
+本项目接口没有做认证处理，所有功能都是按最简单的方式实现，所以请不要频繁请求接口
+本项目没有做加好友的功能，所有在服务器注册的好友都会显示在列表中，不需要加好友即可聊天
+目前除了文本消息外，其他消息类型还未实现，暂时无法发送图片，位置，语音等消息类型，且暂未实现群聊功能
 
 # 更新
 * 2017-06-08 修改联系人数据从服务端获取，包括联系人姓名、头像等，其他部分数据暂时为测试数据
@@ -36,11 +44,12 @@ signingConfigs {
 * 2017-08-29 完成发朋友圈的功能
 * 2017-09-05 完成朋友圈的点赞和评论功能，为了逻辑简单，只做了针对楼主的评论，没有做针对回复人的评论
 * 2017-09-06 加入摇一摇页面，加入APP更新对话框（该更新不是热更新，而是下载apk覆盖安装的更新，等后面完成所有功能的开发后再加入热更新功能），修复某些bug
+* 2017-09-13 加入单聊功能，目前仅支持文本消息，加入修改昵称的功能。
 
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
+<img src='./screenshots/666.png'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>

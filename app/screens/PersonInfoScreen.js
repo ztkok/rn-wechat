@@ -5,6 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import StorageUtil from '../utils/StorageUtil';
 import CountEmitter from '../event/CountEmitter';
 import LoadingView from '../views/LoadingView';
+import ReplyPopWin from '../views/ReplyPopWin';
 import global from '../utils/global';
 import utils from '../utils/utils';
 
@@ -18,7 +19,8 @@ import {
   PixelRatio,
   FlatList,
   TouchableHighlight,
-  ToastAndroid
+  TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
@@ -26,10 +28,16 @@ var { width, height} = Dimensions.get('window');
 export default class PersonInfoScreen extends Component {
   constructor(props) {
     super(props);
+    let userInfo = this.props.navigation.state.params.userInfo;
+    let nick = '';
+    if (!utils.isEmpty(userInfo)) {
+      nick = userInfo.name;
+    }
     this.state = {
       username: '',
       avatar: '',
-      showProgress: false
+      showProgress: false,
+      nickName: nick
     };
     StorageUtil.get('username', (error, object)=>{
       if (!error && object != null) {
@@ -61,17 +69,20 @@ export default class PersonInfoScreen extends Component {
             </View>
           </TouchableHighlight>
           <ListItemDivider />
-          <View style={styles.listItem}>
-            <Text style={styles.listItemLeftText}>昵称</Text>
-            <View style={styles.rightContainer}>
-              <Text>{this.state.username}</Text>
+          <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.modifyUserNick()}}>
+            <View style={styles.listItem} activeOpacity={0.6}>
+              <Text style={styles.listItemLeftText}>昵称</Text>
+              <View style={styles.rightContainer}>
+                <Text>{this.state.nickName}</Text>
+              </View>
+              <Image source={require('../../images/ic_right_arrow.png')} style={styles.rightArrow} />
             </View>
-          </View>
+          </TouchableHighlight>
           <ListItemDivider />
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>微信号</Text>
             <View style={styles.rightContainer}>
-              <Text>大王叫我来巡山</Text>
+              <Text>{this.state.username}</Text>
             </View>
           </View>
           <ListItemDivider />
@@ -92,8 +103,35 @@ export default class PersonInfoScreen extends Component {
             </View>
           </TouchableHighlight>
         </View>
+        <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
+          <ReplyPopWin ref="replyPopWin" />
+        </View>
       </View>
     );
+  }
+  modifyUserNick() {
+    this.refs.replyPopWin.showModalWhenUpdateInfo(this.state.username, (contactId, nickName) => {
+      // 请求服务器，修改昵称
+      this.setState({showProgress: true});
+      let url = "http://rnwechat.applinzi.com/updateNick";
+      let formData = new FormData();
+      formData.append('contactId', contactId);
+      formData.append('nick', nickName);
+      fetch(url, {method: 'POST', body: formData}).then((res)=>res.json())
+        .then((json)=>{
+          this.setState({showProgress: false});
+          if (json != null && json.code == 1) {
+            this.setState({nickName: nickName});
+            CountEmitter.emit('updateUserInfo');
+            ToastAndroid.show('修改成功', ToastAndroid.SHORT);
+          } else {
+            ToastAndroid.show('修改失败', ToastAndroid.SHORT);
+          }
+        }).catch((e)=>{
+          this.setState({showProgress: false});
+          ToastAndroid.show('修改失败：' + e.toString(), ToastAndroid.SHORT);
+        })
+    });
   }
   modifyAvatar() {
     // 修改头像
@@ -114,7 +152,7 @@ export default class PersonInfoScreen extends Component {
         formData.append('username', username);
         let file = {uri: image.path, type: 'multipart/form-data', name: filename};
         formData.append('file', file);
-        let url = 'http://rnwechat.applinzi.com/save';
+        let url = 'http://rnwechat.applinzi.com/updateAvatar';
         fetch(url, {method: 'POST', body: formData})
           .then((res)=>res.json())
           .then((json)=>{
@@ -175,5 +213,10 @@ const styles = StyleSheet.create({
   qrcodeImg: {
     width: 25,
     height: 25,
+  },
+  rightArrow: {
+    width: 8,
+    height: 14,
+    marginLeft: 10
   }
 })

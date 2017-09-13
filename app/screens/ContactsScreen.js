@@ -5,7 +5,9 @@ import ListItemDivider from '../views/ListItemDivider';
 import SideBar from '../views/SideBar';
 import CommonLoadingView from '../views/CommonLoadingView';
 import global from '../utils/global';
+import utils from '../utils/utils';
 import data from '../utils/data';
+import NIM from 'react-native-netease-im';
 import pinyinUtil from '../utils/pinyinutil';
 
 import {
@@ -18,6 +20,7 @@ import {
   PixelRatio,
   FlatList,
   TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
@@ -36,7 +39,6 @@ export default class ContactsScreen extends Component {
       );
     },
   };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -44,9 +46,9 @@ export default class ContactsScreen extends Component {
       contactData: null,
     }
   }
-
   getContacts() {
-    var url = "http://rnwechat.applinzi.com/contacts/30";
+    // var url = "http://rnwechat.applinzi.com/contacts/30"; // 老接口
+    var url = "http://rnwechat.applinzi.com/friends"; // 新接口
     fetch(url).then((res)=>res.json())
       .then((json)=>{
         this.setState({
@@ -55,7 +57,6 @@ export default class ContactsScreen extends Component {
         })
       })
   }
-
   render() {
     switch (this.state.loadingState) {
       case global.loading:
@@ -68,7 +69,6 @@ export default class ContactsScreen extends Component {
       default:
     }
   }
-
   renderLoadingView() {
     return (
       <View style={styles.container}>
@@ -79,15 +79,13 @@ export default class ContactsScreen extends Component {
       </View>
     );
   }
-
   renderErrorView() {
     return (
-      <View>
-        <Text>Error</Text>
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, flexDirection: 'column'}}>
+        <Text style={{fontSize: 16, color: '#000000'}}>加载数据出错！</Text>
       </View>
     );
   }
-
   renderSuccessView() {
     var listData = [];
     var headerListData = [];
@@ -99,21 +97,28 @@ export default class ContactsScreen extends Component {
       headerListData.push({
         key: index++,
         title: headerTitles[i],
+        nick: '',
         icon: headerImages[i],
         sectionStart: false,
       });
     }
     var contacts = this.state.contactData;
     for (var i = 0; i < contacts.length; i++) {
-      var pinyin = pinyinUtil.getFullChars(contacts[i].name);
+      // var pinyin = pinyinUtil.getFullChars(contacts[i].name);
+      var pinyin = contacts[i].pinyin.toUpperCase();
       var firstLetter = pinyin.substring(0, 1);
       if (firstLetter < 'A' || firstLetter > 'Z') {
         firstLetter = '#';
       }
+      let icon = require('../../images/avatar.png');
+      if (!utils.isEmpty(contacts[i].avatar)) {
+        icon = {uri: contacts[i].avatar};
+      }
       listData.push({
         key: index++,
-        icon: {uri: contacts[i].avatar},
+        icon: icon,
         title: contacts[i].name,
+        nick: contacts[i].nick,
         pinyin: pinyin,
         firstLetter: firstLetter,
         sectionStart: false,
@@ -168,8 +173,10 @@ export default class ContactsScreen extends Component {
     if (index == 0) {
       // 新的朋友
       this.props.navigation.navigate('NewFriend', {title: '新的朋友', data: item.item})
+    } else if (index >= 1 && index <= 3) {
+      ToastAndroid.show('功能未实现', ToastAndroid.SHORT);
     } else {
-      this.props.navigation.navigate('ContactDetail', {title: '详细资料', data: item.item})
+      this.props.navigation.navigate('ContactDetail', {title: '详细资料', data: item.item});
     }
   }
   renderItem = (item) => {
@@ -182,8 +189,9 @@ export default class ContactsScreen extends Component {
         {section}
         <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.onListItemClick(item)}}>
           <View style={listItemStyle.container} key={item.item.key}>
-              <Image style={listItemStyle.image} source={item.item.icon == null ? require('../../images/avatar.png') : item.item.icon} />
+              <Image style={listItemStyle.image} source={item.item.icon} />
               <Text style={listItemStyle.itemText}>{item.item.title}</Text>
+              <Text style={listItemStyle.subText}>{utils.isEmpty(item.item.nick) ? "" : "(" + item.item.nick + ")"}</Text>
           </View>
         </TouchableHighlight>
         <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: global.dividerColor}}/>
@@ -210,6 +218,10 @@ const listItemStyle = StyleSheet.create({
   itemText: {
     fontSize: 15,
     color: '#000000'
+  },
+  subText: {
+    fontSize: 15,
+    color: '#999999'
   },
   sectionView: {
     width: width,

@@ -3,6 +3,7 @@ import ListItem from '../views/ListItem';
 import CommonTitleBar from '../views/CommonTitleBar';
 import StorageUtil from '../utils/StorageUtil';
 import { NavigationActions } from 'react-navigation';
+import NIM from 'react-native-netease-im';
 
 import {
   StyleSheet,
@@ -11,6 +12,9 @@ import {
   Image,
   ToastAndroid,
   Dimensions,
+  TextInput,
+  Button,
+  NativeAppEventEmitter
 } from 'react-native';
 
 var { width, height} = Dimensions.get('window');
@@ -21,7 +25,7 @@ export default class SettingsScreen extends Component {
     this.state = {
       contactId: '',
       sendMsg: ''
-    }
+    };
   }
   render() {
     return (
@@ -35,6 +39,7 @@ export default class SettingsScreen extends Component {
     );
   }
   logout() {
+    NIM.logout();
     StorageUtil.set('hasLogin', {'hasLogin': false});
     ToastAndroid.show('注销成功', ToastAndroid.SHORT);
     const resetAction = NavigationActions.reset({

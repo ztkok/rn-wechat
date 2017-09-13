@@ -14,19 +14,17 @@ import {
 var { width, height } = Dimensions.get('window');
 
 export default class TitleBar extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       showPop: false,
     }
   }
-
   render() {
     return (
       <View style={styles.titleBarContainer}>
         <View style={styles.titleBarTextContainer}>
-          <Text style={styles.title}>微信</Text>
+          <Text style={styles.title}>RN微信</Text>
         </View>
         <View style={styles.titleBarButtonContainer}>
           <TouchableOpacity activeOpacity={0.5} onPress={this.handleSearchClick}>
@@ -56,16 +54,13 @@ export default class TitleBar extends Component {
       </View>
     );
   }
-
   handleSearchClick = () => {
     // 跳转到SearchScreen界面
     this.props.nav.navigate('Search');
   }
-
   handleAddClick = () => {
     this.setState({showPop: !this.state.showPop});
   }
-
 }
 
 class CustomModal extends Component {

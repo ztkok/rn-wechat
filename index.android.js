@@ -22,6 +22,7 @@ import ImageShowScreen from './app/screens/ImageShowScreen';
 import ShakeScreen from './app/screens/ShakeScreen';
 import SettingsScreen from './app/screens/SettingsScreen';
 import NIM from 'react-native-netease-im';
+import StorageUtil from './app/utils/StorageUtil';
 import UpgradeModule from './app/utils/UpgradeModule';
 import UpgradeDialog from './app/views/UpgradeDialog';
 
@@ -38,22 +39,13 @@ import {
   FlatList,
   TouchableHighlight,
   ToastAndroid,
-  Platform
+  Platform,
+  NativeAppEventEmitter
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
 var global = require('./app/utils/global.js');
 var utils = require('./app/utils/utils.js');
-var listData = [];
-
-for (var i = 0; i < 20; i++) {
-  listData.push({
-    key: i,
-    title: "item " + i,
-    subtitle: "subtitle item " + i,
-    time: "昨天"
-  })
-}
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -73,8 +65,54 @@ export default class HomeScreen extends Component {
     super(props);
     this.state = {
       checkedUpgrade: true, // 标记是否检查了更新
-    }
+      recentContactData: []
+    };
+    this.registerListeners();
+    StorageUtil.get('username', (error, object)=>{
+      if (!error && object != null) {
+        this.setState({username: object.username});
+      }
+    });
   }
+  registerListeners() {
+    // 有新的会话会触发这里的listener
+    this.recentListener = NativeAppEventEmitter.addListener("observeRecentContact", (data)=>{
+      /**
+        data:
+        {
+          "unreadCount": "0",
+          "recents": [
+              {
+                  "content": "asdf",
+                  "time": "上午 10:51",
+                  "contactId": "yubo777",
+                  "messageId": "7c7f3fdff75946c8bf6006c6d5b63659",
+                  "nick": "yubo777",
+                  "name": "yubo777",
+                  "teamType": "-1",
+                  "imagePath": "",
+                  "sessionType": "0",
+                  "unreadCount": "0",
+                  "msgType": "0",
+                  "msgStatus": "1",
+                  "fromAccount": "yubo777"
+              }
+          ]
+      }
+      */
+      if (utils.isEmpty(data) || utils.isEmpty(data.recents) || data.recents.length == 0) {
+        // 没有最近会话
+        this.setState({recentContactData: []});
+      } else {
+        // 有最近会话
+        this.setState({recentContactData: data.recents});
+      }
+    })
+  }
+  unregisterListeners() {
+    this.recentListener && this.recentListener.remove();
+  }
+  _keyExtractor = (item, index) => item.messageId
   render() {
     return (
       <View style={styles.container}>
@@ -85,10 +123,17 @@ export default class HomeScreen extends Component {
         <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <View style={styles.content}>
-          <FlatList
-            data={listData}
-            renderItem={this.renderItem}
-          />
+        {
+          this.state.recentContactData.length == 0 ? (
+            <Text style={styles.emptyHintText}>暂无会话消息</Text>
+          ) : (
+            <FlatList
+              data={this.state.recentContactData}
+              renderItem={this.renderItem}
+              keyExtractor={this._keyExtractor}
+            />
+          )
+        }
         </View>
         <View style={styles.divider}></View>
         <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
@@ -130,18 +175,35 @@ export default class HomeScreen extends Component {
       this.setState({checkedUpgrade: true});
     }
   }
+  componentWillUnmount() {
+    this.unregisterListeners();
+  }
   renderItem = (data) => {
+    let avatar = require('./images/ic_list_icon.png');
+    if (!utils.isEmpty(data.item.imagePath)) {
+      avatar = {uri: data.item.imagePath};
+    }
     return (
-      <View key={data.index}>
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.props.navigation.navigate('Chatting')}}>
+      <View>
+        <TouchableHighlight underlayColor={global.touchableHighlightColor}
+          onPress={()=>{this.props.navigation.navigate('Chatting', {'contactId': data.item.contactId, 'name': data.item.name})}}>
           <View style={styles.listItemContainer}>
-            <Image source={require('./images/ic_list_icon.png')} style={{width: 50, height: 50}} />
+            <Image source={avatar} style={{width: 50, height: 50}} />
             <View style={styles.listItemTextContainer}>
               <View style={styles.listItemSubContainer}>
-                <Text style={styles.listItemTitle}>{data.item.title}</Text>
-                <Text style={styles.listItemTime}>{data.item.time}</Text>
+                <Text numberOfLines={1} style={styles.listItemTitle}>{data.item.name}</Text>
+                <Text numberOfLines={1} style={styles.listItemTime}>{data.item.time}</Text>
               </View>
-              <Text style={styles.listItemSubtitle}>{data.item.subtitle}</Text>
+              <View style={styles.listItemSubContainer}>
+                <Text numberOfLines={1} style={styles.listItemSubtitle}>{data.item.content}</Text>
+                {
+                  data.item.unreadCount > 0 ? (
+                    <View style={styles.redDot}>
+                      <Text style={styles.redDotText}>{data.item.unreadCount}</Text>
+                    </View>
+                  ) : ( null )
+                }
+              </View>
             </View>
           </View>
         </TouchableHighlight>
@@ -156,7 +218,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   divider: {
     width: width,
@@ -169,7 +231,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: global.pageBackgroundColor
   },
   listItemContainer: {
     flexDirection: 'row',
@@ -178,7 +240,8 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     paddingTop: 10,
     paddingBottom: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF'
   },
   listItemTextContainer: {
     flexDirection: 'column',
@@ -202,11 +265,28 @@ const styles = StyleSheet.create({
     color: '#999999',
     fontSize: 14,
     marginTop: 3,
+    flex: 1,
+  },
+  redDot: {
+    borderRadius: 90,
+    width: 18,
+    height: 18,
+    backgroundColor: '#FF0000',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  redDotText: {
+    color: '#FFFFFF',
+    fontSize: 14,
   },
   tabBarIcon: {
     width: 24,
     height: 24,
   },
+  emptyHintText: {
+    fontSize: 18,
+    color: '#999999'
+  }
 });
 
 const tabNavigatorScreen = TabNavigator({

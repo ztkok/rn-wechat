@@ -147,18 +147,11 @@ export default class LoginScreen extends Component {
       });
   }
   loginToNIM(username, token) {
-    // {
-    //   "code": 200,
-    //   "info": {
-    //     "token": "0370534061877ef540bb6be9395b5efb",
-    //     "accid": "yubo",
-    //     "name": ""
-    //   }
-    // }
     NIM.login(username, token).then((data)=>{
       ToastAndroid.show('登录成功', ToastAndroid.SHORT);
       StorageUtil.set('hasLogin', {'hasLogin': true});
       StorageUtil.set('username', {'username': username});
+      StorageUtil.set('token', {'token': token});
       // 清除所有路由状态，并跳转到actions中的路由
       const resetAction = NavigationActions.reset({
         index: 0,

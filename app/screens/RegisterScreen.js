@@ -87,6 +87,14 @@ export default class LoginScreen extends Component {
       ToastAndroid.show('用户名不能包含中文！', ToastAndroid.SHORT);
       return ;
     }
+    if (username.length > 15) {
+      ToastAndroid.show('用户名长度不得大于15个字符！', ToastAndroid.SHORT);
+      return ;
+    }
+    if (password.length < 6) {
+      ToastAndroid.show('密码至少需要6个字符！', ToastAndroid.SHORT);
+      return ;
+    }
     if (password !== confirmPwd) {
       ToastAndroid.show('两次输入的密码不一致！', ToastAndroid.SHORT);
       return ;
