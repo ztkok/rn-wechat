@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
 import global from '../utils/global';
 import utils from '../utils/utils';
+import timeUtils from '../utils/timeutil';
 import ChatBottomBar from '../views/ChatBottomBar';
 import EmojiView from '../views/EmojiView';
 import MoreView from '../views/MoreView';
@@ -160,7 +161,7 @@ export default class ChattingScreen extends Component {
             NIM.downloadAttachment(m._id);
         }
       }
-      arr[i].createdAt = this.getLocalTime(m.createdAt);
+      // arr[i].createdAt = this.getLocalTime(m.createdAt);
     });
     arr.sort(function(a,b){return b.createdAt - a.createdAt});
     return arr;
@@ -201,8 +202,27 @@ export default class ChattingScreen extends Component {
     }
   }
   _keyExtractor = (item, index) => index
+  shouldShowTime(item) {
+    let index = item.index;
+    if (index == 0) {
+      // 第一条消息，显示时间
+      return true;
+    }
+    if (index > 0) {
+      let messages = this.state.messages;
+      if (!utils.isEmpty(messages) && messages.length > 0) {
+        let preMsg = messages[index - 1];
+        let delta = item.item.createdAt - preMsg.createdAt;
+        console.log('delta = ' + delta);
+        if (delta > 3 * 60) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
   renderItem = (item) => {
-    console.log(this.spliceStr(item.item.content));
+    console.log(item)
     if (item.item.direct == 1) {
       // 接收的消息
       let contactAvatar = require('../../images/avatar.png');
@@ -210,10 +230,17 @@ export default class ChattingScreen extends Component {
         contactAvatar = {uri: item.item.user.avatar};
       }
       return (
-        <View style={listItemStyle.container}>
-          <Image style={listItemStyle.avatar} source={contactAvatar} />
-          <View style={listItemStyle.msgContainer}>
-            <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.content)}</Text>
+        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+          {
+            this.shouldShowTime(item) ? (
+              <Text style={listItemStyle.time}>{timeUtils.formatChatTime(parseInt(item.item.createdAt))}</Text>
+            ) : (null)
+          }
+          <View style={listItemStyle.container}>
+            <Image style={listItemStyle.avatar} source={contactAvatar} />
+            <View style={listItemStyle.msgContainer}>
+              <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.content)}</Text>
+            </View>
           </View>
         </View>
       );
@@ -224,11 +251,18 @@ export default class ChattingScreen extends Component {
       }
       // 发送出去的消息
       return (
-        <View style={listItemStyle.containerSend}>
-          <View style={listItemStyle.msgContainerSend}>
-            <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.content)}</Text>
+        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+          {
+            this.shouldShowTime(item) ? (
+              <Text style={listItemStyle.time}>{timeUtils.formatChatTime(parseInt(item.item.createdAt))}</Text>
+            ) : (null)
+          }
+          <View style={listItemStyle.containerSend}>
+            <View style={listItemStyle.msgContainerSend}>
+              <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.content)}</Text>
+            </View>
+            <Image style={listItemStyle.avatar} source={avatar} />
           </View>
-          <Image style={listItemStyle.avatar} source={avatar} />
         </View>
       );
     }
@@ -274,6 +308,17 @@ const listItemStyle = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
     justifyContent: 'flex-end',
+  },
+  time: {
+    backgroundColor: '#D4D4D4',
+    paddingLeft: 6,
+    paddingRight: 6,
+    paddingTop: 4,
+    paddingBottom: 4,
+    borderRadius: 5,
+    color: '#FFFFFF',
+    marginTop: 10,
+    fontSize: 11,
   }
 });
 
