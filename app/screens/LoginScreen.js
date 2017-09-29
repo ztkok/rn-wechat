@@ -1,27 +1,14 @@
-import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation'
+import React, {Component} from 'react';
+import Toast from '@remobile/react-native-toast';
+import {NavigationActions} from 'react-navigation';
 import CommonTitleBar from '../views/CommonTitleBar';
+import CountEmitter from '../event/CountEmitter';
 import StorageUtil from '../utils/StorageUtil';
 import LoadingView from '../views/LoadingView';
-import NIM from 'react-native-netease-im';
-import utils from '../utils/utils';
+import Utils from '../utils/Utils';
+import {Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  PixelRatio,
-  ScrollView,
-  WebView,
-  Animated,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid
-} from 'react-native';
-
-var { width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -33,125 +20,28 @@ export default class LoginScreen extends Component {
       showProgress: false,
       avatar: ''
     };
-    StorageUtil.get('avatar', (error, object)=>{
+    StorageUtil.get('username', (error, object) => {
       if (!error && object != null) {
-        this.setState({avatar: object.avatar});
+        this.setState({username: object.username});
+        StorageUtil.get('userInfo-' + object.username, (error, object) => {
+          if (!error && object != null) {
+            let userInfo = object.info;
+            if (userInfo && userInfo.avatar) {
+              this.setState({avatar: userInfo.avatar});
+            }
+          }
+        });
       }
     });
   }
+
   componentWillMount() {
-    StorageUtil.get('username', (error, object)=>{
-      if (!error && object != null) {
-        this.setState({username: object.username});
-      }
-    })
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <CommonTitleBar nav={this.props.navigation} title={"登录"}/>
-        <View style={styles.content}>
-          {
-            utils.isEmpty(this.state.username) ? (
-              <View style={styles.pwdView}>
-                <Image source={require('../../images/ic_launcher.png')} style={{width: 100, height: 100, marginBottom: 50}} />
-                <View style={styles.pwdContainer}>
-                  <Text style={{fontSize: 16}}>用户名：</Text>
-                  <TextInput onChangeText={(text)=>{this.setState({inputUsername: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
-                </View>
-                <View style={styles.pwdDivider}></View>
-              </View>
-            ) : (
-              <View>
-                <Image source={utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}} style={{width: 100, height: 100, marginTop: 100}} />
-                <Text style={styles.usernameText}>{this.state.username}</Text>
-              </View>
-            )
-          }
-          {
-            this.state.showProgress ? (
-              <LoadingView cancel={()=>this.setState({showProgress: false})} />
-            ) : (null)
-          }
-          <View style={styles.pwdView}>
-            <View style={styles.pwdContainer}>
-              <Text style={{fontSize: 16}}>密码：</Text>
-              <TextInput secureTextEntry={true} onChangeText={(text)=>{this.setState({password: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
-            </View>
-            <View style={styles.pwdDivider}></View>
-            <TouchableOpacity activeOpacity={0.6} onPress={()=>this.login()}>
-              <View style={styles.loginBtn}>
-                <Text style={{color: '#FFFFFF', fontSize: 16}}>登录</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {
-          utils.isEmpty(this.state.username) ? null : (
-            <TouchableOpacity onPress={()=>{this.changeAccount()}}>
-              <Text style={styles.changeAccount}>切换账号</Text>
-            </TouchableOpacity>
-          )
-        }
-      </View>
-    );
-  }
-  changeAccount() {
-    this.setState({username: ''});
-  }
-  login() {
-    var username = '';
-    if (utils.isEmpty(this.state.username)) {
-      username = this.state.inputUsername;
-    } else {
-      username = this.state.username;
-    }
-    var password = this.state.password;
-    if (utils.isEmpty(username) || utils.isEmpty(password)) {
-      ToastAndroid.show('用户名或密码不能为空', ToastAndroid.SHORT);
-      return;
-    }
-    var url = 'http://rnwechat.applinzi.com/login';
-    let formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
-    this.setState({showProgress: true});
-    fetch(url, {method: 'POST', body: formData})
-      .then((res)=>res.json())
-      .then((json)=>{
-        this.setState({showProgress: false});
-        if (!utils.isEmpty(json)) {
-          if (json.code === 1) {
-            // 登录服务器成功，再登录NIM的服务器
-            var msg = json.msg;
-            var arr = msg.split(',');
-            if (arr != null) {
-              var token = arr[0];
-              var avatarUrl = arr[1];
-              this.loginToNIM(username, token);
-              if (avatarUrl != 'None') {
-                StorageUtil.set('avatar', {'avatar': arr[1]});
-              } else {
-                StorageUtil.set('avatar', {'avatar': ''});
-              }
-            }
-          } else {
-            ToastAndroid.show(json.msg, ToastAndroid.SHORT);
-          }
-        } else {
-          ToastAndroid.show('登录失败', ToastAndroid.SHORT);
-        }
-      }).catch((e)=>{
-        this.setState({showProgress: false});
-        ToastAndroid.show('网络请求出错: ' + e, ToastAndroid.SHORT);
-      });
-  }
-  loginToNIM(username, token) {
-    NIM.login(username, token).then((data)=>{
-      ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+    CountEmitter.addListener('loginToHXSuccess', () => {
+      // 登录环信服务器成功
+      Toast.showShortCenter('登录成功');
       StorageUtil.set('hasLogin', {'hasLogin': true});
-      StorageUtil.set('username', {'username': username});
-      StorageUtil.set('token', {'token': token});
+      StorageUtil.set('username', {'username': this.loginUsername});
+      StorageUtil.set('password', {'password': this.loginPassword});
       // 清除所有路由状态，并跳转到actions中的路由
       const resetAction = NavigationActions.reset({
         index: 0,
@@ -160,9 +50,138 @@ export default class LoginScreen extends Component {
         ]
       });
       this.props.navigation.dispatch(resetAction);
-    }, (error)=>{
-      ToastAndroid.show(error, ToastAndroid.SHORT);
     });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <CommonTitleBar nav={this.props.navigation} title={"登录"}/>
+        <View style={styles.content}>
+          {
+            Utils.isEmpty(this.state.username) ? (
+              <View style={styles.pwdView}>
+                <Image source={require('../../images/ic_launcher.png')}
+                       style={{width: 100, height: 100, marginBottom: 50}}/>
+                <View style={styles.pwdContainer}>
+                  <Text style={{fontSize: 16}}>用户名：</Text>
+                  <TextInput onChangeText={(text) => {
+                    this.setState({inputUsername: text})
+                  }} style={styles.textInput} underlineColorAndroid="transparent"/>
+                </View>
+                <View style={styles.pwdDivider}></View>
+              </View>
+            ) : (
+              <View>
+                <Image
+                  source={Utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}}
+                  style={{width: 100, height: 100, marginTop: 100}}/>
+                <Text style={styles.usernameText}>{this.state.username}</Text>
+              </View>
+            )
+          }
+          {
+            this.state.showProgress ? (
+              <LoadingView cancel={() => this.setState({showProgress: false})}/>
+            ) : (null)
+          }
+          <View style={styles.pwdView}>
+            <View style={styles.pwdContainer}>
+              <Text style={{fontSize: 16}}>密码：</Text>
+              <TextInput secureTextEntry={true} onChangeText={(text) => {
+                this.setState({password: text})
+              }} style={styles.textInput} underlineColorAndroid="transparent"/>
+            </View>
+            <View style={styles.pwdDivider}></View>
+            <TouchableOpacity activeOpacity={0.6} onPress={() => this.login()}>
+              <View style={styles.loginBtn}>
+                <Text style={{color: '#FFFFFF', fontSize: 16}}>登录</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {
+          Utils.isEmpty(this.state.username) ? null : (
+            <TouchableOpacity onPress={() => {
+              this.changeAccount()
+            }}>
+              <Text style={styles.changeAccount}>切换账号</Text>
+            </TouchableOpacity>
+          )
+        }
+      </View>
+    );
+  }
+
+  changeAccount() {
+    this.setState({username: ''});
+  }
+
+  login() {
+    var username = '';
+    if (Utils.isEmpty(this.state.username)) {
+      username = this.state.inputUsername;
+    } else {
+      username = this.state.username;
+    }
+    var password = this.state.password;
+    if (Utils.isEmpty(username) || Utils.isEmpty(password)) {
+      Toast.showShortCenter('用户名或密码不能为空');
+      return;
+    }
+    var url = 'http://rnwechat.applinzi.com/login2';
+    let formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    this.setState({showProgress: true});
+    fetch(url, {method: 'POST', body: formData})
+      .then((res) => res.json())
+      .then((json) => {
+        this.setState({showProgress: false});
+        if (!Utils.isEmpty(json)) {
+          if (json.code === 1) {
+            // 登录服务器成功，再登录NIM的服务器
+            var data = json.msg;
+            if (data != null) {
+              var userInfo = {
+                username: username,
+                nick: data.nick,
+                avatar: data.avatar
+              };
+              var key = 'userInfo-' + username;
+              StorageUtil.set(key, {'info': userInfo});
+              Toast.showShortCenter('登录聊天服务器...');
+              this.loginToHX(username, password);
+            }
+          } else {
+            Toast.showShortCenter(json.msg);
+          }
+        } else {
+          Toast.showShortCenter('登录失败');
+        }
+      }).catch((e) => {
+      this.setState({showProgress: false});
+      Toast.showShortCenter('网络请求出错: ' + e);
+    });
+  }
+
+  loginToHX(username, password) {
+    // 登录环信聊天服务器
+    this.loginUsername = username;
+    this.loginPassword = password;
+    if (WebIM.conn.isOpened()) {
+      WebIM.conn.close('logout');
+    }
+    // 下面调用成功后，会回调SplashScreen中注册的listener
+    WebIM.conn.open({
+      apiUrl: WebIM.config.apiURL,
+      user: username,
+      pwd: password,
+      appKey: WebIM.config.appkey
+    });
+  }
+
+  componentWillUnmount() {
   }
 }
 

@@ -1,12 +1,6 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
-} from 'react-native';
+import React, {Component} from 'react';
+import Toast from '@remobile/react-native-toast';
+import {Text, TouchableOpacity, View} from 'react-native';
 
 export default class SideBar extends Component {
   render() {
@@ -24,13 +18,14 @@ export default class SideBar extends Component {
       );
     }
     return (
-      <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF'}}>
+      <View
+        style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF'}}>
         {letterViewArr}
       </View>
     );
   }
 
-  onLetterSelectedListener = (letter)=>{
-    ToastAndroid.show(letter, ToastAndroid.SHORT);
+  onLetterSelectedListener = (letter) => {
+    Toast.showShortCenter(letter);
   }
 }

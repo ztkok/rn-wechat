@@ -1,65 +1,39 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
 import CommonLoadingView from '../views/CommonLoadingView';
 import ListItemDivider from '../views/ListItemDivider';
-import NIM from 'react-native-netease-im';
-import global from '../utils/global';
-import utils from '../utils/utils';
+import Global from '../utils/Global';
+import StorageUtil from '../utils/StorageUtil';
+import {Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  Button,
-  PixelRatio,
-  FlatList,
-  ScrollView,
-  TouchableHighlight,
-  TouchableOpacity
-} from 'react-native';
-
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class ContactDetailScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadingState: global.loading,
+      loadingState: Global.loading,
     };
-    // 聊天人的id
-    this.chatContactId = this.props.navigation.state.params.data.title;
-    this.getUserInfo();
-  }
-  getUserInfo() { // 会从缓存里取
-    NIM.getUserInfo(this.chatContactId).then((data)=>{
-      if (data != null && data.name != undefined) {
-        this.setState({loadingState: global.loadSuccess, userInfo: data});
-      } else {
-        this.fetchUserInfo();
+    // 聊天人的信息
+    this.userInfo = this.props.navigation.state.params.data;
+    StorageUtil.get('username', (error, object) => {
+      if (!error && object != null) {
+        this.setState({loginUsername: object.username, loadingState: Global.loadSuccess});
       }
-    });
+    })
   }
-  fetchUserInfo() { // 从服务器获取
-    NIM.fetchUserInfo(this.chatContactId).then((data)=>{
-      if (data != null && data.name != undefined) {
-        this.setState({loadingState: global.loadSuccess, userInfo: data});
-      } else {
-        this.setState({loadingState: global.loadError});
-      }
-    });
-  }
+
   render() {
     switch (this.state.loadingState) {
-      case global.loading:
+      case Global.loading:
         return this.renderLoadingView();
-      case global.loadSuccess:
+      case Global.loadSuccess:
         return this.renderDetailView();
-      case global.loadError:
+      case Global.loadError:
         return this.renderErrorView();
     }
   }
+
   renderLoadingView() {
     return (
       <View style={styles.container}>
@@ -70,11 +44,12 @@ export default class ContactDetailScreen extends Component {
       </View>
     );
   }
+
   renderErrorView() {
     return (
       <View style={styles.container}>
         <CommonTitleBar nav={this.props.navigation} title={""}/>
-        <TouchableOpacity style={styles.content} activeOpacity={0.6} onPress={()=>this.getUserInfo()}>
+        <TouchableOpacity style={styles.content} activeOpacity={0.6} onPress={() => this.getUserInfo()}>
           <View style={[styles.content, {justifyContent: 'center', alignItems: 'center'}]}>
             <Text style={{fontSize: 17, color: '#999999'}}>加载用户数据失败</Text>
             <Text style={{fontSize: 17, color: '#999999', marginTop: 5}}>点击屏幕重试</Text>
@@ -83,6 +58,7 @@ export default class ContactDetailScreen extends Component {
       </View>
     );
   }
+
   renderDetailView() {
     return (
       <View style={styles.container}>
@@ -90,10 +66,10 @@ export default class ContactDetailScreen extends Component {
         <ScrollView>
           <View style={styles.content}>
             <View style={styles.contactInfoContainer}>
-              <Image style={styles.avatar} source={this.props.navigation.state.params.data.icon} />
+              <Image style={styles.avatar} source={this.userInfo.icon}/>
               <View style={styles.contactInfoTextContainer}>
-                <Text style={styles.contactNameText}>{this.chatContactId}</Text>
-                <Text style={styles.conatactNickNameText}>{"昵称：" + (this.state.userInfo.name == undefined ? "" : this.state.userInfo.name)}</Text>
+                <Text style={styles.contactNameText}>{this.userInfo.title}</Text>
+                <Text style={styles.conatactNickNameText}>{"昵称：" + this.userInfo.nick}</Text>
               </View>
             </View>
             <View style={styles.markContainer}>
@@ -104,22 +80,24 @@ export default class ContactDetailScreen extends Component {
                 <Text style={[styles.commonFontStyle]}>地区</Text>
                 <Text style={styles.regionText}>湖北 武汉</Text>
               </View>
-              <ListItemDivider />
+              <ListItemDivider/>
               <View style={styles.galleryContainer}>
                 <Text style={[styles.commonFontStyle]}>个人相册</Text>
-                <Image style={styles.galleryImg} source={require('../../images/avatar.png')} />
-                <Image style={styles.galleryImg} source={require('../../images/avatar.png')} />
-                <Image style={styles.galleryImg} source={require('../../images/avatar.png')} />
+                <Image style={styles.galleryImg} source={require('../../images/avatar.png')}/>
+                <Image style={styles.galleryImg} source={require('../../images/avatar.png')}/>
+                <Image style={styles.galleryImg} source={require('../../images/avatar.png')}/>
               </View>
-              <ListItemDivider />
+              <ListItemDivider/>
               <View style={styles.moreContainer}>
                 <Text style={[styles.commonFontStyle]}>更多</Text>
               </View>
             </View>
             {
-              this.state.userInfo.isMe == "1" ? (null) : (
+              this.state.loginUsername == this.userInfo.title ? (null) : (
                 <View>
-                  <TouchableOpacity activeOpacity={0.5} onPress={()=>{this.startChat()}}>
+                  <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                    this.startChat()
+                  }}>
                     <View style={styles.positiveBtn}>
                       <Text style={styles.positiveBtnText}>发消息</Text>
                     </View>
@@ -137,8 +115,9 @@ export default class ContactDetailScreen extends Component {
       </View>
     );
   }
+
   startChat() {
-    this.props.navigation.navigate('Chatting', {'contactId': this.chatContactId, 'name': this.state.userInfo.name});
+    this.props.navigation.navigate('Chatting', {'contactId': this.userInfo.title, 'name': this.userInfo.nick});
   }
 }
 
@@ -146,7 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: global.pageBackgroundColor,
+    backgroundColor: Global.pageBackgroundColor,
   },
   content: {
     flex: 1,

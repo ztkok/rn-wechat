@@ -1,33 +1,21 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
-import global from '../utils/global';
-import utils from '../utils/utils';
-import timeUtils from '../utils/timeutil';
+import Global from '../utils/Global';
+import Utils from '../utils/Utils';
+import TimeUtils from '../utils/TimeUtil';
+import TimeUtil from '../utils/TimeUtil';
 import ChatBottomBar from '../views/ChatBottomBar';
 import EmojiView from '../views/EmojiView';
 import MoreView from '../views/MoreView';
 import LoadingView from '../views/LoadingView';
-import NIM from 'react-native-netease-im';
 import StorageUtil from '../utils/StorageUtil';
+import CountEmitter from '../event/CountEmitter';
+import ConversationUtil from '../utils/ConversationUtil';
+import WebIM from '../Lib/WebIM';
 
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  Dimensions,
-  PixelRatio,
-  StatusBar,
-  FlatList,
-  TouchableHighlight,
-  ToastAndroid,
-  NativeAppEventEmitter,
-  Platform
-} from 'react-native';
+import {Dimensions, FlatList, Image, PixelRatio, StyleSheet, Text, View} from 'react-native';
 
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const MSG_LINE_MAX_COUNT = 15;
 
 export default class ChattingScreen extends Component {
@@ -38,24 +26,52 @@ export default class ChattingScreen extends Component {
       showMoreView: false,
       showProgress: false,
       isSessionStarted: false,
+      conversation: null,
       messages: []
     };
     this.chatContactId = this.props.navigation.state.params.contactId;
     this.chatUsername = this.props.navigation.state.params.name;
-    StorageUtil.get('avatar', (error, object)=>{
+    this.chatWithAvatar = this.props.navigation.state.params.avatar;
+    StorageUtil.get('username', (error, object) => {
       if (!error && object != null) {
-        this.setState({avatar: object.avatar});
+        let username = object.username;
+        StorageUtil.get('userInfo-' + username, (error, object) => {
+          //获取当前用户信息
+          if (!error && object) {
+            this.setState({userInfo: object.info});
+          }
+        });
+        this.username = username;
+        let conversationId = this.chatContactId + username;
+        ConversationUtil.getConversation(conversationId, (data) => {
+          if (data != null) {
+            this.setState({conversation: data, messages: data.messages});
+          }
+        })
       }
     });
   }
+
+  componentWillMount() {
+    CountEmitter.addListener('notifyChattingRefresh', () => {
+      // 刷新消息
+      let conversationId = this.chatContactId + this.username;
+      ConversationUtil.getConversation(conversationId, (data) => {
+        if (data != null) {
+          this.setState({conversation: data, messages: data.messages});
+        }
+      })
+    });
+  }
+
   render() {
     var moreView = [];
     if (this.state.showEmojiView) {
       moreView.push(
         <View key={"emoji-view-key"}>
-          <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: global.dividerColor}} />
-          <View style={{height: global.emojiViewHeight}}>
-            <EmojiView />
+          <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: Global.dividerColor}}/>
+          <View style={{height: Global.emojiViewHeight}}>
+            <EmojiView/>
           </View>
         </View>
       );
@@ -63,19 +79,21 @@ export default class ChattingScreen extends Component {
     if (this.state.showMoreView) {
       moreView.push(
         <View key={"more-view-key"}>
-          <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: global.dividerColor}} />
-          <View style={{height: global.emojiViewHeight}}>
-            <MoreView />
+          <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: Global.dividerColor}}/>
+          <View style={{height: Global.emojiViewHeight}}>
+            <MoreView
+              sendImageMessage={this.sendImageMessage.bind(this)}
+            />
           </View>
         </View>
       );
     }
     return (
       <View style={styles.container}>
-        <CommonTitleBar title={this.chatUsername} nav={this.props.navigation} />
+        <CommonTitleBar title={this.chatUsername} nav={this.props.navigation}/>
         {
           this.state.showProgress ? (
-            <LoadingView cancel={()=>this.setState({showProgress: false})} />
+            <LoadingView cancel={() => this.setState({showProgress: false})}/>
           ) : (null)
         }
         <View style={styles.content}>
@@ -84,9 +102,10 @@ export default class ChattingScreen extends Component {
             data={this.state.messages}
             renderItem={this.renderItem}
             keyExtractor={this._keyExtractor}
-            />
+            extraData={this.state}
+          />
         </View>
-        <View style={styles.divider} />
+        <View style={styles.divider}/>
         <View style={styles.bottomBar}>
           <ChatBottomBar updateView={this.updateView} handleSendBtnClick={this.handleSendBtnClick}/>
         </View>
@@ -94,92 +113,120 @@ export default class ChattingScreen extends Component {
       </View>
     );
   }
+
   handleSendBtnClick = (msg) => {
     this.sendTextMessage(msg);
   }
-  // 发送文本消息
-  sendTextMessage(msg) {
-    NIM.sendTextMessage(msg);
-  }
-  sessionListener = (data) => {
-    console.log(data);
-    let messages = this.formatData(data);
-    if (!Array.isArray(data)) {
-      messages = [messages];
-    }
-    let historyMsg = this.state.messages;
-    messages =  historyMsg.concat(messages);
-    this.setState({messages: messages}, ()=>{
-      this.scroll();
-    });
-  }
-  msgStatusListener = (data) => {
-    let newMessage = this.formatData(data);
-    this.setState({messages: this.concatMessage(newMessage)}, ()=>{
-      this.scroll();
-    });
-  }
-  componentDidMount() {
-    if (!this.isSessionStarted) {
-      // 开始会话, 0：单聊 1：群聊
-      NIM.startSession(this.chatContactId, "0");
-      // 注册新消息监听器
-      this.sessionListener = NativeAppEventEmitter.addListener("observeReceiveMessage", this.sessionListener);
-      this.msgStatusListener = NativeAppEventEmitter.addListener("observeMsgStatus", this.msgStatusListener);
-      // 查询最近20条聊天消息，格式为(数组)：{"content":"asdf","_id":"5b0bfddf2e074f80af12cdc67f331933","msgType":"0","createdAt":"1504834213","sessionType":"0","sessionId":"yubo777","attachStatus":"0","user":{"name":"yubo777","avatar":"","_id":"yubo777"},"direct":"1","status":"1","isRemoteRead":"0"}
-      NIM.queryMessageListEx("", 20).then((data)=>{
-        this.setState({messages: data});
-      });
-      this.setState({isSessionStarted: true});
-    }
-  }
-  scroll() {
-    this.scrollTimeout = setTimeout(()=>this.refs.flatList.scrollToEnd(), 0);
-  }
-  concatMessage(newData){
-    let messages = this.state.messages;
-    let isHas = false;
-    messages.map((res,i)=>{
-      if(res._id === newData[0]._id){
-        messages[i] = newData[0];
-        isHas = true;
+
+  sendTextMessage(message) { // 发送文本消息
+    let id = WebIM.conn.getUniqueId();           // 生成本地消息id
+    let msg = new WebIM.message('txt', id);      // 创建文本消息
+    msg.set({
+      msg: message,                  // 消息内容
+      to: this.chatContactId,        // 接收消息对象（用户id）
+      roomType: false,
+      success: function (id, serverMsgId) {
+      },
+      fail: function (e) {
       }
     });
-    if(!isHas){
-        messages = messages.concat(newData);
+    msg.body.chatType = 'singleChat';
+    // 调用环信的发送消息接口
+    WebIM.conn.send(msg.body);
+    // 还需要将本条消息添加到当前会话中
+    this.concatMessage({
+      'conversationId': this.chatContactId + this.username,
+      'id': id,
+      'from': this.username,
+      'to': this.chatContactId,
+      'time': TimeUtil.currentTime(),
+      'data': message,
+      'msgType': 'txt'
+    })
+  }
+
+  sendImageMessage(image) { // 发送图片消息
+    let imagePath = image.path;
+    let imageName = null;
+    if (!Utils.isEmpty(imagePath)) {
+      imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.length);
     }
-    return messages;
-  }
-  getLocalTime(nS) {
-    return new Date(parseInt(nS) * 1000);
-  }
-  formatData(arr){
-    arr.map((m,i) => {
-      if(Platform.OS === 'android' && m.attachStatus === "2"){
-        if(m.imageObj && !m.imageObj.path2){
-            console.log("downloading...")
-            NIM.downloadAttachment(m._id);
+    let imageSize = image.size;
+    let imageType = imageName && imageName.split('.').pop();
+    let imageWidth = image.width;
+    let imageHeight = image.height;
+    let id = WebIM.conn.getUniqueId();           // 生成本地消息id
+    let msg = new WebIM.message('img', id);      // 创建文本消息
+    let to = this.chatContactId;
+    msg.set({
+      apiUrl: WebIM.config.apiURL,
+      ext: {
+        filelength: imageSize,
+        filename: imageName,
+        filetype: imageType,
+        width: imageWidth,
+        height: imageHeight
+      },
+      file: {
+        data: {
+          uri: imagePath, type: 'application/octet-stream', name: imageName
         }
+      },
+      to,
+      roomType: false,
+      onFileUploadError: function (error) {
+        console.log('onFileUploadError: ' + JSON.stringify(error))
+      },
+      onFileUploadComplete: function (data) {
+        console.log('onFileUploadComplete')
+      },
+      success: function (id) {
+        console.log('success')
       }
-      // arr[i].createdAt = this.getLocalTime(m.createdAt);
     });
-    arr.sort(function(a,b){return b.createdAt - a.createdAt});
-    return arr;
+    WebIM.conn.send(msg.body);
+    this.concatMessage({
+      'conversationId': this.chatContactId + this.username,
+      'id': id,
+      'from': this.username,
+      'to': this.chatContactId,
+      'time': TimeUtil.currentTime(),
+      'url': imagePath,
+      'ext': {width: imageWidth, height: imageHeight},
+      'msgType': 'img'
+    })
   }
+
+  componentDidMount() {
+  }
+
+  scroll() {
+    this.scrollTimeout = setTimeout(() => this.refs.flatList.scrollToEnd(), 0);
+  }
+
+  concatMessage(message) {
+    ConversationUtil.addMessage(message, () => {
+      // 发送完消息，还要通知会话列表更新
+      CountEmitter.emit('notifyConversationListRefresh');
+    });
+    let msgs = this.state.messages;
+    msgs.push(message);
+    console.log(msgs);
+    this.setState({messages: msgs});
+  }
+
   componentWillUnmount() {
-    // 结束会话
-    NIM.stopSession();
-    this.sessionListener && this.sessionListener.remove();
-    this.msgStatusListener && this.msgStatusListener.remove();
     this.scrollTimeout && clearTimeout(this.scrollTimeout);
     this.setState({isSessionStarted: false});
   }
+
   updateView = (emoji, more) => {
     this.setState({
       showEmojiView: emoji,
       showMoreView: more,
     })
   }
+
   // 当str长度超过某个限定值时，在str中插入换行符
   spliceStr(str) {
     var len = str.length;
@@ -201,8 +248,10 @@ export default class ChattingScreen extends Component {
       return str;
     }
   }
+
   _keyExtractor = (item, index) => index
-  shouldShowTime(item) {
+
+  shouldShowTime(item) { // 该方法判断当前消息是否需要显示时间
     let index = item.index;
     if (index == 0) {
       // 第一条消息，显示时间
@@ -210,10 +259,9 @@ export default class ChattingScreen extends Component {
     }
     if (index > 0) {
       let messages = this.state.messages;
-      if (!utils.isEmpty(messages) && messages.length > 0) {
+      if (!Utils.isEmpty(messages) && messages.length > 0) {
         let preMsg = messages[index - 1];
-        let delta = item.item.createdAt - preMsg.createdAt;
-        console.log('delta = ' + delta);
+        let delta = item.item.time - preMsg.time;
         if (delta > 3 * 60) {
           return true;
         }
@@ -221,51 +269,120 @@ export default class ChattingScreen extends Component {
       return false;
     }
   }
+
   renderItem = (item) => {
-    console.log(item)
-    if (item.item.direct == 1) {
-      // 接收的消息
-      let contactAvatar = require('../../images/avatar.png');
-      if (!utils.isEmpty(item.item.user.avatar)) {
-        contactAvatar = {uri: item.item.user.avatar};
+    let msgType = item.item.msgType;
+    if (msgType == 'txt') {
+      // 文本消息
+      if (item.item.to == this.username) {
+        return this.renderReceivedTextMsg(item);
+      } else {
+        return this.renderSendTextMsg(item);
       }
-      return (
-        <View style={{flexDirection: 'column', alignItems: 'center'}}>
-          {
-            this.shouldShowTime(item) ? (
-              <Text style={listItemStyle.time}>{timeUtils.formatChatTime(parseInt(item.item.createdAt))}</Text>
-            ) : (null)
-          }
-          <View style={listItemStyle.container}>
-            <Image style={listItemStyle.avatar} source={contactAvatar} />
-            <View style={listItemStyle.msgContainer}>
-              <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.content)}</Text>
-            </View>
-          </View>
-        </View>
-      );
-    } else {
-      let avatar = require('../../images/avatar.png');
-      if (!utils.isEmpty(this.state.avatar)) {
-        avatar = {uri: this.state.avatar};
+    } else if (msgType == 'img') {
+      // 图片消息
+      if (item.item.to == this.username) {
+        return this.renderReceivedImgMsg(item);
+      } else {
+        return this.renderSendImgMsg(item);
       }
-      // 发送出去的消息
-      return (
-        <View style={{flexDirection: 'column', alignItems: 'center'}}>
-          {
-            this.shouldShowTime(item) ? (
-              <Text style={listItemStyle.time}>{timeUtils.formatChatTime(parseInt(item.item.createdAt))}</Text>
-            ) : (null)
-          }
-          <View style={listItemStyle.containerSend}>
-            <View style={listItemStyle.msgContainerSend}>
-              <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.content)}</Text>
-            </View>
-            <Image style={listItemStyle.avatar} source={avatar} />
-          </View>
-        </View>
-      );
     }
+  }
+
+  renderReceivedTextMsg(item) { // 接收的文本消息
+    let contactAvatar = require('../../images/avatar.png');
+    if (!Utils.isEmpty(this.chatWithAvatar)) {
+      contactAvatar = this.chatWithAvatar;
+    }
+    return (
+      <View style={{flexDirection: 'column', alignItems: 'center'}}>
+        {
+          this.shouldShowTime(item) ? (
+            <Text style={listItemStyle.time}>{TimeUtils.formatChatTime(parseInt(item.item.time))}</Text>
+          ) : (null)
+        }
+        <View style={listItemStyle.container}>
+          <Image style={listItemStyle.avatar} source={contactAvatar}/>
+          <View style={listItemStyle.msgContainer}>
+            <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.data)}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderSendTextMsg(item) { // 发送出去的文本消息
+    let avatar = require('../../images/avatar.png');
+    if (!Utils.isEmpty(this.state.userInfo.avatar)) {
+      avatar = {uri: this.state.userInfo.avatar};
+    }
+    // 发送出去的消息
+    return (
+      <View style={{flexDirection: 'column', alignItems: 'center'}}>
+        {
+          this.shouldShowTime(item) ? (
+            <Text style={listItemStyle.time}>{TimeUtils.formatChatTime(parseInt(item.item.time))}</Text>
+          ) : (null)
+        }
+        <View style={listItemStyle.containerSend}>
+          <View style={listItemStyle.msgContainerSend}>
+            <Text style={listItemStyle.msgText}>{this.spliceStr(item.item.data)}</Text>
+          </View>
+          <Image style={listItemStyle.avatar} source={avatar}/>
+        </View>
+      </View>
+    );
+  }
+
+  renderReceivedImgMsg(item) { // 接收的图片消息
+    let contactAvatar = require('../../images/avatar.png');
+    if (!Utils.isEmpty(this.chatWithAvatar)) {
+      contactAvatar = this.chatWithAvatar;
+    }
+    return (
+      <View style={{flexDirection: 'column', alignItems: 'center'}}>
+        {
+          this.shouldShowTime(item) ? (
+            <Text style={listItemStyle.time}>{TimeUtils.formatChatTime(parseInt(item.item.time))}</Text>
+          ) : (null)
+        }
+        <View style={listItemStyle.container}>
+          <Image style={listItemStyle.avatar} source={contactAvatar}/>
+          <View style={[listItemStyle.msgContainer, {paddingLeft: 0, paddingRight: 0}]}>
+            <Image
+              source={{uri: item.item.url}}
+              style={{width: 150, height: 150 * (item.item.ext.height / item.item.ext.width)}}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderSendImgMsg(item) { // 发送的图片消息
+    let avatar = require('../../images/avatar.png');
+    if (!Utils.isEmpty(this.state.userInfo.avatar)) {
+      avatar = {uri: this.state.userInfo.avatar};
+    }
+    // 发送出去的消息
+    return (
+      <View style={{flexDirection: 'column', alignItems: 'center'}}>
+        {
+          this.shouldShowTime(item) ? (
+            <Text style={listItemStyle.time}>{TimeUtils.formatChatTime(parseInt(item.item.time))}</Text>
+          ) : (null)
+        }
+        <View style={listItemStyle.containerSend}>
+          <View style={[listItemStyle.msgContainerSend, {paddingLeft: 0, paddingRight: 0}]}>
+            <Image
+              source={{uri: item.item.url}}
+              style={{borderRadius: 3, width: 150, height: 150 * (item.item.ext.height / item.item.ext.width)}}
+            />
+          </View>
+          <Image style={listItemStyle.avatar} source={avatar}/>
+        </View>
+      </View>
+    );
   }
 }
 
@@ -331,7 +448,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    backgroundColor: global.pageBackgroundColor
+    backgroundColor: Global.pageBackgroundColor
   },
   bottomBar: {
     height: 50,
@@ -339,6 +456,6 @@ const styles = StyleSheet.create({
   divider: {
     width: width,
     height: 1 / PixelRatio.get(),
-    backgroundColor: global.dividerColor,
+    backgroundColor: Global.dividerColor,
   }
 });

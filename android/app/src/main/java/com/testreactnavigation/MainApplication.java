@@ -1,5 +1,6 @@
 package com.testreactnavigation;
 
+import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
@@ -8,9 +9,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.netease.im.IMApplication;
-import com.netease.im.RNNeteaseImPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.remobile.toast.RCTToastPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +28,9 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
                     new PickerPackage(),
-                    new RNNeteaseImPackage(),
                     new RCTCameraPackage(),
-                    new UpgradePackage()
+                    new UpgradePackage(),
+                    new RCTToastPackage()
             );
         }
     };
@@ -43,8 +43,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     @Override
     public void onCreate() {
         super.onCreate();
-        SoLoader.init(this, /* native exopackage */ false);
-        IMApplication.init(this, MainActivity.class, R.drawable.ic_stat_notify_msg,
-                new IMApplication.MiPushConfig("xiaomi", "2882303761517606714", "5401760627714"));
+        SoLoader.init(this, false);
     }
+
+
 }

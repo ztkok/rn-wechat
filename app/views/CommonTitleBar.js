@@ -1,66 +1,57 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
-import utils from '../utils/utils';
+import React, {Component} from 'react';
+import Global from '../utils/Global';
+import Utils from '../utils/Utils';
+import {Button, Dimensions, Image, PixelRatio, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Button,
-  StatusBar,
-  PixelRatio,
-  TextInput
-} from 'react-native';
-
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class CommonTitleBar extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar
-           backgroundColor='#393A3E'
-           barStyle="light-content"
-         />
-         <View style={styles.content}>
-           <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
-             <Image source={require('../../images/ic_back.png')} style={styles.backBtn} />
-           </TouchableOpacity>
-           <View style={styles.btnDivider} />
-           <View style={styles.titleContainer}>
-             <Text style={styles.title}>{this.props.title}</Text>
-             {
-               utils.isEmpty(this.props.rightIcon) ? (null) : (
-                  <TouchableOpacity activeOpacity={0.6} onPress={()=>this.handleRightClick()}>
-                    <Image style={styles.img} source={this.props.rightIcon} />
-                  </TouchableOpacity>
-               )
-             }
-             {
-               utils.isEmpty(this.props.rightBtnText) ? (null) : (
-                 <Button
-                   onPress={()=>this.props.handleRightBtnClick()}
-                   title={this.props.rightBtnText}
-                   color="#19AD17"
-                 />
-               )
-             }
-           </View>
-         </View>
+          backgroundColor='#393A3E'
+          barStyle="light-content"
+        />
+        <View style={styles.content}>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
+            <Image source={require('../../images/ic_back.png')} style={styles.backBtn}/>
+          </TouchableOpacity>
+          <View style={styles.btnDivider}/>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{this.props.title}</Text>
+            {
+              Utils.isEmpty(this.props.rightIcon) ? (null) : (
+                <TouchableOpacity activeOpacity={0.6} onPress={() => this.handleRightClick()}>
+                  <Image style={styles.img} source={this.props.rightIcon}/>
+                </TouchableOpacity>
+              )
+            }
+            {
+              Utils.isEmpty(this.props.rightBtnText) ? (null) : (
+                <Button
+                  onPress={() => this.props.handleRightBtnClick()}
+                  title={this.props.rightBtnText}
+                  color="#19AD17"
+                />
+              )
+            }
+          </View>
+        </View>
       </View>
     );
   }
+
   handleRightClick() {
-    if (!utils.isEmpty(this.props.handleRightClick)) {
+    if (!Utils.isEmpty(this.props.handleRightClick)) {
       this.props.handleRightClick();
     }
   }
+
   handleBackClick = () => {
     this.props.nav.goBack();
   }
@@ -73,7 +64,7 @@ const styles = StyleSheet.create({
   content: {
     width: width,
     height: 50,
-    backgroundColor: global.titleBackgroundColor,
+    backgroundColor: Global.titleBackgroundColor,
     flexDirection: 'row',
     alignItems: 'center'
   },

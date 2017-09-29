@@ -1,25 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import SearchTitleBar from '../views/SearchTitleBar';
 import CommonLoadingView from '../views/CommonLoadingView';
-import global from '../utils/global';
+import Global from '../utils/Global';
+import {Dimensions, FlatList, Image, PixelRatio, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  Dimensions,
-  PixelRatio,
-  StatusBar,
-  FlatList,
-  TouchableOpacity,
-  ToastAndroid,
-  ActivityIndicator
-} from 'react-native';
-
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const stateNormal = -1;
 const stateNoData = -2;
 
@@ -32,19 +17,21 @@ export default class SearchScreen extends Component {
       listItemIndex: 0
     };
   }
+
   render() {
     switch (this.state.loadingState) {
       case stateNormal:
         return this.renderDefaultView();
-      case global.loading:
+      case Global.loading:
         return this.renderLoadingView();
-      case global.loadSuccess:
+      case Global.loadSuccess:
         if (this.state.searchResult == null || this.state.searchResult.length == 0) {
           return this.renderEmptyView();
         }
         return this.renderSearchResultView();
     }
   }
+
   renderDefaultView() {
     return (
       <View style={styles.container}>
@@ -69,6 +56,7 @@ export default class SearchScreen extends Component {
       </View>
     );
   }
+
   renderSearchResultView() {
     return (
       <View style={styles.container}>
@@ -77,11 +65,12 @@ export default class SearchScreen extends Component {
           <FlatList
             data={this.state.searchResult}
             renderItem={this.renderItem}
-            />
+          />
         </View>
       </View>
     );
   }
+
   renderItem = (item) => {
     var title = item.item.name;
     var icon = item.item.avatar;
@@ -91,16 +80,19 @@ export default class SearchScreen extends Component {
     };
     return (
       <View key={item.item.key}>
-        <TouchableOpacity activeOpacity={0.5} onPress={()=>{this.props.navigation.navigate('ContactDetail', {title: "详细资料", data: param})}} style={{flexDirection: 'column', flex: 1}}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() => {
+          this.props.navigation.navigate('ContactDetail', {title: "详细资料", data: param})
+        }} style={{flexDirection: 'column', flex: 1}}>
           <View style={listItemStyle.container}>
-            <Image style={listItemStyle.listItemAvatar} source={{uri: item.item.avatar}} />
+            <Image style={listItemStyle.listItemAvatar} source={{uri: item.item.avatar}}/>
             <Text style={listItemStyle.listItemText}>{item.item.name}</Text>
           </View>
         </TouchableOpacity>
-        <View style={listItemStyle.divider} />
+        <View style={listItemStyle.divider}/>
       </View>
     );
   }
+
   renderEmptyView() {
     return (
       <View style={styles.container}>
@@ -111,6 +103,7 @@ export default class SearchScreen extends Component {
       </View>
     );
   }
+
   renderLoadingView() {
     return (
       <View style={styles.container}>
@@ -121,11 +114,13 @@ export default class SearchScreen extends Component {
       </View>
     );
   }
+
   renderErrorView() {
     return (
       <View><Text>Error!</Text></View>
     );
   }
+
   startSearch = (key) => {
     const URL = "http://rnwechat.applinzi.com/search";
     var data = {key: key};
@@ -134,20 +129,20 @@ export default class SearchScreen extends Component {
     fetch(URL, {
       method: 'POST',
       body: params
-    }).then((res)=>res.json())
-      .then(json=>{
+    }).then((res) => res.json())
+      .then(json => {
         for (var i = 0; i < json.length; i++) {
           var item = json[i];
           item.key = item.id;
         }
         this.setState({
-          loadingState: global.loadSuccess,
+          loadingState: Global.loadSuccess,
           searchResult: json
         })
       })
   }
   handleSearchClick = (str) => {
-    this.setState({loadingState: global.loading});
+    this.setState({loadingState: Global.loading});
     this.startSearch(str);
   }
 }
@@ -172,7 +167,7 @@ const listItemStyle = StyleSheet.create({
   divider: {
     width: width,
     height: 1 / PixelRatio.get(),
-    backgroundColor: global.dividerColor
+    backgroundColor: Global.dividerColor
   }
 })
 

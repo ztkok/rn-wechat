@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
+import React, {Component} from 'react';
+import Global from '../utils/Global';
 
 import {
   View,
@@ -7,14 +7,20 @@ import {
   Dimensions,
 } from 'react-native';
 
-var { width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class ListItemDivider extends Component {
   render() {
     var height = 1 / PixelRatio.get();
     return (
       <View style={{width: width, height: height, backgroundColor: '#FFFFFF'}}>
-        <View style={{width: width - 20, height: height, marginLeft: 10, marginRight: 10, backgroundColor: global.dividerColor}}/>
+        <View style={{
+          width: width - 20,
+          height: height,
+          marginLeft: 10,
+          marginRight: 10,
+          backgroundColor: Global.dividerColor
+        }}/>
       </View>
     );
   }

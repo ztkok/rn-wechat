@@ -1,23 +1,11 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
+import React, {Component} from 'react';
+import Global from '../utils/Global';
+import Utils from '../utils/Utils';
+import ImagePicker from 'react-native-image-crop-picker';
 
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  Dimensions,
-  PixelRatio,
-  StatusBar,
-  FlatList,
-  TextInput,
-  TouchableOpacity,
-  ViewPagerAndroid,
-} from 'react-native';
+import {Dimensions, Image, PixelRatio, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const icons = [
   require('../../images/ic_more_card.png'),
@@ -46,7 +34,9 @@ export default class MoreView extends Component {
             key={"row" + i + "col" + j}
             icon={icons[i * 4 + j]}
             text={iconTexts[i * 4 + j]}
-            />
+            index={i * 4 + j}
+            sendImageMessage={this.props.sendImageMessage}
+          />
         );
       }
       page.push(
@@ -64,29 +54,58 @@ export default class MoreView extends Component {
 class Cell extends Component {
   render() {
     return (
-      <View style={styles.cellContainer}>
-        <View style={styles.cellImgContainer}>
-          <Image style={styles.cellImage} source={this.props.icon} />
+      <TouchableOpacity style={styles.cellContainer} activeOpacity={0.6} onPress={() => this.handleClick()}>
+        <View style={styles.cellContainer}>
+          <View style={styles.cellImgContainer}>
+            <Image style={styles.cellImage} source={this.props.icon}/>
+          </View>
+          <Text numberOfLines={1} style={styles.cellText}>{this.props.text}</Text>
         </View>
-        <Text style={styles.cellText}>{this.props.text}</Text>
-      </View>
+      </TouchableOpacity>
     );
+  }
+
+  handleClick() {
+    let index = this.props.index;
+    switch (index) {
+      case 0:
+        this.chooseImage();
+        break;
+      default:
+    }
+  }
+
+  chooseImage() { // 从相册中选择图片发送
+    ImagePicker.openPicker({
+      cropping: false
+    }).then(image => {
+      if (this.props.sendImageMessage) {
+        let path = image.path;
+        if (!Utils.isEmpty(path)) {
+          let name = path.substring(path.lastIndexOf('/') + 1, path.length);
+          this.props.sendImageMessage(image);
+        }
+      }
+    });
   }
 }
 
 const styles = StyleSheet.create({
   moreViewContainer: {
     width: width,
-    height: global.emojiViewHeight,
+    height: Global.emojiViewHeight,
     flexDirection: 'column',
     paddingLeft: 15,
     paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     backgroundColor: '#F4F4F4'
   },
   rowContainer: {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
+    height: Global.emojiViewHeight / 2 - 20,
   },
   cellContainer: {
     flex: 1,
@@ -111,6 +130,8 @@ const styles = StyleSheet.create({
     height: 35,
   },
   cellText: {
-    fontSize: 13,
+    fontSize: 12,
+    width: 55,
+    textAlign: 'center'
   }
 });

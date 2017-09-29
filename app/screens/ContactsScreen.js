@@ -1,34 +1,29 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import TitleBar from '../views/TitleBar';
-import ListItem from '../views/ListItem';
-import ListItemDivider from '../views/ListItemDivider';
 import SideBar from '../views/SideBar';
 import CommonLoadingView from '../views/CommonLoadingView';
-import global from '../utils/global';
-import utils from '../utils/utils';
-import data from '../utils/data';
-import NIM from 'react-native-netease-im';
-import pinyinUtil from '../utils/pinyinutil';
+import Global from '../utils/Global';
+import Utils from '../utils/Utils';
+import UserInfoUtil from '../utils/UserInfoUtil';
+import Toast from '@remobile/react-native-toast';
 
 import {
+  Dimensions,
+  FlatList,
+  Image,
+  PixelRatio,
   StyleSheet,
   Text,
-  View,
-  Image,
-  Dimensions,
-  Button,
-  PixelRatio,
-  FlatList,
   TouchableHighlight,
-  ToastAndroid
+  View
 } from 'react-native';
 
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class ContactsScreen extends Component {
   static navigationOptions = {
     tabBarLabel: '联系人',
-    tabBarIcon: ({ focused, tintColor }) => {
+    tabBarIcon: ({focused, tintColor}) => {
       if (focused) {
         return (
           <Image style={styles.tabBarIcon} source={require('../../images/ic_contacts_selected.png')}/>
@@ -39,36 +34,40 @@ export default class ContactsScreen extends Component {
       );
     },
   };
+
   constructor(props) {
     super(props);
     this.state = {
-      loadingState: global.loading,
+      loadingState: Global.loading,
       contactData: null,
     }
   }
+
   getContacts() {
-    // var url = "http://rnwechat.applinzi.com/contacts/30"; // 老接口
     var url = "http://rnwechat.applinzi.com/friends"; // 新接口
-    fetch(url).then((res)=>res.json())
-      .then((json)=>{
+    fetch(url).then((res) => res.json())
+      .then((json) => {
+        UserInfoUtil.setUserInfo(json);
         this.setState({
-          loadingState: global.loadSuccess,
+          loadingState: Global.loadSuccess,
           contactData: json
         })
       })
   }
+
   render() {
     switch (this.state.loadingState) {
-      case global.loading:
+      case Global.loading:
         this.getContacts();
         return this.renderLoadingView();
-      case global.loadSuccess:
+      case Global.loadSuccess:
         return this.renderSuccessView();
-      case global.loadError:
+      case Global.loadError:
         return this.renderErrorView();
       default:
     }
   }
+
   renderLoadingView() {
     return (
       <View style={styles.container}>
@@ -79,6 +78,7 @@ export default class ContactsScreen extends Component {
       </View>
     );
   }
+
   renderErrorView() {
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, flexDirection: 'column'}}>
@@ -86,11 +86,12 @@ export default class ContactsScreen extends Component {
       </View>
     );
   }
+
   renderSuccessView() {
     var listData = [];
     var headerListData = [];
     var headerImages = [require('../../images/ic_new_friends.png'), require('../../images/ic_group_chat.png'),
-                        require('../../images/ic_tag.png'), require('../../images/ic_common.png')];
+      require('../../images/ic_tag.png'), require('../../images/ic_common.png')];
     var headerTitles = ['新的朋友', '群聊', '标签', '公众号'];
     var index = 0;
     for (var i = 0; i < headerTitles.length; i++) {
@@ -104,14 +105,14 @@ export default class ContactsScreen extends Component {
     }
     var contacts = this.state.contactData;
     for (var i = 0; i < contacts.length; i++) {
-      // var pinyin = pinyinUtil.getFullChars(contacts[i].name);
+      // var pinyin = PinyinUtil.getFullChars(contacts[i].name);
       var pinyin = contacts[i].pinyin.toUpperCase();
       var firstLetter = pinyin.substring(0, 1);
       if (firstLetter < 'A' || firstLetter > 'Z') {
         firstLetter = '#';
       }
       let icon = require('../../images/avatar.png');
-      if (!utils.isEmpty(contacts[i].avatar)) {
+      if (!Utils.isEmpty(contacts[i].avatar)) {
         icon = {uri: contacts[i].avatar};
       }
       listData.push({
@@ -125,11 +126,11 @@ export default class ContactsScreen extends Component {
       })
     }
     // 按拼音排序
-    listData.sort(function(a, b) {
+    listData.sort(function (a, b) {
       if (a.pinyin === undefined || b.pinyin === undefined) {
         return 1;
       }
-      if(a.pinyin > b.pinyin) {
+      if (a.pinyin > b.pinyin) {
         return 1;
       }
       if (a.pinyin < b.pinyin) {
@@ -162,39 +163,44 @@ export default class ContactsScreen extends Component {
             data={listData}
             renderItem={this.renderItem}
           />
-          <SideBar />
+          <SideBar/>
         </View>
         <View style={styles.divider}></View>
       </View>
     );
   }
+
   onListItemClick(item) {
     let index = item.item.key;
     if (index == 0) {
       // 新的朋友
       this.props.navigation.navigate('NewFriend', {title: '新的朋友', data: item.item})
     } else if (index >= 1 && index <= 3) {
-      ToastAndroid.show('功能未实现', ToastAndroid.SHORT);
+      Toast.showShortCenter('功能未实现');
     } else {
       this.props.navigation.navigate('ContactDetail', {title: '详细资料', data: item.item});
     }
   }
+
   renderItem = (item) => {
     var section = [];
     if (item.item.sectionStart) {
-      section.push(<Text key={"section" + item.item.key} style={listItemStyle.sectionView}>{item.item.firstLetter}</Text>);
+      section.push(<Text key={"section" + item.item.key}
+                         style={listItemStyle.sectionView}>{item.item.firstLetter}</Text>);
     }
     return (
       <View>
         {section}
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.onListItemClick(item)}}>
+        <TouchableHighlight underlayColor={Global.touchableHighlightColor} onPress={() => {
+          this.onListItemClick(item)
+        }}>
           <View style={listItemStyle.container} key={item.item.key}>
-              <Image style={listItemStyle.image} source={item.item.icon} />
-              <Text style={listItemStyle.itemText}>{item.item.title}</Text>
-              <Text style={listItemStyle.subText}>{utils.isEmpty(item.item.nick) ? "" : "(" + item.item.nick + ")"}</Text>
+            <Image style={listItemStyle.image} source={item.item.icon}/>
+            <Text style={listItemStyle.itemText}>{item.item.title}</Text>
+            <Text style={listItemStyle.subText}>{Utils.isEmpty(item.item.nick) ? "" : "(" + item.item.nick + ")"}</Text>
           </View>
         </TouchableHighlight>
-        <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: global.dividerColor}}/>
+        <View style={{width: width, height: 1 / PixelRatio.get(), backgroundColor: Global.dividerColor}}/>
       </View>
     );
   }
@@ -250,7 +256,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     flexDirection: 'row',
-    backgroundColor: global.pageBackgroundColor
+    backgroundColor: Global.pageBackgroundColor
   },
   tabBarIcon: {
     width: 24,

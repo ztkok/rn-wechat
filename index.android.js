@@ -1,5 +1,5 @@
-import { StackNavigator, TabNavigator } from 'react-navigation';
-import React, { Component } from 'react';
+import {StackNavigator, TabNavigator} from 'react-navigation';
+import React, {Component} from 'react';
 import TitleBar from './app/views/TitleBar';
 import ContactsScreen from './app/screens/ContactsScreen';
 import FindScreen from './app/screens/FindScreen';
@@ -21,36 +21,36 @@ import PublishMomentScreen from './app/screens/PublishMomentScreen';
 import ImageShowScreen from './app/screens/ImageShowScreen';
 import ShakeScreen from './app/screens/ShakeScreen';
 import SettingsScreen from './app/screens/SettingsScreen';
-import NIM from 'react-native-netease-im';
 import StorageUtil from './app/utils/StorageUtil';
 import UpgradeModule from './app/utils/UpgradeModule';
 import UpgradeDialog from './app/views/UpgradeDialog';
+import ConversationUtil from './app/utils/ConversationUtil';
+import TimeUtil from './app/utils/TimeUtil';
+import CountEmitter from './app/event/CountEmitter';
+import Global from './app/utils/Global';
+import Utils from './app/utils/Utils';
+import Toast from '@remobile/react-native-toast';
 
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  Button,
   Image,
   Dimensions,
   PixelRatio,
   StatusBar,
   FlatList,
   TouchableHighlight,
-  ToastAndroid,
-  Platform,
-  NativeAppEventEmitter
+  Platform
 } from 'react-native';
 
-var { width, height } = Dimensions.get('window');
-var global = require('./app/utils/global.js');
-var utils = require('./app/utils/utils.js');
+const {width} = Dimensions.get('window');
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
     tabBarLabel: '微信',
-    tabBarIcon: ({ focused, tintColor }) => {
+    tabBarIcon: ({focused, tintColor}) => {
       if (focused) {
         return (
           <Image style={styles.tabBarIcon} source={require('./images/ic_weixin_selected.png')}/>
@@ -61,97 +61,137 @@ export default class HomeScreen extends Component {
       );
     },
   };
+
   constructor(props) {
     super(props);
     this.state = {
-      checkedUpgrade: true, // 标记是否检查了更新
-      recentContactData: []
+      checkedUpgrade: true, // 标记是否检查了更新，这里置为true则不会检查更新，设置为false则每次启动时检查更新，该功能默认不开启
+      recentConversation: []
     };
-    this.registerListeners();
-    StorageUtil.get('username', (error, object)=>{
+    this.registerHXListener();
+    StorageUtil.get('username', (error, object) => {
       if (!error && object != null) {
         this.setState({username: object.username});
+        this.loadConversations(object.username);
       }
     });
   }
-  registerListeners() {
-    // 有新的会话会触发这里的listener
-    this.recentListener = NativeAppEventEmitter.addListener("observeRecentContact", (data)=>{
-      /**
-        data:
-        {
-          "unreadCount": "0",
-          "recents": [
-              {
-                  "content": "asdf",
-                  "time": "上午 10:51",
-                  "contactId": "yubo777",
-                  "messageId": "7c7f3fdff75946c8bf6006c6d5b63659",
-                  "nick": "yubo777",
-                  "name": "yubo777",
-                  "teamType": "-1",
-                  "imagePath": "",
-                  "sessionType": "0",
-                  "unreadCount": "0",
-                  "msgType": "0",
-                  "msgStatus": "1",
-                  "fromAccount": "yubo777"
-              }
-          ]
-      }
-      */
-      if (utils.isEmpty(data) || utils.isEmpty(data.recents) || data.recents.length == 0) {
-        // 没有最近会话
-        this.setState({recentContactData: []});
-      } else {
-        // 有最近会话
-        this.setState({recentContactData: data.recents});
-      }
-    })
+
+  loadConversations(username) {
+    ConversationUtil.getConversations(username, (result) => {
+      console.log('-----------show conversations-----------')
+      console.log(result);
+      console.log('-----------show conversations-----------')
+      this.setState({recentConversation: result})
+    });
   }
+
+  registerHXListener() {  // 注册环信的消息监听器
+    WebIM.conn.listen({
+      // xmpp连接成功
+      onOpened: (msg) => {
+        // 登录环信服务器成功后回调这里
+        if (!this.isAutoLogin) {
+          CountEmitter.emit('loginToHXSuccess');
+        } else {
+          this.autoLoginSuccessCallback();
+        }
+        // 出席后才能接受推送消息
+        WebIM.conn.setPresence();
+      },
+      // 出席消息
+      onPresence: (msg) => {
+      },
+      // 各种异常
+      onError: (error) => {
+        console.log(error)
+      },
+      // 连接断开
+      onClosed: (msg) => {
+        Toast.showShortCenter('与聊天服务器连接断开');
+      },
+      // 更新黑名单
+      onBlacklistUpdate: (list) => {
+      },
+      // 文本消息
+      onTextMessage: (message) => {
+        message.conversationId = message.from + message.to;
+        message.msgType = 'txt';
+        message.time = TimeUtil.currentTime();
+        ConversationUtil.addMessage(message, (error) => {
+          // 重新加载会话
+          this.loadConversations(this.state.username);
+          // 若当前在聊天界面，还要通知聊天界面刷新
+          CountEmitter.emit('notifyChattingRefresh');
+        });
+      },
+      onPictureMessage: (message) => {
+        message.conversationId = message.from + message.to;
+        message.msgType = 'img';
+        message.time = TimeUtil.currentTime();
+        ConversationUtil.addMessage(message, (error) => {
+          // 重新加载会话
+          this.loadConversations(this.state.username);
+          // 若当前在聊天界面，还要通知聊天界面刷新
+          CountEmitter.emit('notifyChattingRefresh');
+        });
+      }
+    });
+  }
+
   unregisterListeners() {
     this.recentListener && this.recentListener.remove();
   }
-  _keyExtractor = (item, index) => item.messageId
+
+  _keyExtractor = (item, index) => item.conversationId
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar
-           backgroundColor='#393A3E'
-           barStyle="light-content"
-         />
+          backgroundColor='#393A3E'
+          barStyle="light-content"
+        />
         <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <View style={styles.content}>
-        {
-          this.state.recentContactData.length == 0 ? (
-            <Text style={styles.emptyHintText}>暂无会话消息</Text>
-          ) : (
-            <FlatList
-              data={this.state.recentContactData}
-              renderItem={this.renderItem}
-              keyExtractor={this._keyExtractor}
-            />
-          )
-        }
+          {
+            this.state.recentConversation.length == 0 ? (
+              <Text style={styles.emptyHintText}>暂无会话消息</Text>
+            ) : (
+              <FlatList
+                data={this.state.recentConversation}
+                renderItem={this.renderItem}
+                keyExtractor={this._keyExtractor}
+              />
+            )
+          }
         </View>
         <View style={styles.divider}></View>
         <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
-          <UpgradeDialog ref="upgradeDialog" content={this.state.upgradeContent} />
+          <UpgradeDialog ref="upgradeDialog" content={this.state.upgradeContent}/>
         </View>
       </View>
     );
   }
+
+  componentWillMount() {
+    CountEmitter.addListener('notifyConversationListRefresh', () => {
+      // 重新加载会话
+      this.loadConversations(this.state.username);
+    });
+  }
+
   componentDidMount() {
     // 组件挂载完成后检查是否有更新，只针对Android平台检查
     if (!this.state.checkedUpgrade) {
       if (Platform.OS === 'android') {
         UpgradeModule.getVersionCodeName((versionCode, versionName) => {
-          if (versionCode > 0 && !utils.isEmpty(versionName)) {
+          if (versionCode > 0 && !Utils.isEmpty(versionName)) {
             // 请求服务器查询更新
             let url = 'http://rnwechat.applinzi.com/upgrade?versionCode=' + versionCode + '&versionName=' + versionName;
-            fetch(url).then((res)=>res.json())
-              .then((json)=>{
+            fetch(url).then((res) => res.json())
+              .then((json) => {
                 if (json != null && json.code == 1) {
                   // 有新版本
                   let data = json.msg;
@@ -167,37 +207,61 @@ export default class HomeScreen extends Component {
                     });
                   }
                 }
-              }).catch((e)=>{
-              })
+              }).catch((e) => {
+            })
           }
         })
       }
       this.setState({checkedUpgrade: true});
     }
   }
+
   componentWillUnmount() {
     this.unregisterListeners();
   }
+
   renderItem = (data) => {
+    let lastTime = data.item.lastTime;
+    let lastMsg = data.item.messages[data.item.messages.length - 1];
+    let contactId = lastMsg.from;
+    if (contactId == this.state.username) {
+      contactId = lastMsg.to;
+    }
+    let nick = data.item.nick;
+    if (Utils.isEmpty(nick)) {
+      nick = contactId;
+    }
+    let lastMsgContent = '';
+    if (lastMsg.msgType == 'txt') {
+      lastMsgContent = lastMsg.data;
+    } else if (lastMsg.msgType == 'img') {
+      lastMsgContent = '[图片]';
+    }
     let avatar = require('./images/ic_list_icon.png');
-    if (!utils.isEmpty(data.item.imagePath)) {
-      avatar = {uri: data.item.imagePath};
+    if (data.item.avatar != null) {
+      avatar = {uri: data.item.avatar};
     }
     return (
       <View>
-        <TouchableHighlight underlayColor={global.touchableHighlightColor}
-          onPress={()=>{this.props.navigation.navigate('Chatting', {'contactId': data.item.contactId, 'name': data.item.name})}}>
+        <TouchableHighlight underlayColor={Global.touchableHighlightColor}
+                            onPress={() => {
+                              this.props.navigation.navigate('Chatting', {
+                                'contactId': contactId,
+                                'name': nick,
+                                'avatar': avatar
+                              })
+                            }}>
           <View style={styles.listItemContainer}>
-            <Image source={avatar} style={{width: 50, height: 50}} />
+            <Image source={avatar} style={{width: 50, height: 50}}/>
             <View style={styles.listItemTextContainer}>
               <View style={styles.listItemSubContainer}>
-                <Text numberOfLines={1} style={styles.listItemTitle}>{data.item.name}</Text>
-                <Text numberOfLines={1} style={styles.listItemTime}>{data.item.time}</Text>
+                <Text numberOfLines={1} style={styles.listItemTitle}>{nick}</Text>
+                <Text numberOfLines={1} style={styles.listItemTime}>{TimeUtil.formatChatTime(lastTime)}</Text>
               </View>
               <View style={styles.listItemSubContainer}>
-                <Text numberOfLines={1} style={styles.listItemSubtitle}>{data.item.content}</Text>
+                <Text numberOfLines={1} style={styles.listItemSubtitle}>{lastMsgContent}</Text>
                 {
-                  data.item.unreadCount > 0 ? (
+                  0 > 0 ? (
                     <View style={styles.redDot}>
                       <Text style={styles.redDotText}>{data.item.unreadCount}</Text>
                     </View>
@@ -207,7 +271,7 @@ export default class HomeScreen extends Component {
             </View>
           </View>
         </TouchableHighlight>
-        <View style={styles.divider} />
+        <View style={styles.divider}/>
       </View>
     );
   }
@@ -223,7 +287,7 @@ const styles = StyleSheet.create({
   divider: {
     width: width,
     height: 1 / PixelRatio.get(),
-    backgroundColor: global.dividerColor
+    backgroundColor: Global.dividerColor
   },
   content: {
     flex: 1,
@@ -231,7 +295,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: global.pageBackgroundColor
+    backgroundColor: Global.pageBackgroundColor
   },
   listItemContainer: {
     flexDirection: 'row',
@@ -290,11 +354,11 @@ const styles = StyleSheet.create({
 });
 
 const tabNavigatorScreen = TabNavigator({
-  Home: { screen: HomeScreen },
-  Contacts: { screen: ContactsScreen },
-  Find: { screen: FindScreen },
-  Me: { screen: MeScreen }
-},{
+  Home: {screen: HomeScreen},
+  Contacts: {screen: ContactsScreen},
+  Find: {screen: FindScreen},
+  Me: {screen: MeScreen}
+}, {
   tabBarOptions: {
     activeTintColor: '#45C018',
     inactiveTintColor: '#999999',
@@ -308,31 +372,30 @@ const tabNavigatorScreen = TabNavigator({
       marginBottom: -2,
       backgroundColor: '#FCFCFC',
     },
-    tabStyle: {
-    }
+    tabStyle: {}
   },
   tabBarPosition: 'bottom',
 });
 
 const MyApp = StackNavigator({
-  Splash: { screen: SplashScreen },
-  Home: { screen: tabNavigatorScreen },
-  Search: { screen: SearchScreen },
-  ContactDetail: { screen: ContactDetailScreen },
-  Chatting: { screen: ChattingScreen },
-  Moment: { screen: MomentScreen },
-  Scan: { screen: ScanScreen },
-  ScanResult: { screen: ScanResultScreen },
-  Shopping: { screen: ShoppingScreen },
-  CardPackage: { screen: CardPackageScreen },
-  Login: { screen: LoginScreen },
-  Register: { screen: RegisterScreen },
-  NewFriend: { screen: NewFriendsScreen },
-  PersonInfo: { screen: PersonInfoScreen },
-  PublishMoment: { screen: PublishMomentScreen },
-  ImageShow: { screen: ImageShowScreen },
-  Shake: { screen: ShakeScreen },
-  Settings: { screen: SettingsScreen }
+  Splash: {screen: SplashScreen},
+  Home: {screen: tabNavigatorScreen},
+  Search: {screen: SearchScreen},
+  ContactDetail: {screen: ContactDetailScreen},
+  Chatting: {screen: ChattingScreen},
+  Moment: {screen: MomentScreen},
+  Scan: {screen: ScanScreen},
+  ScanResult: {screen: ScanResultScreen},
+  Shopping: {screen: ShoppingScreen},
+  CardPackage: {screen: CardPackageScreen},
+  Login: {screen: LoginScreen},
+  Register: {screen: RegisterScreen},
+  NewFriend: {screen: NewFriendsScreen},
+  PersonInfo: {screen: PersonInfoScreen},
+  PublishMoment: {screen: PublishMomentScreen},
+  ImageShow: {screen: ImageShowScreen},
+  Shake: {screen: ShakeScreen},
+  Settings: {screen: SettingsScreen}
 }, {
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });

@@ -1,16 +1,7 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ToastAndroid,
-  Modal,
-  Dimensions,
-  Button
-} from 'react-native';
+import React, {Component} from 'react';
+import {Button, Dimensions, Modal, StyleSheet, Text, View} from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class UpgradeDialog extends Component {
   constructor(props) {
@@ -19,26 +10,31 @@ export default class UpgradeDialog extends Component {
       show: false
     }
   }
+
   render() {
     return (
       <Modal transparent={true}
-        visible={this.state.show}
-        onRequestClose={()=>this.closeModal()}>
+             visible={this.state.show}
+             onRequestClose={() => this.closeModal()}>
         <View style={styles.container}>
           <View style={styles.dialogContainer}>
             <View style={styles.textContainer}>
               <Text style={styles.titleText}>发现新版本！</Text>
             </View>
-            <View style={{width: width / 1.5, height: 1, backgroundColor: '#ECECEC'}} />
+            <View style={{width: width / 1.5, height: 1, backgroundColor: '#ECECEC'}}/>
             <View style={[styles.textContainer, {marginTop: 10, marginBottom: 10, paddingLeft: 10, paddingRight: 10}]}>
               <Text style={styles.contentText}>{this.props.content}</Text>
             </View>
             <View style={styles.textContainer}>
               <View style={styles.btnContainer}>
-                <Button color="#19AD17" title="　　更新　　" onPress={()=>{this.closeModal()}} />
+                <Button color="#19AD17" title="　　更新　　" onPress={() => {
+                  this.closeModal()
+                }}/>
               </View>
               <View style={styles.btnContainer}>
-                <Button color="#888888" title="　　取消　　" onPress={()=>{this.closeModal()}} />
+                <Button color="#888888" title="　　取消　　" onPress={() => {
+                  this.closeModal()
+                }}/>
               </View>
             </View>
           </View>
@@ -46,9 +42,11 @@ export default class UpgradeDialog extends Component {
       </Modal>
     );
   }
+
   closeModal() {
     this.setState({show: false});
   }
+
   showModal() {
     this.setState({show: true});
   }

@@ -1,17 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  Button,
-  PixelRatio,
-  ScrollView,
-  WebView,
-} from 'react-native';
+import {StyleSheet, View, WebView,} from 'react-native';
 
 export default class ShoppingScreen extends Component {
   render() {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import {
   StyleSheet,
@@ -11,7 +11,7 @@ export default class CommonLoadingView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large"/>
         <Text style={{marginTop: 15, fontSize: 16}}>{this.props.hintText || "加载中，请稍等..."}</Text>
       </View>
     );

@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
+import React, {Component} from 'react';
+import Global from '../utils/Global';
 
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  TouchableOpacity,
   Button,
-  StatusBar,
+  Dimensions,
+  Image,
   PixelRatio,
+  StatusBar,
+  StyleSheet,
   TextInput,
-  ToastAndroid
+  TouchableOpacity,
+  View
 } from 'react-native';
 
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class SearchTitleBar extends Component {
   constructor(props) {
@@ -24,25 +22,30 @@ export default class SearchTitleBar extends Component {
       inputContent: ''
     }
   }
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar
-           backgroundColor='#393A3E'
-           barStyle="light-content"
-         />
+          backgroundColor='#393A3E'
+          barStyle="light-content"
+        />
         <View style={styles.content}>
           <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
-            <Image source={require('../../images/ic_back.png')} style={styles.backBtn} />
+            <Image source={require('../../images/ic_back.png')} style={styles.backBtn}/>
           </TouchableOpacity>
-          <View style={styles.btnDivider} />
+          <View style={styles.btnDivider}/>
           <View style={styles.inputContainer}>
             <View style={styles.inputSubContainer}>
-              <Image source={require('../../images/ic_search_bar_search.png')} style={styles.icon} />
-              <TextInput onChangeText={(text)=>{this.setState({inputContent: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
-              <Button onPress={()=>{this.props.handleSearchClick(this.state.inputContent)}} color={'#49BC1C'} title={"搜索"} />
+              <Image source={require('../../images/ic_search_bar_search.png')} style={styles.icon}/>
+              <TextInput onChangeText={(text) => {
+                this.setState({inputContent: text})
+              }} style={styles.textInput} underlineColorAndroid="transparent"/>
+              <Button onPress={() => {
+                this.props.handleSearchClick(this.state.inputContent)
+              }} color={'#49BC1C'} title={"搜索"}/>
             </View>
-            <View style={styles.inputLine} />
+            <View style={styles.inputLine}/>
           </View>
         </View>
       </View>
@@ -61,13 +64,13 @@ const styles = StyleSheet.create({
   content: {
     width: width,
     height: 50,
-    backgroundColor: global.titleBackgroundColor,
+    backgroundColor: Global.titleBackgroundColor,
     flexDirection: 'row',
     alignItems: 'center'
   },
   backBtn: {
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
     width: 30,
     height: 30,
   },

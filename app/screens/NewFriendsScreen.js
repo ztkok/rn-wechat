@@ -1,25 +1,8 @@
-import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
+import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
+import {Button, Dimensions, FlatList, Image, PixelRatio, StyleSheet, Text, TextInput, View} from 'react-native';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  PixelRatio,
-  ScrollView,
-  WebView,
-  Animated,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid,
-  FlatList,
-  Button
-} from 'react-native';
-
-var { width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class NewFriendsScreen extends Component {
   render() {
@@ -37,8 +20,8 @@ export default class NewFriendsScreen extends Component {
         <CommonTitleBar nav={this.props.navigation} title={"新的朋友"}/>
         <View style={styles.searchView}>
           <View style={styles.searchEditText}>
-            <Image style={styles.searchImg} source={require('../../images/ic_search_gray.png')} />
-            <TextInput style={styles.searchInput} underlineColorAndroid="transparent" placeholder="微信号/QQ号/手机号" />
+            <Image style={styles.searchImg} source={require('../../images/ic_search_gray.png')}/>
+            <TextInput style={styles.searchInput} underlineColorAndroid="transparent" placeholder="微信号/QQ号/手机号"/>
           </View>
           <View style={styles.searchLine}></View>
         </View>
@@ -52,23 +35,25 @@ export default class NewFriendsScreen extends Component {
       </View>
     );
   }
+
   renderItem = (item) => {
     console.log(item)
     return (
       <View key={"list-item-" + item.item.key} style={listItem.container}>
-        <Image style={listItem.avatar} source={require('../../images/avatar.png')} />
+        <Image style={listItem.avatar} source={require('../../images/avatar.png')}/>
         <View style={listItem.titleContainer}>
           <Text style={listItem.title}>{item.item.title}</Text>
           <Text style={listItem.subtitle}>{item.item.subtitle}</Text>
         </View>
         <View style={listItem.btnContainer}>
-        {
-          item.item.state == 1 ? (
-            <Button title="接受" color="#19AD17" onPress={()=>{}} />
-          ) : (
-            <Text>已添加</Text>
-          )
-        }
+          {
+            item.item.state == 1 ? (
+              <Button title="接受" color="#19AD17" onPress={() => {
+              }}/>
+            ) : (
+              <Text>已添加</Text>
+            )
+          }
         </View>
       </View>
     );

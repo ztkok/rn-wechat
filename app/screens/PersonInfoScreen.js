@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import Toast from '@remobile/react-native-toast';
 import CommonTitleBar from '../views/CommonTitleBar';
 import ListItemDivider from '../views/ListItemDivider';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -6,109 +7,98 @@ import StorageUtil from '../utils/StorageUtil';
 import CountEmitter from '../event/CountEmitter';
 import LoadingView from '../views/LoadingView';
 import ReplyPopWin from '../views/ReplyPopWin';
-import global from '../utils/global';
-import utils from '../utils/utils';
+import Global from '../utils/Global';
+import Utils from '../utils/Utils';
+import {Dimensions, Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  Button,
-  PixelRatio,
-  FlatList,
-  TouchableHighlight,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
-
-var { width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class PersonInfoScreen extends Component {
   constructor(props) {
     super(props);
-    let userInfo = this.props.navigation.state.params.userInfo;
-    let nick = '';
-    if (!utils.isEmpty(userInfo)) {
-      nick = userInfo.name;
-    }
     this.state = {
-      username: '',
-      avatar: '',
       showProgress: false,
-      nickName: nick
     };
-    StorageUtil.get('username', (error, object)=>{
+    StorageUtil.get('username', (error, object) => {
       if (!error && object != null) {
-        this.setState({username: object.username});
+        let username = object.username;
+        this.setState({username: username});
       }
     });
-    StorageUtil.get('avatar', (error, object)=>{
-      if (!error && object != null) {
-        this.setState({avatar: object.avatar});
-      }
-    });
+    let userInfo = this.props.navigation.state.params.userInfo;
+    this.userInfo = userInfo;
   }
+
+  componentWillMount() {
+    this.setState({nick: this.userInfo.nick, avatar: this.userInfo.avatar});
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <CommonTitleBar nav={this.props.navigation} title={"个人信息"}/>
         {
           this.state.showProgress ? (
-            <LoadingView cancel={()=>this.setState({showProgress: false})} />
+            <LoadingView cancel={() => this.setState({showProgress: false})}/>
           ) : (null)
         }
         <View style={styles.list}>
-          <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.modifyAvatar()}}>
+          <TouchableHighlight underlayColor={Global.touchableHighlightColor} onPress={() => {
+            this.modifyAvatar()
+          }}>
             <View style={styles.listItem}>
               <Text style={styles.listItemLeftText}>头像</Text>
               <View style={styles.rightContainer}>
-                <Image style={[styles.listItemRight, styles.avatarImg]} source={utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}} />
+                <Image style={[styles.listItemRight, styles.avatarImg]}
+                       source={Utils.isEmpty(this.state.avatar) ? require('../../images/avatar.png') : {uri: this.state.avatar}}/>
               </View>
             </View>
           </TouchableHighlight>
-          <ListItemDivider />
-          <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{this.modifyUserNick()}}>
+          <ListItemDivider/>
+          <TouchableHighlight underlayColor={Global.touchableHighlightColor} onPress={() => {
+            this.modifyUserNick()
+          }}>
             <View style={styles.listItem} activeOpacity={0.6}>
               <Text style={styles.listItemLeftText}>昵称</Text>
               <View style={styles.rightContainer}>
-                <Text>{this.state.nickName}</Text>
+                <Text>{this.state.nick || ''}</Text>
               </View>
-              <Image source={require('../../images/ic_right_arrow.png')} style={styles.rightArrow} />
+              <Image source={require('../../images/ic_right_arrow.png')} style={styles.rightArrow}/>
             </View>
           </TouchableHighlight>
-          <ListItemDivider />
+          <ListItemDivider/>
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>微信号</Text>
             <View style={styles.rightContainer}>
-              <Text>{this.state.username}</Text>
+              <Text>{this.state.username || ''}</Text>
             </View>
           </View>
-          <ListItemDivider />
+          <ListItemDivider/>
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>二维码名片</Text>
             <View style={styles.rightContainer}>
-              <Image style={[styles.listItemRight, styles.qrcodeImg]} source={require('../../images/ic_qr_code.png')} />
+              <Image style={[styles.listItemRight, styles.qrcodeImg]} source={require('../../images/ic_qr_code.png')}/>
             </View>
           </View>
-          <ListItemDivider />
+          <ListItemDivider/>
           <View style={styles.listItem}>
             <Text style={styles.listItemLeftText}>更多</Text>
           </View>
-          <View style={{height: 20, width: width}} />
-          <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={()=>{}}>
+          <View style={{height: 20, width: width}}/>
+          <TouchableHighlight underlayColor={Global.touchableHighlightColor} onPress={() => {
+          }}>
             <View style={styles.listItem}>
               <Text style={styles.listItemLeftText}>我的地址</Text>
             </View>
           </TouchableHighlight>
         </View>
         <View style={{backgroundColor: 'transparent', position: 'absolute', left: 0, top: 0, width: width}}>
-          <ReplyPopWin ref="replyPopWin" />
+          <ReplyPopWin ref="replyPopWin"/>
         </View>
       </View>
     );
   }
+
   modifyUserNick() {
     this.refs.replyPopWin.showModalWhenUpdateInfo(this.state.username, (contactId, nickName) => {
       // 请求服务器，修改昵称
@@ -117,22 +107,26 @@ export default class PersonInfoScreen extends Component {
       let formData = new FormData();
       formData.append('contactId', contactId);
       formData.append('nick', nickName);
-      fetch(url, {method: 'POST', body: formData}).then((res)=>res.json())
-        .then((json)=>{
+      fetch(url, {method: 'POST', body: formData}).then((res) => res.json())
+        .then((json) => {
           this.setState({showProgress: false});
           if (json != null && json.code == 1) {
-            this.setState({nickName: nickName});
-            CountEmitter.emit('updateUserInfo');
-            ToastAndroid.show('修改成功', ToastAndroid.SHORT);
+            this.setState({nick: nickName});
+            this.userInfo.nick = nickName;
+            StorageUtil.set('userInfo-' + this.state.username, {'info': this.userInfo}, () => {
+              CountEmitter.emit('updateUserInfo');
+            });
+            Toast.showShortCenter('修改成功');
           } else {
-            ToastAndroid.show('修改失败', ToastAndroid.SHORT);
+            Toast.showShortCenter('修改失败');
           }
-        }).catch((e)=>{
-          this.setState({showProgress: false});
-          ToastAndroid.show('修改失败：' + e.toString(), ToastAndroid.SHORT);
-        })
+        }).catch((e) => {
+        this.setState({showProgress: false});
+        Toast.showShortCenter('修改失败' + e.toString());
+      })
     });
   }
+
   modifyAvatar() {
     // 修改头像
     ImagePicker.openPicker({
@@ -145,8 +139,8 @@ export default class PersonInfoScreen extends Component {
       let path = image.path;
       let filename = path.substring(path.lastIndexOf('/') + 1, path.length);
       let username = this.state.username;
-      if (utils.isEmpty(username)) {
-        ToastAndroid.show("用户未登录", ToastAndroid.SHORT);
+      if (Utils.isEmpty(username)) {
+        Toast.showShortCenter('用户未登录');
       } else {
         let formData = new FormData();
         formData.append('username', username);
@@ -154,23 +148,25 @@ export default class PersonInfoScreen extends Component {
         formData.append('file', file);
         let url = 'http://rnwechat.applinzi.com/updateAvatar';
         fetch(url, {method: 'POST', body: formData})
-          .then((res)=>res.json())
-          .then((json)=>{
+          .then((res) => res.json())
+          .then((json) => {
             this.setState({showProgress: false});
-            if (!utils.isEmpty(json)) {
+            if (!Utils.isEmpty(json)) {
               if (json.code == 1) {
-                ToastAndroid.show("修改头像成功", ToastAndroid.SHORT);
-                StorageUtil.set('avatar', {'avatar': json.msg});
+                Toast.showShortCenter('修改头像成功');
                 this.setState({avatar: json.msg});
-                // 发送消息通知其他界面更新头像
-                CountEmitter.emit('updateAvatar');
+                this.userInfo.avatar = json.msg;
+                StorageUtil.set('userInfo-' + this.state.username, {'info': this.userInfo}, () => {
+                  // 发送消息通知其他界面更新头像
+                  CountEmitter.emit('updateAvatar');
+                });
               } else {
-                ToastAndroid.show(json.msg, ToastAndroid.SHORT);
+                Toast.showShortCenter(json.msg);
               }
             }
-        }).catch((e)=>{
+          }).catch((e) => {
           this.setState({showProgress: false});
-          ToastAndroid.show(e.toString(), ToastAndroid.SHORT);
+          Toast.showShortCenter(e.toString());
         })
       }
     });

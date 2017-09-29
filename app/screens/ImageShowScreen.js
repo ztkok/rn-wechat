@@ -1,15 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Dimensions, Image, StyleSheet, View, ViewPagerAndroid} from 'react-native';
 
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  ViewPagerAndroid
-} from 'react-native';
-
-var { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 export default class ImageShowScreen extends Component {
   render() {
@@ -20,7 +12,7 @@ export default class ImageShowScreen extends Component {
       for (let i = 0; i < data.length; i++) {
         pages.push(
           <View key={data[i]} style={{width: width, height: height}}>
-            <Image resizeMode="contain" style={styles.image} source={{uri: data[i]}} />
+            <Image resizeMode="contain" style={styles.image} source={{uri: data[i]}}/>
           </View>
         );
       }

@@ -1,23 +1,18 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  ViewPagerAndroid,
-  Text
-} from 'react-native';
-
-var { width, height } = Dimensions.get('window');
-const normalSource = [require('../../images/ic_shake_person_normal.png'),
-                      require('../../images/ic_shake_music_normal.png'),
-                      require('../../images/ic_shake_tv_normal.png')];
-const checkedSource = [require('../../images/ic_shake_person_checked.png'),
-                       require('../../images/ic_shake_music_checked.png'),
-                       require('../../images/ic_shake_tv_checked.png')]
+const {width} = Dimensions.get('window');
+const normalSource = [
+  require('../../images/ic_shake_person_normal.png'),
+  require('../../images/ic_shake_music_normal.png'),
+  require('../../images/ic_shake_tv_normal.png')
+];
+const checkedSource = [
+  require('../../images/ic_shake_person_checked.png'),
+  require('../../images/ic_shake_music_checked.png'),
+  require('../../images/ic_shake_tv_checked.png')
+];
 
 export default class ShakeScreen extends Component {
   constructor(props) {
@@ -26,6 +21,7 @@ export default class ShakeScreen extends Component {
       icons: [checkedSource[0], normalSource[1], normalSource[2]]
     }
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -35,21 +31,21 @@ export default class ShakeScreen extends Component {
           <Image style={styles.shakeImg} source={require('../../images/ic_shake_below.png')}/>
         </View>
         <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.tabContainer} onPress={()=>this.handleTabClick(0)}>
+          <TouchableOpacity style={styles.tabContainer} onPress={() => this.handleTabClick(0)}>
             <View style={styles.tabContainer}>
-              <Image ref="iconPerson" style={styles.tabIcon} source={this.state.icons[0]} />
+              <Image ref="iconPerson" style={styles.tabIcon} source={this.state.icons[0]}/>
               <Text style={styles.tabTitle}>人</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tabContainer} onPress={()=>this.handleTabClick(1)}>
+          <TouchableOpacity style={styles.tabContainer} onPress={() => this.handleTabClick(1)}>
             <View style={styles.tabContainer}>
-              <Image ref="iconMusic" style={styles.tabIcon} source={this.state.icons[1]} />
+              <Image ref="iconMusic" style={styles.tabIcon} source={this.state.icons[1]}/>
               <Text style={styles.tabTitle}>歌曲</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tabContainer} onPress={()=>this.handleTabClick(2)}>
+          <TouchableOpacity style={styles.tabContainer} onPress={() => this.handleTabClick(2)}>
             <View style={styles.tabContainer}>
-              <Image ref="iconTv" style={styles.tabIcon} source={this.state.icons[2]} />
+              <Image ref="iconTv" style={styles.tabIcon} source={this.state.icons[2]}/>
               <Text style={styles.tabTitle}>电视</Text>
             </View>
           </TouchableOpacity>
@@ -57,6 +53,7 @@ export default class ShakeScreen extends Component {
       </View>
     );
   }
+
   handleTabClick(index) {
     let arr = this.state.icons;
     for (let i = 0; i < arr.length; i++) {

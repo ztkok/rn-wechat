@@ -1,28 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
-import Camera from 'react-native-camera';
-import { QRScannerView } from 'ac-qrcode';
-import global from '../utils/global';
+import {QRScannerView} from 'ac-qrcode';
+import {Dimensions, StyleSheet, View} from 'react-native';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  Button,
-  PixelRatio,
-  ScrollView,
-  ToastAndroid
-} from 'react-native';
-
-var { width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class ScanScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <CommonTitleBar title={"扫一扫"} nav={this.props.navigation} />
+        <CommonTitleBar title={"扫一扫"} nav={this.props.navigation}/>
         <View style={styles.cameraContainer}>
           <QRScannerView
             onScanResultReceived={this.barcodeReceived.bind(this)}
@@ -33,10 +20,13 @@ export default class ScanScreen extends Component {
       </View>
     );
   }
-  _renderTitleBar(){
+
+  _renderTitleBar() {
   }
+
   _renderMenu() {
   }
+
   barcodeReceived(e) {
     //跳转到扫码结果界面
     this.props.navigation.navigate('ScanResult', {resultText: e.data})

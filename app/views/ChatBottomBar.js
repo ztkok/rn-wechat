@@ -1,23 +1,16 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
-import utils from '../utils/utils';
+import React, {Component} from 'react';
+import Utils from '../utils/Utils';
 
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
   Button,
   Image,
-  Dimensions,
   PixelRatio,
-  StatusBar,
-  FlatList,
+  StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
-
-var { width, height } = Dimensions.get('window');
 
 const BAR_STATE_SHOW_KEYBOARD = 1;
 const BAR_STATE_SHOW_RECORDER = 2;
@@ -32,6 +25,7 @@ export default class ChatBottomBar extends Component {
       inputMsg: ''
     };
   }
+
   render() {
     var barState = this.state.barState;
     switch (barState) {
@@ -43,55 +37,61 @@ export default class ChatBottomBar extends Component {
         break;
     }
   }
+
   renderKeyBoardView() {
     return (
       <View style={styles.container}>
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "soundBtn")}>
-          <Image style={styles.icon} source={require('../../images/ic_chat_sound.png')} />
+          <Image style={styles.icon} source={require('../../images/ic_chat_sound.png')}/>
         </TouchableOpacity>
-        <TextInput value={this.state.inputMsg} onChangeText={(text)=>{this.setState({inputMsg: text})}} style={styles.input} />
+        <TextInput value={this.state.inputMsg} onChangeText={(text) => {
+          this.setState({inputMsg: text})
+        }} style={styles.input}/>
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "emojiBtn")}>
-          <Image style={styles.icon} source={require('../../images/ic_chat_emoji.png')} />
+          <Image style={styles.icon} source={require('../../images/ic_chat_emoji.png')}/>
         </TouchableOpacity>
         {
-          utils.isEmpty(this.state.inputMsg) ? (
+          Utils.isEmpty(this.state.inputMsg) ? (
             <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "moreBtn")}>
-              <Image style={[styles.icon, {marginLeft: 10}]} source={require('../../images/ic_chat_add.png')} />
+              <Image style={[styles.icon, {marginLeft: 10}]} source={require('../../images/ic_chat_add.png')}/>
             </TouchableOpacity>
           ) : (
             <View style={{marginLeft: 10}}>
-              <Button color={'#49BC1C'} title={"发送"} onPress={()=>this.sendMsg()} />
+              <Button color={'#49BC1C'} title={"发送"} onPress={() => this.sendMsg()}/>
             </View>
           )
         }
       </View>
     );
   }
+
   sendMsg() {
     let onSendBtnClickListener = this.props.handleSendBtnClick;
-    if (!utils.isEmpty(onSendBtnClickListener)) {
+    if (!Utils.isEmpty(onSendBtnClickListener)) {
       onSendBtnClickListener(this.state.inputMsg);
     }
     this.setState({inputMsg: ''});
   }
+
   renderRecorderView() {
     return (
       <View style={styles.container}>
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "soundBtn")}>
-          <Image style={styles.icon} source={require('../../images/ic_chat_keyboard.png')} />
+          <Image style={styles.icon} source={require('../../images/ic_chat_keyboard.png')}/>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.5} style={{flex: 1}}>
           <View style={styles.recorder}><Text>按住 说话</Text></View>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "emojiBtn")}>
-          <Image style={styles.icon} source={require('../../images/ic_chat_emoji.png')} />
+          <Image style={styles.icon} source={require('../../images/ic_chat_emoji.png')}/>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.5} onPress={this.handlePress.bind(this, "moreBtn")}>
-          <Image style={[styles.icon, {marginLeft: 10}]} source={require('../../images/ic_chat_add.png')} />
+          <Image style={[styles.icon, {marginLeft: 10}]} source={require('../../images/ic_chat_add.png')}/>
         </TouchableOpacity>
       </View>
     );
   }
+
   handlePress = (tag) => {
     if ("soundBtn" == tag) {
       if (this.state.barState === BAR_STATE_SHOW_KEYBOARD) {

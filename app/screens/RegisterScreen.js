@@ -1,25 +1,13 @@
-import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
+import React, {Component} from 'react';
+import Toast from '@remobile/react-native-toast';
 import CommonTitleBar from '../views/CommonTitleBar';
 import LoadingView from '../views/LoadingView';
 import StorageUtil from '../utils/StorageUtil';
-import utils from '../utils/utils';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  PixelRatio,
-  ScrollView,
-  WebView,
-  Animated,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
+import Utils from '../utils/Utils';
+import {api} from '../Lib/WebIM'
+import {Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
-var { width, height } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -31,6 +19,7 @@ export default class LoginScreen extends Component {
       showProgress: false
     }
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -38,27 +27,33 @@ export default class LoginScreen extends Component {
         <View style={styles.content}>
           {
             this.state.showProgress ? (
-              <LoadingView cancel={()=>this.setState({showProgress: false})} />
+              <LoadingView cancel={() => this.setState({showProgress: false})}/>
             ) : (null)
           }
-          <Image source={require('../../images/ic_launcher.png')} style={{width: 100, height: 100, marginTop: 100}} />
+          <Image source={require('../../images/ic_launcher.png')} style={{width: 100, height: 100, marginTop: 100}}/>
           <View style={styles.pwdView}>
             <View style={styles.pwdContainer}>
-              <Text style={{fontSize: 16}}>　用户名：</Text>
-              <TextInput onChangeText={(text)=>{this.setState({username: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
+              <Text style={{fontSize: 16}}> 用户名：</Text>
+              <TextInput onChangeText={(text) => {
+                this.setState({username: text})
+              }} style={styles.textInput} underlineColorAndroid="transparent"/>
             </View>
             <View style={styles.pwdDivider}></View>
             <View style={styles.pwdContainer}>
-              <Text style={{fontSize: 16}}>　　密码：</Text>
-              <TextInput secureTextEntry={true} onChangeText={(text)=>{this.setState({password: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
+              <Text style={{fontSize: 16}}> 密码：</Text>
+              <TextInput secureTextEntry={true} onChangeText={(text) => {
+                this.setState({password: text})
+              }} style={styles.textInput} underlineColorAndroid="transparent"/>
             </View>
             <View style={styles.pwdDivider}></View>
             <View style={styles.pwdContainer}>
               <Text style={{fontSize: 16}}>重复密码：</Text>
-              <TextInput secureTextEntry={true} onChangeText={(text)=>{this.setState({confirmPwd: text})}} style={styles.textInput} underlineColorAndroid="transparent" />
+              <TextInput secureTextEntry={true} onChangeText={(text) => {
+                this.setState({confirmPwd: text})
+              }} style={styles.textInput} underlineColorAndroid="transparent"/>
             </View>
             <View style={styles.pwdDivider}></View>
-            <TouchableOpacity activeOpacity={0.6} onPress={()=>this.register()}>
+            <TouchableOpacity activeOpacity={0.6} onPress={() => this.register()}>
               <View style={styles.loginBtn}>
                 <Text style={{color: '#FFFFFF', fontSize: 16}}>注册</Text>
               </View>
@@ -68,36 +63,60 @@ export default class LoginScreen extends Component {
       </View>
     );
   }
+
   isContainChinese(str) {
     var reg = /[\u4e00-\u9fa5]/g;
-    if(reg.test(str)){
-        return true;
+    if (reg.test(str)) {
+      return true;
     }
     return false;
   }
+
+  registerHX(username, password) {
+    // 请求环信的注册接口
+    let options = {
+      username: username,
+      password: password,
+      nickname: username
+    };
+    api.register(options).then((data) => {
+      this.setState({showProgress: false});
+      if (data.error) {
+        Toast.showShortCenter('注册失败：' + data.error_description);
+        return;
+      }
+      Toast.showShortCenter('注册成功');
+      StorageUtil.set('username', {'username': username});
+      // 关闭当前页面
+      this.props.navigation.goBack();
+      // 跳转到登录界面
+      this.props.navigation.navigate('Login');
+    });
+  }
+
   register() {
     var username = this.state.username;
     var password = this.state.password;
     var confirmPwd = this.state.confirmPwd;
-    if (utils.isEmpty(username) || utils.isEmpty(password) || utils.isEmpty(confirmPwd)) {
-      ToastAndroid.show('用户名或密码不能为空！', ToastAndroid.SHORT);
-      return ;
+    if (Utils.isEmpty(username) || Utils.isEmpty(password) || Utils.isEmpty(confirmPwd)) {
+      Toast.showShortCenter('用户名或密码不能为空！');
+      return;
     }
     if (this.isContainChinese(username)) {
-      ToastAndroid.show('用户名不能包含中文！', ToastAndroid.SHORT);
-      return ;
+      Toast.showShortCenter('用户名不能包含中文！');
+      return;
     }
     if (username.length > 15) {
-      ToastAndroid.show('用户名长度不得大于15个字符！', ToastAndroid.SHORT);
-      return ;
+      Toast.showShortCenter('用户名长度不得大于15个字符！');
+      return;
     }
     if (password.length < 6) {
-      ToastAndroid.show('密码至少需要6个字符！', ToastAndroid.SHORT);
-      return ;
+      Toast.showShortCenter('密码至少需要6个字符！');
+      return;
     }
     if (password !== confirmPwd) {
-      ToastAndroid.show('两次输入的密码不一致！', ToastAndroid.SHORT);
-      return ;
+      Toast.showShortCenter('两次输入的密码不一致！');
+      return;
     }
     this.setState({showProgress: true});
     //请求服务器注册接口
@@ -108,30 +127,23 @@ export default class LoginScreen extends Component {
     fetch(registerUrl, {
       method: 'POST',
       body: formData
-    }).then((res)=>res.json())
-      .then((json)=>{
-        this.setState({showProgress: false});
-        if (!utils.isEmpty(json)) {
-          var msg = json.msg;
+    }).then((res) => res.json())
+      .then((json) => {
+        if (!Utils.isEmpty(json)) {
           if (json.code === 1) {
-            // 注册成功
-            ToastAndroid.show(msg, ToastAndroid.SHORT);
-            this.setState({showProgress: false});
-            // 保存注册的用户名
-            StorageUtil.set('username', {'username': username});
-            // 关闭当前页面
-            this.props.navigation.goBack();
-            // 跳转到登录界面
-            this.props.navigation.navigate('Login');
+            this.registerHX(username, password);
           } else {
-            ToastAndroid.show(msg, ToastAndroid.SHORT);
+            this.setState({showProgress: false});
+            Toast.showShortCenter(msg);
           }
+        } else {
+          this.setState({showProgress: false});
         }
-      }).catch((e)=>{
-        ToastAndroid.show('网络请求出错' + e, ToastAndroid.SHORT);
-        console.log(e);
-        this.setState({showProgress: false});
-      })
+      }).catch((e) => {
+      Toast.showShortCenter('网络请求出错' + e);
+      console.log(e);
+      this.setState({showProgress: false});
+    })
   }
 }
 

@@ -1,25 +1,15 @@
-import React, { Component } from 'react';
-import global from '../utils/global';
+import React, {Component} from 'react';
+import Global from '../utils/Global';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  Button,
-  PixelRatio,
-  ScrollView,
-  TouchableHighlight,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableHighlight, View,} from 'react-native';
 
 export default class ListItem extends Component {
   render() {
     return (
       <View>
-        <TouchableHighlight underlayColor={global.touchableHighlightColor} onPress={this.props.handleClick}>
+        <TouchableHighlight underlayColor={Global.touchableHighlightColor} onPress={this.props.handleClick}>
           <View style={listItemStyles.container}>
-            <Image style={listItemStyles.icon} source={this.props.icon} />
+            <Image style={listItemStyles.icon} source={this.props.icon}/>
             <View style={listItemStyles.menuContainer}>
               <Text style={listItemStyles.menuText}>{this.props.text}</Text>
             </View>
