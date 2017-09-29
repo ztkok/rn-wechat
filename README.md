@@ -6,7 +6,7 @@
 # 运行方法
 1. 在项目根目录下执行npm install
 2. 项目中的导航组件使用的ReactNavigation，所以还需要执行npm install --save react-navigation
-3. 二维码扫描组件使用了开源项目react-native-camera和AC-QRCode-RN，图片选择和裁剪使用了react-native-image-crop-picker库，Toast提示使用了@remobile/react-native-toast，请按这四个项目的文档添加至项目中，地址为：
+3. 二维码扫描组件使用了开源项目react-native-camera和AC-QRCode-RN，图片选择和裁剪使用了react-native-image-crop-picker库，Toast提示使用了@remobile/react-native-toast，感谢这几个项目的作者！请按这四个项目的文档添加至RNWeChat项目中，地址为：
   * https://github.com/lwansbrough/react-native-camera
   * https://github.com/MarnoDev/AC-QRCode-RN
   * https://github.com/ivpusic/react-native-image-crop-picker
