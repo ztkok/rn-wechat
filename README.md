@@ -50,9 +50,9 @@ signingConfigs {
 * 2017-09-29 删除网易云信IM，改用环信IM（网易巨坑，免费版超过100人无法收发消息，文档里又没有注明，法克！！！）。
 
 # 截图
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/666.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/111.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/222.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/333.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/444.png)
-![image](https://github.com/yubo725/RNWeChat/blob/master/screenshots/555.png)
+<img src='./screenshots/666.png'>
+<img src='./screenshots/111.png'>
+<img src='./screenshots/222.png'>
+<img src='./screenshots/333.png'>
+<img src='./screenshots/444.png'>
+<img src='./screenshots/555.png'>
