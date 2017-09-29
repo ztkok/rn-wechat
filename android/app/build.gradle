@@ -82,6 +82,10 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+def packageTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -133,6 +137,17 @@ android {
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                File outputDirectory = new File(outputFile.parent);
+                def fileName
+                if (variant.buildType.name == "release") {
+                    fileName = "RNWeChat_v${defaultConfig.versionName}_${packageTime()}_release.apk"
+                } else if (variant.buildType.name == "debug") {
+                    fileName = "RNWeChat_v${defaultConfig.versionName}_${packageTime()}_debug.apk"
+                }
+                output.outputFile = new File(outputDirectory, fileName)
             }
         }
     }
