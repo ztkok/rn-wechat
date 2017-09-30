@@ -48,6 +48,7 @@ signingConfigs {
 * 2017-09-13 加入单聊功能，目前仅支持文本消息，加入修改昵称的功能。
 * 2017-09-15 聊天界面显示消息时间。
 * 2017-09-29 删除网易云信IM，改用环信IM（网易巨坑，免费版超过100人无法收发消息，文档里又没有注明，法克！！！）。
+* 2017-09-30 代码适配iOS（目前还有一些小问题），加入iOS截图，修复之前的一些bug
 
 # 截图
 <img src='./screenshots/666.png'>
@@ -56,3 +57,11 @@ signingConfigs {
 <img src='./screenshots/333.png'>
 <img src='./screenshots/444.png'>
 <img src='./screenshots/555.png'>
+<img src='./screenshots/mac/mac01.png'>
+<img src='./screenshots/mac/mac02.png'>
+<img src='./screenshots/mac/mac03.png'>
+<img src='./screenshots/mac/mac04.png'>
+<img src='./screenshots/mac/mac05.png'>
+<img src='./screenshots/mac/mac06.png'>
+<img src='./screenshots/mac/mac07.png'>
+<img src='./screenshots/mac/mac08.png'>
