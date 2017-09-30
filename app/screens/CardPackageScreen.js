@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import StorageUtil from '../utils/StorageUtil';
 
 // 卡包
 export default class CardPackageScreen extends Component {

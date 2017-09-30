@@ -30,6 +30,7 @@ import CountEmitter from './app/event/CountEmitter';
 import Global from './app/utils/Global';
 import Utils from './app/utils/Utils';
 import Toast from '@remobile/react-native-toast';
+import UserInfoUtil from './app/utils/UserInfoUtil';
 
 import {
   AppRegistry,
@@ -69,20 +70,27 @@ export default class HomeScreen extends Component {
       recentConversation: []
     };
     this.registerHXListener();
-    StorageUtil.get('username', (error, object) => {
-      if (!error && object != null) {
-        this.setState({username: object.username});
-        this.loadConversations(object.username);
-      }
-    });
   }
 
   loadConversations(username) {
     ConversationUtil.getConversations(username, (result) => {
-      console.log('-----------show conversations-----------')
-      console.log(result);
-      console.log('-----------show conversations-----------')
-      this.setState({recentConversation: result})
+      let count = result.length;
+      let index = 0;
+      for (let i = 0; i < count; i++) {
+        let conversation = result[i];
+        let chatWithUsername = conversation.conversationId.replace(username, '');
+        UserInfoUtil.getUserInfo(chatWithUsername, (userInfo) => {
+          index++;
+          if (userInfo != null) {
+            conversation['avatar'] = userInfo.avatar;
+            conversation['nick'] = userInfo.nick;
+          }
+          if (index == count) {
+            this.setState({recentConversation: result});
+            ConversationUtil.showConversations();
+          }
+        });
+      }
     });
   }
 
@@ -90,12 +98,8 @@ export default class HomeScreen extends Component {
     WebIM.conn.listen({
       // xmpp连接成功
       onOpened: (msg) => {
+        Toast.showShortCenter('onOpend')
         // 登录环信服务器成功后回调这里
-        if (!this.isAutoLogin) {
-          CountEmitter.emit('loginToHXSuccess');
-        } else {
-          this.autoLoginSuccessCallback();
-        }
         // 出席后才能接受推送消息
         WebIM.conn.setPresence();
       },
@@ -104,7 +108,8 @@ export default class HomeScreen extends Component {
       },
       // 各种异常
       onError: (error) => {
-        console.log(error)
+        Toast.showShortCenter('登录聊天服务器出错');
+        console.log('onError: ' + JSON.stringify(error));
       },
       // 连接断开
       onClosed: (msg) => {
@@ -115,7 +120,7 @@ export default class HomeScreen extends Component {
       },
       // 文本消息
       onTextMessage: (message) => {
-        message.conversationId = message.from + message.to;
+        message.conversationId = ConversationUtil.generateConversationId(message.from, message.to);
         message.msgType = 'txt';
         message.time = TimeUtil.currentTime();
         ConversationUtil.addMessage(message, (error) => {
@@ -126,7 +131,7 @@ export default class HomeScreen extends Component {
         });
       },
       onPictureMessage: (message) => {
-        message.conversationId = message.from + message.to;
+        message.conversationId = ConversationUtil.generateConversationId(message.from, message.to);
         message.msgType = 'img';
         message.time = TimeUtil.currentTime();
         ConversationUtil.addMessage(message, (error) => {
@@ -139,11 +144,12 @@ export default class HomeScreen extends Component {
     });
   }
 
-  unregisterListeners() {
-    this.recentListener && this.recentListener.remove();
+  componentWillMount() {
+    CountEmitter.addListener('notifyConversationListRefresh', () => {
+      // 重新加载会话
+      this.loadConversations(this.state.username);
+    });
   }
-
-  _keyExtractor = (item, index) => item.conversationId
 
   render() {
     return (
@@ -175,14 +181,19 @@ export default class HomeScreen extends Component {
     );
   }
 
-  componentWillMount() {
-    CountEmitter.addListener('notifyConversationListRefresh', () => {
-      // 重新加载会话
-      this.loadConversations(this.state.username);
-    });
+  unregisterListeners() {
+    CountEmitter.removeListener('notifyConversationListRefresh', ()=>{});
   }
 
+  _keyExtractor = (item, index) => item.conversationId
+
   componentDidMount() {
+    StorageUtil.get('username', (error, object) => {
+      if (!error && object && object.username) {
+        this.setState({username: object.username});
+        this.loadConversations(object.username);
+      }
+    });
     // 组件挂载完成后检查是否有更新，只针对Android平台检查
     if (!this.state.checkedUpgrade) {
       if (Platform.OS === 'android') {
@@ -261,7 +272,7 @@ export default class HomeScreen extends Component {
               <View style={styles.listItemSubContainer}>
                 <Text numberOfLines={1} style={styles.listItemSubtitle}>{lastMsgContent}</Text>
                 {
-                  0 > 0 ? (
+                  data.item.unreadCount > 0 ? (
                     <View style={styles.redDot}>
                       <Text style={styles.redDotText}>{data.item.unreadCount}</Text>
                     </View>

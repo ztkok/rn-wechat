@@ -7,6 +7,7 @@ import CommonLoadingView from '../views/CommonLoadingView';
 import CountEmitter from '../event/CountEmitter';
 import Global from '../utils/Global';
 import Utils from '../utils/Utils';
+import Toast from '@remobile/react-native-toast';
 
 import {
   Dimensions,
@@ -75,6 +76,11 @@ export default class MeScreen extends Component {
       // 刷新用户数据
       this.loadUserInfo();
     });
+  }
+
+  componentWillUnmount() {
+    CountEmitter.removeListener('updateAvatar', ()=>{});
+    CountEmitter.removeListener('updateUserInfo', ()=>{});
   }
 
   render() {

@@ -25,7 +25,4 @@ export default class UserInfoUtil {
     })
   }
 
-  static getUserInfoFromServer(username, callback) {
-
-  }
 }

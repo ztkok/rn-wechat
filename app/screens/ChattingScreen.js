@@ -42,8 +42,8 @@ export default class ChattingScreen extends Component {
           }
         });
         this.username = username;
-        let conversationId = this.chatContactId + username;
-        ConversationUtil.getConversation(conversationId, (data) => {
+        this.conversationId = ConversationUtil.generateConversationId(this.chatContactId, username);
+        ConversationUtil.getConversation(this.conversationId, (data) => {
           if (data != null) {
             this.setState({conversation: data, messages: data.messages});
           }
@@ -55,12 +55,14 @@ export default class ChattingScreen extends Component {
   componentWillMount() {
     CountEmitter.addListener('notifyChattingRefresh', () => {
       // 刷新消息
-      let conversationId = this.chatContactId + this.username;
+      let conversationId = ConversationUtil.generateConversationId(this.chatContactId, this.username);
       ConversationUtil.getConversation(conversationId, (data) => {
         if (data != null) {
-          this.setState({conversation: data, messages: data.messages});
+          this.setState({conversation: data, messages: data.messages}, ()=>{
+            this.scroll();
+          });
         }
-      })
+      });
     });
   }
 
@@ -135,7 +137,7 @@ export default class ChattingScreen extends Component {
     WebIM.conn.send(msg.body);
     // 还需要将本条消息添加到当前会话中
     this.concatMessage({
-      'conversationId': this.chatContactId + this.username,
+      'conversationId': ConversationUtil.generateConversationId(this.chatContactId, this.username),
       'id': id,
       'from': this.username,
       'to': this.chatContactId,
@@ -186,7 +188,7 @@ export default class ChattingScreen extends Component {
     });
     WebIM.conn.send(msg.body);
     this.concatMessage({
-      'conversationId': this.chatContactId + this.username,
+      'conversationId': ConversationUtil.generateConversationId(this.chatContactId, this.username),
       'id': id,
       'from': this.username,
       'to': this.chatContactId,
@@ -195,9 +197,6 @@ export default class ChattingScreen extends Component {
       'ext': {width: imageWidth, height: imageHeight},
       'msgType': 'img'
     })
-  }
-
-  componentDidMount() {
   }
 
   scroll() {
@@ -212,12 +211,20 @@ export default class ChattingScreen extends Component {
     let msgs = this.state.messages;
     msgs.push(message);
     console.log(msgs);
-    this.setState({messages: msgs});
+    this.setState({messages: msgs}, ()=>{
+      this.scroll();
+    });
   }
 
   componentWillUnmount() {
     this.scrollTimeout && clearTimeout(this.scrollTimeout);
-    this.setState({isSessionStarted: false});
+    CountEmitter.removeListener('notifyChattingRefresh', ()=>{});
+    // 通知会话列表刷新未读数
+    if (this.conversationId) {
+      ConversationUtil.clearUnreadCount(this.conversationId, ()=>{
+        CountEmitter.emit('notifyConversationListRefresh');
+      })
+    }
   }
 
   updateView = (emoji, more) => {

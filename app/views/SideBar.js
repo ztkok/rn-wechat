@@ -26,6 +26,7 @@ export default class SideBar extends Component {
   }
 
   onLetterSelectedListener = (letter) => {
-    Toast.showShortCenter(letter);
+    // Toast.showShortCenter(letter);
+    this.props.onLetterSelectedListener && this.props.onLetterSelectedListener(letter);
   }
 }

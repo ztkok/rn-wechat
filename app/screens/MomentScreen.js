@@ -345,6 +345,9 @@ export default class MomentScreen extends Component {
   doCommentCallback = (momentId, momentUsername) => {
     this.refs.replyPopWin.showModal(momentId, momentUsername, this.doCommentSuccessCallback);
   }
+  componentWillUnmount() {
+    CountEmitter.removeListener('updateMomentList', ()=>{});    
+  }
 }
 
 const listItemStyle = StyleSheet.create({

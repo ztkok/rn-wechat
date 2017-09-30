@@ -44,6 +44,9 @@ export default class StorageUtil {
     return AsyncStorage.removeItem(key);
   }
 
+  /**
+  * 清除所有Storage
+  */
   static clear() {
     AsyncStorage.clear();
   }

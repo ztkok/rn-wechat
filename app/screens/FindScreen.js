@@ -26,7 +26,7 @@ export default class FindScreen extends Component {
     return (
       <View style={styles.container}>
         <TitleBar nav={this.props.navigation}/>
-        <View style={styles.divider}></View>
+        <View style={styles.divider} />
         <ScrollView style={styles.content}>
           <View style={{width: width, height: 20}}/>
           <ListItem icon={require('../../images/ic_friends_circle.png')} text={"朋友圈"} handleClick={() => {
@@ -53,7 +53,7 @@ export default class FindScreen extends Component {
           <View style={{width: width, height: 20}}/>
           <ListItem icon={require('../../images/ic_program.png')} text={"小程序"}/>
         </ScrollView>
-        <View style={styles.divider}></View>
+        <View style={styles.divider} />
       </View>
     );
   }

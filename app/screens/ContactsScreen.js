@@ -154,20 +154,46 @@ export default class ContactsScreen extends Component {
         }
       }
     }
+    this.listData = listData;
     return (
       <View style={styles.container}>
         <TitleBar nav={this.props.navigation}/>
         <View style={styles.divider}></View>
         <View style={styles.content}>
           <FlatList
+            ref={'list'}
             data={listData}
-            renderItem={this.renderItem}
+            renderItem={this._renderItem}
+            getItemLayout={this._getItemLayout}
           />
-          <SideBar/>
+          <SideBar onLetterSelectedListener={this.onSideBarSelected.bind(this)}/>
         </View>
         <View style={styles.divider}></View>
       </View>
     );
+  }
+
+  _getItemLayout = (data, index) => {
+    let len = data.sectionStart ? (58) : (51);
+    let dividerHeight = 1 / PixelRatio.get();
+    return {
+      length: len,
+      offset: (len + dividerHeight) * index,
+      index
+    };
+  }
+
+  onSideBarSelected(letter) {
+    if (this.listData) {
+      for (let i = 0; i < this.listData.length; i++) {
+        let item = this.listData[i];
+        if (item.firstLetter == letter && item.sectionStart) {
+          Toast.showShortCenter(letter);
+          this.refs.list.scrollToIndex({viewPosition: 0, index: i});
+          break;
+        }
+      }
+    }
   }
 
   onListItemClick(item) {
@@ -182,7 +208,7 @@ export default class ContactsScreen extends Component {
     }
   }
 
-  renderItem = (item) => {
+  _renderItem = (item) => {
     var section = [];
     if (item.item.sectionStart) {
       section.push(<Text key={"section" + item.item.key}

@@ -422,6 +422,11 @@ function endWith(str, suffix) {
   return reg.test(str);
 }
 
+function startWith(str, prefix) {
+  var reg = new RegExp("^" + prefix);
+  return reg.test(str);
+}
+
 //汉字转换为拼音
 function convertPinyin(code, letter) {
   if (isEmpty(code)) {
@@ -441,5 +446,6 @@ function convertPinyin(code, letter) {
 module.exports = {
   convertPinyin: convertPinyin,
   isEmpty: isEmpty,
-  endWith: endWith
+  endWith: endWith,
+  startWith: startWith
 }

@@ -21,10 +21,10 @@ export default class LoginScreen extends Component {
       avatar: ''
     };
     StorageUtil.get('username', (error, object) => {
-      if (!error && object != null) {
+      if (!error && object && object.username) {
         this.setState({username: object.username});
         StorageUtil.get('userInfo-' + object.username, (error, object) => {
-          if (!error && object != null) {
+          if (!error && object && object.info) {
             let userInfo = object.info;
             if (userInfo && userInfo.avatar) {
               this.setState({avatar: userInfo.avatar});
@@ -32,24 +32,6 @@ export default class LoginScreen extends Component {
           }
         });
       }
-    });
-  }
-
-  componentWillMount() {
-    CountEmitter.addListener('loginToHXSuccess', () => {
-      // 登录环信服务器成功
-      Toast.showShortCenter('登录成功');
-      StorageUtil.set('hasLogin', {'hasLogin': true});
-      StorageUtil.set('username', {'username': this.loginUsername});
-      StorageUtil.set('password', {'password': this.loginPassword});
-      // 清除所有路由状态，并跳转到actions中的路由
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({routeName: 'Home'})
-        ]
-      });
-      this.props.navigation.dispatch(resetAction);
     });
   }
 
@@ -118,18 +100,18 @@ export default class LoginScreen extends Component {
   }
 
   login() {
-    var username = '';
+    let username = '';
     if (Utils.isEmpty(this.state.username)) {
       username = this.state.inputUsername;
     } else {
       username = this.state.username;
     }
-    var password = this.state.password;
+    let password = this.state.password;
     if (Utils.isEmpty(username) || Utils.isEmpty(password)) {
       Toast.showShortCenter('用户名或密码不能为空');
       return;
     }
-    var url = 'http://rnwechat.applinzi.com/login2';
+    let url = 'http://rnwechat.applinzi.com/login2';
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -141,16 +123,17 @@ export default class LoginScreen extends Component {
         if (!Utils.isEmpty(json)) {
           if (json.code === 1) {
             // 登录服务器成功，再登录NIM的服务器
-            var data = json.msg;
+            let data = json.msg;
             if (data != null) {
-              var userInfo = {
+              let userInfo = {
                 username: username,
                 nick: data.nick,
                 avatar: data.avatar
               };
-              var key = 'userInfo-' + username;
+              let key = 'userInfo-' + username;
               StorageUtil.set(key, {'info': userInfo});
               Toast.showShortCenter('登录聊天服务器...');
+              this.registerHXListener();
               this.loginToHX(username, password);
             }
           } else {
@@ -181,7 +164,37 @@ export default class LoginScreen extends Component {
     });
   }
 
+  registerHXListener() {
+    WebIM.conn.listen({
+      // xmpp连接成功
+      onOpened: (msg) => {
+        // 登录环信服务器成功后回调这里，关闭当前页面并跳转到HomeScreen
+        Toast.showShortCenter('登录成功');
+        StorageUtil.set('hasLogin', {'hasLogin': true});
+        StorageUtil.set('username', {'username': this.loginUsername});
+        StorageUtil.set('password', {'password': this.loginPassword});
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName: 'Home'})
+          ]
+        });
+        this.props.navigation.dispatch(resetAction);
+      },
+      // 各种异常
+      onError: (error) => {
+        Toast.showShortCenter('登录聊天服务器出错');
+        console.log('onError: ' + JSON.stringify(error))
+      },
+      // 连接断开
+      onClosed: (msg) => {
+        // Toast.showShortCenter('与聊天服务器连接断开');
+      },
+    });
+  }
+
   componentWillUnmount() {
+    CountEmitter.removeListener('loginToHXSuccess', ()=>{});
   }
 }
 

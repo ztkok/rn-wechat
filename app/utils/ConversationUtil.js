@@ -12,7 +12,7 @@ export default class ConversationUtil {
         let result = object.conversations;
         if (username != null) {
           result = object.conversations.filter(function (con) {
-            return Utils.endWith(con.conversationId, username);
+            return Utils.endWith(con.conversationId, username) || Utils.startWith(con.conversationId, username);
           });
         }
         callback && callback(result);
@@ -29,6 +29,14 @@ export default class ConversationUtil {
       let conversation = this.isConversationExists(result, conversationId);
       callback(conversation);
     });
+  }
+
+  // 根据用户名生成会话id，规则是将较小的用户名排在前面
+  static generateConversationId(username1, username2) {
+    if (username1 < username2) {
+      return username1 + username2;
+    }
+    return username2 + username1;
   }
 
   // 判断某个会话是否存在
@@ -55,6 +63,11 @@ export default class ConversationUtil {
     this.getConversations(null, (result) => {
       let conversation = this.isConversationExists(result, conversationId);
       if (conversation) {
+        if (conversation.unreadCount) {
+          conversation.unreadCount = conversation.unreadCount + 1;
+        } else {
+          conversation.unreadCount = 1;
+        }
         conversation.messages.push(message);
         conversation.lastTime = TimeUtil.currentTime();
       } else {
@@ -62,7 +75,8 @@ export default class ConversationUtil {
           'conversationId': conversationId,
           'messages': [message],
           'lastTime': TimeUtil.currentTime(),
-          'avatar': null
+          'avatar': null,
+          'unreadCount': 1
         };
         result.push(conversation);
       }
@@ -92,6 +106,23 @@ export default class ConversationUtil {
           })
         }
       });
+    })
+  }
+
+  // 将conversationId对应的会话未读书置为0
+  static clearUnreadCount(conversationId, callback) {
+    this.getConversations(null, (conversations)=>{
+      if (conversations) {
+        for (let i = 0; i < conversations.length; i++) {
+          if (conversations[i].conversationId == conversationId) {
+            conversations[i].unreadCount = 0;
+            break;
+          }
+        }
+        StorageUtil.set('conversations', {'conversations': conversations}, ()=>{
+          callback && callback();
+        });
+      }
     })
   }
 }
