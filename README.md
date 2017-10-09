@@ -51,17 +51,11 @@ signingConfigs {
 * 2017-09-30 代码适配iOS（目前还有一些小问题），加入iOS截图，修复之前的一些bug
 
 # 截图
-<img src='./screenshots/666.png'>
-<img src='./screenshots/111.png'>
-<img src='./screenshots/222.png'>
-<img src='./screenshots/333.png'>
-<img src='./screenshots/444.png'>
-<img src='./screenshots/555.png'>
-<img src='./screenshots/mac/mac01.png'>
-<img src='./screenshots/mac/mac02.png'>
-<img src='./screenshots/mac/mac03.png'>
-<img src='./screenshots/mac/mac04.png'>
-<img src='./screenshots/mac/mac05.png'>
-<img src='./screenshots/mac/mac06.png'>
-<img src='./screenshots/mac/mac07.png'>
-<img src='./screenshots/mac/mac08.png'>
+<img src='./screenshots/01.png'>
+<img src='./screenshots/02.png'>
+<img src='./screenshots/03.png'>
+<img src='./screenshots/04.png'>
+<img src='./screenshots/05.png'>
+<img src='./screenshots/06.png'>
+<img src='./screenshots/07.png'>
+<img src='./screenshots/08.png'>

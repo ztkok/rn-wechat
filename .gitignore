@@ -53,3 +53,7 @@ fastlane/Preview.html
 fastlane/screenshots
 
 # README.md
+
+screenshots/Android
+screenshots/iOS
+screenshots/test.html
