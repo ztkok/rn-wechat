@@ -1,6 +1,6 @@
 import React from 'react'
 import Global from '../utils/Global';
-
+import Toast from '@remobile/react-native-toast';
 import {Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 
 const {width, height} = Dimensions.get('window');

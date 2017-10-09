@@ -380,10 +380,11 @@ const tabNavigatorScreen = TabNavigator({
       marginBottom: 0,
     },
     style: {
-      marginBottom: -2,
       backgroundColor: '#FCFCFC',
+      paddingBottom: 5
     },
-    tabStyle: {}
+    tabStyle: {
+    }
   },
   tabBarPosition: 'bottom',
 });

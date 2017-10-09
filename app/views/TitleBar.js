@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Button,
+  Platform
 } from 'react-native';
 
 const {width, height} = Dimensions.get('window');
@@ -22,7 +23,7 @@ export default class TitleBar extends Component {
     }
   }
 
-  render() {
+  renderAndroid() {
     return (
       <View style={styles.titleBarContainer}>
         <View style={styles.titleBarTextContainer}>
@@ -57,6 +58,53 @@ export default class TitleBar extends Component {
         </View>
       </View>
     );
+  }
+
+  renderIOS() {
+    return (
+      <View style={{flexDirection: 'column'}}>
+      <View style={{height: 20, backgroundColor: Global.titleBackgroundColor}}/>
+      <View style={styles.titleBarContainer}>
+        <View style={styles.titleBarTextContainer}>
+          <Text style={styles.title}>RN微信</Text>
+        </View>
+        <View style={styles.titleBarButtonContainer}>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleSearchClick}>
+            <Image
+              source={require('../../images/ic_search.png')}
+              style={styles.titleBarImg}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleAddClick}>
+            <Image
+              source={require('../../images/ic_add.png')}
+              style={styles.titleBarImg}
+            />
+          </TouchableOpacity>
+          <View style={{position: 'absolute', top: 100, left: 0, width: width, height: height}}>
+            <MenuPopWindow
+              width={140}
+              height={200}
+              show={this.state.showPop}
+              closeModal={(show) => {
+                this.setState({showPop: show})
+              }}
+              menuIcons={[require('../../images/ic_pop_group_chat.png'), require('../../images/ic_pop_add_friends.png'), require('../../images/ic_pop_scan.png'),
+                require('../../images/ic_pop_pay.png'), require('../../images/ic_pop_help.png')]}
+              menuTexts={['发起群聊', '添加朋友', '扫一扫', '收付款', '帮助与反馈']}
+            />
+          </View>
+        </View>
+      </View>
+      </View>
+    );
+  }
+
+  render() {
+    if (Platform.OS === 'ios') {
+      return this.renderIOS();
+    }
+    return this.renderAndroid();
   }
 
   handleSearchClick = () => {

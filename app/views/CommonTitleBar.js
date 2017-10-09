@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Global from '../utils/Global';
 import Utils from '../utils/Utils';
-import {Button, Dimensions, Image, PixelRatio, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Dimensions, Image, PixelRatio, StatusBar, StyleSheet, Text, TouchableOpacity, View, Platform} from 'react-native';
 
 const {width} = Dimensions.get('window');
 
@@ -10,7 +10,7 @@ export default class CommonTitleBar extends Component {
     super(props);
   }
 
-  render() {
+  renderAndroid() {
     return (
       <View style={styles.container}>
         <StatusBar
@@ -44,6 +44,46 @@ export default class CommonTitleBar extends Component {
         </View>
       </View>
     );
+  }
+
+  renderIOS() {
+    return (
+      <View style={styles.container}>
+        <View style={{height: 20, backgroundColor: Global.titleBackgroundColor}}/>
+        <View style={styles.content}>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
+            <Image source={require('../../images/ic_back.png')} style={styles.backBtn}/>
+          </TouchableOpacity>
+          <View style={styles.btnDivider}/>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{this.props.title}</Text>
+            {
+              Utils.isEmpty(this.props.rightIcon) ? (null) : (
+                <TouchableOpacity activeOpacity={0.6} onPress={() => this.handleRightClick()}>
+                  <Image style={styles.img} source={this.props.rightIcon}/>
+                </TouchableOpacity>
+              )
+            }
+            {
+              Utils.isEmpty(this.props.rightBtnText) ? (null) : (
+                <Button
+                  onPress={() => this.props.handleRightBtnClick()}
+                  title={this.props.rightBtnText}
+                  color="#19AD17"
+                />
+              )
+            }
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  render() {
+    if (Platform.OS === 'ios') {
+      return this.renderIOS();
+    }
+    return this.renderAndroid();
   }
 
   handleRightClick() {

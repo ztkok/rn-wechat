@@ -10,7 +10,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  Platform
 } from 'react-native';
 
 const {width} = Dimensions.get('window');
@@ -23,7 +24,7 @@ export default class SearchTitleBar extends Component {
     }
   }
 
-  render() {
+  renderAndroid() {
     return (
       <View style={styles.container}>
         <StatusBar
@@ -50,6 +51,39 @@ export default class SearchTitleBar extends Component {
         </View>
       </View>
     );
+  }
+
+  renderIOS() {
+    return (
+      <View style={styles.container}>
+        <View style={{height: 20, backgroundColor: Global.titleBackgroundColor}}/>
+        <View style={styles.content}>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.handleBackClick}>
+            <Image source={require('../../images/ic_back.png')} style={styles.backBtn}/>
+          </TouchableOpacity>
+          <View style={styles.btnDivider}/>
+          <View style={styles.inputContainer}>
+            <View style={styles.inputSubContainer}>
+              <Image source={require('../../images/ic_search_bar_search.png')} style={styles.icon}/>
+              <TextInput onChangeText={(text) => {
+                this.setState({inputContent: text})
+              }} style={styles.textInput} underlineColorAndroid="transparent"/>
+              <Button onPress={() => {
+                this.props.handleSearchClick(this.state.inputContent)
+              }} color={'#49BC1C'} title={"搜索"}/>
+            </View>
+            <View style={styles.inputLine}/>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  render() {
+    if (Platform.OS === 'ios') {
+      return this.renderIOS();
+    }
+    return this.renderAndroid();
   }
 
   handleBackClick = () => {
