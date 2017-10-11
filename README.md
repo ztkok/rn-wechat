@@ -15,6 +15,7 @@
 5. apk目录下有RNWeChat-release.apk文件，可直接安装查看效果
 
 # 注意
+* **目前接口做了限制，频繁请求的话可能导致IP被暂时封掉，而且每个IP每天的请求流量也是有限制的，所以不要频繁请求接口**
 * 打release包时请使用自己的签名文件和签名配置，请注意android/app/build.gradle文件中的
 ```
 signingConfigs {
