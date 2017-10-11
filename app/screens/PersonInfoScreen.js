@@ -161,12 +161,15 @@ export default class PersonInfoScreen extends Component {
                   CountEmitter.emit('updateAvatar');
                 });
               } else {
-                Toast.showShortCenter(json.msg);
+                console.warn(JSON.stringify(json))
+                Toast.showShortCenter('' + json.msg);
+                // console.warn('json.msg: ' + json.msg)
               }
             }
           }).catch((e) => {
           this.setState({showProgress: false});
-          Toast.showShortCenter(e.toString());
+          Toast.showShortCenter('' + e.toString());
+          console.warn('exception: ' + e.toString())
         })
       }
     });

@@ -120,6 +120,10 @@ export default class MeScreen extends Component {
   }
 
   renderDetailView() {
+    let avatar = require('../../images/avatar.png');
+    if (!Utils.isEmpty(this.state.userInfo) && !Utils.isEmpty(this.state.userInfo.avatar)) {
+      avatar = {uri: this.state.userInfo.avatar};
+    }
     return (
       <View style={styles.container}>
         <TitleBar nav={this.props.navigation}/>
@@ -130,8 +134,7 @@ export default class MeScreen extends Component {
             this.turnOnPage('PersonInfo', {userInfo: this.state.userInfo})
           }}>
             <View style={styles.meInfoContainer}>
-              <Image style={styles.meInfoAvatar}
-                     source={Utils.isEmpty(this.state.userInfo) ? require('../../images/avatar.png') : {uri: this.state.userInfo.avatar}}/>
+              <Image style={styles.meInfoAvatar} source={avatar}/>
               <View style={styles.meInfoTextContainer}>
                 <Text style={styles.meInfoNickName}>{this.state.username}</Text>
                 <Text style={styles.meInfoWeChatId}>{"昵称：" + this.state.userInfo.nick}</Text>

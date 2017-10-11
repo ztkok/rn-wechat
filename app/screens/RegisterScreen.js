@@ -134,7 +134,7 @@ export default class LoginScreen extends Component {
             this.registerHX(username, password);
           } else {
             this.setState({showProgress: false});
-            Toast.showShortCenter(msg);
+            Toast.showShortCenter(json.msg);
           }
         } else {
           this.setState({showProgress: false});

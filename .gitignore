@@ -57,3 +57,4 @@ fastlane/screenshots
 screenshots/Android
 screenshots/iOS
 screenshots/test.html
+__tests__
