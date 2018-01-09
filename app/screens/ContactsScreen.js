@@ -44,7 +44,7 @@ export default class ContactsScreen extends Component {
   }
 
   getContacts() {
-    var url = "http://rnwechat.applinzi.com/friends"; // 新接口
+    var url = "http://app.yubo725.top/friends"; // 新接口
     fetch(url).then((res) => res.json())
       .then((json) => {
         UserInfoUtil.setUserInfo(json);

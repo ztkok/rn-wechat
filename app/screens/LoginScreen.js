@@ -111,7 +111,7 @@ export default class LoginScreen extends Component {
       Toast.showShortCenter('用户名或密码不能为空');
       return;
     }
-    let url = 'http://rnwechat.applinzi.com/login2';
+    let url = 'http://app.yubo725.top/login2';
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);

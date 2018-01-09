@@ -93,7 +93,7 @@ export default class ReplyPopWin extends Component {
     formData.append('momentId', momentId);
     formData.append('replyUsername', replyUsername);
     formData.append('replyContent', replyContent);
-    let url = "http://rnwechat.applinzi.com/reply";
+    let url = "http://app.yubo725.top/reply";
     this.closeModal();
     fetch(url, {method: 'POST', body: formData}).then((res) => res.json())
       .then((json) => {

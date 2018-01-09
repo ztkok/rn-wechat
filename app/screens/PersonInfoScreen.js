@@ -103,7 +103,7 @@ export default class PersonInfoScreen extends Component {
     this.refs.replyPopWin.showModalWhenUpdateInfo(this.state.username, (contactId, nickName) => {
       // 请求服务器，修改昵称
       this.setState({showProgress: true});
-      let url = "http://rnwechat.applinzi.com/updateNick";
+      let url = "http://app.yubo725.top/updateNick";
       let formData = new FormData();
       formData.append('contactId', contactId);
       formData.append('nick', nickName);
@@ -146,7 +146,7 @@ export default class PersonInfoScreen extends Component {
         formData.append('username', username);
         let file = {uri: image.path, type: 'multipart/form-data', name: filename};
         formData.append('file', file);
-        let url = 'http://rnwechat.applinzi.com/updateAvatar';
+        let url = 'http://app.yubo725.top/updateAvatar';
         fetch(url, {method: 'POST', body: formData})
           .then((res) => res.json())
           .then((json) => {

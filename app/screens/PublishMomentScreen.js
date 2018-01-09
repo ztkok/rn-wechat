@@ -96,7 +96,7 @@ export default class PublishMomentScreen extends Component {
     }
     formData.append('username', this.state.username);
     formData.append('content', content);
-    let url = 'http://rnwechat.applinzi.com/publishMoment';
+    let url = 'http://app.yubo725.top/publishMoment';
     fetch(url, {method: 'POST', body: formData}).then((res) => res.json())
       .then((json) => {
         this.hideLoading();

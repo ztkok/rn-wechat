@@ -72,7 +72,7 @@ export default class MomentMenuView extends Component {
   doFavor() {
     let momentId = this.state.momentId;
     if (!Utils.isEmpty(momentId)) {
-      let url = 'http://rnwechat.applinzi.com/favor';
+      let url = 'http://app.yubo725.top/favor';
       let username = this.state.username;
       let formData = new FormData();
       formData.append('username', username);

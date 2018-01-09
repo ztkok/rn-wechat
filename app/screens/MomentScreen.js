@@ -82,7 +82,7 @@ export default class MomentScreen extends Component {
     if (useLoading) {
       this.showLoading();
     }
-    let url = 'http://rnwechat.applinzi.com/moments?offset=' + this.offset + '&pagesize=' + this.pagesize;
+    let url = 'http://app.yubo725.top/moments?offset=' + this.offset + '&pagesize=' + this.pagesize;
     fetch(url).then((res) => res.json())
       .then((json) => {
         if (useLoading) {
