@@ -200,7 +200,7 @@ export default class HomeScreen extends Component {
         UpgradeModule.getVersionCodeName((versionCode, versionName) => {
           if (versionCode > 0 && !Utils.isEmpty(versionName)) {
             // 请求服务器查询更新
-            let url = 'http://rnwechat.applinzi.com/upgrade?versionCode=' + versionCode + '&versionName=' + versionName;
+            let url = 'http://app.yubo725.top/upgrade?versionCode=' + versionCode + '&versionName=' + versionName;
             fetch(url).then((res) => res.json())
               .then((json) => {
                 if (json != null && json.code == 1) {
