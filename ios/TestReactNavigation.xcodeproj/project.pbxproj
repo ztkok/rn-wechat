@@ -39,6 +39,7 @@
 		997C3CA91F7FA29400F72425 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997C3C601F7FA11F00F72425 /* libRCTToast.a */; };
 		997C3CC51F7FA2C000F72425 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997C3C811F7FA1EC00F72425 /* libRCTCamera.a */; };
 		997C3CCC1F7FA46500F72425 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997C3CCB1F7FA45C00F72425 /* libART.a */; };
+		E5DE0F5F02825F7A54F6D0DA /* libPods-TestReactNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A96910B356498E075AE70FBB /* libPods-TestReactNavigation.a */; };
 		E9749CF4358B752BF991AB59 /* libPods-TestReactNavigation-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76C06F202E4DC1BF9F0B1174 /* libPods-TestReactNavigation-tvOSTests.a */; };
 		EE54C284E3A0DEC0E0D54088 /* libPods-TestReactNavigationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E6430DF95CCE344536CE4E /* libPods-TestReactNavigationTests.a */; };
 /* End PBXBuildFile section */
@@ -330,6 +331,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				E5DE0F5F02825F7A54F6D0DA /* libPods-TestReactNavigation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,7 +1107,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
