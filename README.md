@@ -4,7 +4,7 @@
 * 我新建了一个QQ群，各位如果有任何与该项目有关的问题，或者想交流下ReactNative相关的技术，都可以加进来：419213248
 
 # Android扫码下载体验
-<img src='./screenshots/rnwechat.png' />
+<img src='./screenshots/rnwechat.png'>
 
 # 运行方法
 1. 在项目根目录下执行npm install
