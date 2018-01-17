@@ -63,6 +63,8 @@ export default class MomentScreen extends Component {
     CountEmitter.addListener('updateMomentList', () => {
       // 刷新朋友圈列表
       this.setState({isUpdate: true, isLoadMore: false});
+      this.offset = 0;
+      this.pagesize = 5;
       this.getMoments(true);
     });
   }
@@ -346,7 +348,7 @@ export default class MomentScreen extends Component {
     this.refs.replyPopWin.showModal(momentId, momentUsername, this.doCommentSuccessCallback);
   }
   componentWillUnmount() {
-    CountEmitter.removeListener('updateMomentList', ()=>{});    
+    CountEmitter.removeListener('updateMomentList', ()=>{});
   }
 }
 
