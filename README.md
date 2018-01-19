@@ -23,6 +23,13 @@
 
 # 注意
 * **目前接口做了限制，频繁请求的话可能导致IP被暂时封掉，而且每个IP每天的请求流量也是有限制的，所以不要频繁请求接口**
+
+* **若在Linux或Mac环境打Android包时遇到错误提示：**
+
+> Make sure you have an Android emulator running or a device connected and have set up your Android development environment
+
+**请确保项目的android目录下的gradlew文件有可执行权限，若无可执行权限，改成可执行**
+
 * Android打release包时请使用自己的签名文件和签名配置，请注意android/app/build.gradle文件中的
 ```
 signingConfigs {
@@ -35,14 +42,8 @@ signingConfigs {
 }
 ```
 
-* 若在Linux或Mac环境打Android包时遇到错误提示：
-
-> Make sure you have an Android emulator running or a device connected and have set up your Android development environment
-
-请确保项目的android目录下的gradlew文件有可执行权限，若无可执行权限，改成可执行
-
 # 已实现功能
-* 目前实现了登录、注册、修改昵称、修改头像、单聊（仅文本消息和图片消息）、发朋友圈、朋友圈点赞和评论、扫一扫等功能
+* 目前实现了登录、注册、修改昵称、修改头像、单聊（仅文本消息和图片消息）、发朋友圈、朋友圈点赞和评论、扫一扫、与图灵机器人聊天等功能
 
 # 更新
 * 2018-01-19 加入图灵聊天机器人

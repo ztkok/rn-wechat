@@ -191,7 +191,14 @@ export default class ChattingScreen extends Component {
         console.log('success')
       }
     });
-    WebIM.conn.send(msg.body);
+    // WebIM.conn.send(msg.body);
+    if (this.chatContactId != 'tulingrobot') {
+      // 不是跟图灵机器人聊天，则调用环信的发送消息接口
+      WebIM.conn.send(msg.body);
+    } else {
+      // 跟图灵机器人聊天
+      this.chatWithTuling('[图片]');
+    }
     this.concatMessage({
       'conversationId': ConversationUtil.generateConversationId(this.chatContactId, this.username),
       'id': id,
