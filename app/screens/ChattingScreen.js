@@ -13,7 +13,7 @@ import CountEmitter from '../event/CountEmitter';
 import ConversationUtil from '../utils/ConversationUtil';
 import WebIM from '../Lib/WebIM';
 
-import {Dimensions, FlatList, Image, PixelRatio, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, FlatList, Image, PixelRatio, StyleSheet, Text, View, ToastAndroid} from 'react-native';
 
 const {width} = Dimensions.get('window');
 const MSG_LINE_MAX_COUNT = 15;
@@ -133,8 +133,13 @@ export default class ChattingScreen extends Component {
       }
     });
     msg.body.chatType = 'singleChat';
-    // 调用环信的发送消息接口
-    WebIM.conn.send(msg.body);
+    if (this.chatContactId != 'tulingrobot') {
+      // 不是跟图灵机器人聊天，则调用环信的发送消息接口
+      WebIM.conn.send(msg.body);
+    } else {
+      // 跟图灵机器人聊天
+      this.chatWithTuling(message);
+    }
     // 还需要将本条消息添加到当前会话中
     this.concatMessage({
       'conversationId': ConversationUtil.generateConversationId(this.chatContactId, this.username),
@@ -197,6 +202,51 @@ export default class ChattingScreen extends Component {
       'ext': {width: imageWidth, height: imageHeight},
       'msgType': 'img'
     })
+  }
+
+  chatWithTuling(message) {
+    let url = "https://app.yubo725.top/autoreply";
+    let formData = new FormData();
+    formData.append('key', message);
+    fetch(url, {method: 'POST', body: formData})
+      .then((res)=>res.json())
+      .then((json)=>{
+        if (!Utils.isEmpty(json)) {
+          if (json.code == 1) {
+            // 机器人的回复
+            let reply = json.msg;
+            this.addAutoRelpyMsg(reply);
+          } else {
+            ToastAndroid.show(json.msg, ToastAndroid.SHORT);
+          }
+        }
+      })
+  }
+
+  addAutoRelpyMsg(message) {
+    let id = WebIM.conn.getUniqueId();           // 生成本地消息id
+    let msg = new WebIM.message('txt', id);      // 创建文本消息
+    msg.set({
+      msg: message,                  // 消息内容
+      to: this.username,        // 接收消息对象（用户id）
+      roomType: false,
+      success: function (id, serverMsgId) {
+      },
+      fail: function (e) {
+      }
+    });
+    msg.body.chatType = 'singleChat';
+    ConversationUtil.addMessage({
+      'conversationId': ConversationUtil.generateConversationId(this.chatContactId, this.username),
+      'id': id,
+      'from': this.chatContactId,
+      'to': this.username,
+      'time': TimeUtil.currentTime(),
+      'data': message,
+      'msgType': 'txt'
+    }, ()=>{
+      CountEmitter.emit('notifyChattingRefresh');
+    });
   }
 
   scroll() {

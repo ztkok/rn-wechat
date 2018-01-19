@@ -75,6 +75,11 @@ export default class HomeScreen extends Component {
   loadConversations(username) {
     ConversationUtil.getConversations(username, (result) => {
       let count = result.length;
+      if (count == 0) {
+        // 没有会话，创建两个会话
+        this.generateAutoConversation('tulingrobot');
+        return;
+      }
       let index = 0;
       for (let i = 0; i < count; i++) {
         let conversation = result[i];
@@ -90,6 +95,41 @@ export default class HomeScreen extends Component {
             ConversationUtil.showConversations();
           }
         });
+      }
+    });
+  }
+
+  // 生成自动回复的对话
+  generateAutoConversation(chatUsername) {
+    let id = WebIM.conn.getUniqueId();           // 生成本地消息id
+    let msg = new WebIM.message('txt', id);      // 创建文本消息
+    let message = '你好，我是RNWeChat作者，欢迎使用RNWeChat，有任何问题都可以与我交流！';
+    if (chatUsername == 'tulingrobot') {
+      message = '我是图灵机器人，开心或者不开心，都可以找我聊天~';
+    }
+    msg.set({
+      msg: message,                  // 消息内容
+      to: this.state.username,        // 接收消息对象（用户id）
+      roomType: false,
+      success: function (id, serverMsgId) {
+      },
+      fail: function (e) {
+      }
+    });
+    msg.body.chatType = 'singleChat';
+    ConversationUtil.addMessage({
+      'conversationId': ConversationUtil.generateConversationId(chatUsername, this.state.username),
+      'id': id,
+      'from': chatUsername,
+      'to': this.state.username,
+      'time': TimeUtil.currentTime(),
+      'data': message,
+      'msgType': 'txt'
+    }, ()=>{
+      if (chatUsername == 'tulingrobot' && this.state.username != 'yubo666') {
+        this.generateAutoConversation('yubo666');
+      } else {
+        this.loadConversations(this.state.username);
       }
     });
   }
