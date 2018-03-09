@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import CommonTitleBar from '../views/CommonTitleBar';
-import {QRScannerView} from 'ac-qrcode';
+// import {QRScannerView} from 'ac-qrcode';
 import {Dimensions, StyleSheet, View} from 'react-native';
 
 const {width} = Dimensions.get('window');
@@ -11,11 +11,11 @@ export default class ScanScreen extends Component {
       <View style={styles.container}>
         <CommonTitleBar title={"扫一扫"} nav={this.props.navigation}/>
         <View style={styles.cameraContainer}>
-          <QRScannerView
+          {/* <QRScannerView
             onScanResultReceived={this.barcodeReceived.bind(this)}
             renderTopBarView={() => this._renderTitleBar()}
             renderBottomMenuView={() => this._renderMenu()}
-          />
+          /> */}
         </View>
       </View>
     );

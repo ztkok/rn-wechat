@@ -34,14 +34,13 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* TestReactNavigationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TestReactNavigationTests.m */; };
+		552879E9D823A87AE80A3D4B /* libPods-TestReactNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3595199DC111E23EE9FAB82F /* libPods-TestReactNavigation.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		6150102E7E8A42A8A34D4A5A /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E0B95CA85E4FFBA0E4C7DD /* libRCTToast.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		997C3CA91F7FA29400F72425 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997C3C601F7FA11F00F72425 /* libRCTToast.a */; };
-		997C3CC51F7FA2C000F72425 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997C3C811F7FA1EC00F72425 /* libRCTCamera.a */; };
-		997C3CCC1F7FA46500F72425 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997C3CCB1F7FA45C00F72425 /* libART.a */; };
-		E5DE0F5F02825F7A54F6D0DA /* libPods-TestReactNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A96910B356498E075AE70FBB /* libPods-TestReactNavigation.a */; };
-		E9749CF4358B752BF991AB59 /* libPods-TestReactNavigation-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76C06F202E4DC1BF9F0B1174 /* libPods-TestReactNavigation-tvOSTests.a */; };
-		EE54C284E3A0DEC0E0D54088 /* libPods-TestReactNavigationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E6430DF95CCE344536CE4E /* libPods-TestReactNavigationTests.a */; };
+		9DBB00CC874C76D85F51CF17 /* libPods-TestReactNavigation-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F64F2052F73BC2816246AAA /* libPods-TestReactNavigation-tvOSTests.a */; };
+		AE4FA02C1F444DC4BE4E30A0 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DC568B12A84999A2B324E5 /* libimageCropPicker.a */; };
+		D546163273BCCB26FE315C77 /* libPods-TestReactNavigationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA89A599F3C37E8AEB14F1B0 /* libPods-TestReactNavigationTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,37 +233,24 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		997C3B781F7F949100F72425 /* PBXContainerItemProxy */ = {
+		9997461D2052151F00F5DE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 762AB117DBC94FF298BE7E25 /* RCTCamera.xcodeproj */;
+			containerPortal = 66A645CE0E78497CB47ABB32 /* imageCropPicker.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
-			remoteInfo = RCTCamera;
+			remoteGlobalIDString = 3400A8081CEB54A6008A0BC7;
+			remoteInfo = imageCropPicker;
 		};
-		997C3C5F1F7FA11F00F72425 /* PBXContainerItemProxy */ = {
+		999746202052151F00F5DE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 997C3C4C1F7FA11E00F72425 /* RCTToast.xcodeproj */;
+			containerPortal = D953F08874154A98AB9219C0 /* RCTToast.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 327633421BFAAD7E004DA88E;
 			remoteInfo = RCTToast;
 		};
-		997C3C801F7FA1EC00F72425 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 997C3C791F7FA1EC00F72425 /* RCTCamera.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
-			remoteInfo = RCTCamera;
-		};
-		997C3CCA1F7FA45C00F72425 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 997C3CC61F7FA45B00F72425 /* ART.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
-			remoteInfo = ART;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -273,6 +259,7 @@
 		00E356EE1AD99517003FC87E /* TestReactNavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestReactNavigationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TestReactNavigationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestReactNavigationTests.m; sourceTree = "<group>"; };
+		09C33750B9579C4793902E34 /* Pods-TestReactNavigationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigationTests/Pods-TestReactNavigationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* TestReactNavigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestReactNavigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,24 +270,25 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestReactNavigation/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TestReactNavigation/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1AB1BC02683664751A554272 /* Pods-TestReactNavigationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigationTests/Pods-TestReactNavigationTests.release.xcconfig"; sourceTree = "<group>"; };
-		2466F47B786DD19003199B3C /* Pods-TestReactNavigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation.debug.xcconfig"; sourceTree = "<group>"; };
-		2BC36FC5280442BC56621B3C /* Pods-TestReactNavigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* TestReactNavigation-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TestReactNavigation-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* TestReactNavigation-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TestReactNavigation-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3F451C645FCCFDE84AC33F79 /* Pods-TestReactNavigation-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		59E6430DF95CCE344536CE4E /* libPods-TestReactNavigationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestReactNavigationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F64F2052F73BC2816246AAA /* libPods-TestReactNavigation-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestReactNavigation-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3595199DC111E23EE9FAB82F /* libPods-TestReactNavigation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestReactNavigation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D2C4B73F2FD88401E10705D /* Pods-TestReactNavigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation.release.xcconfig"; sourceTree = "<group>"; };
+		4FF8D6288CDAA8B21F372267 /* Pods-TestReactNavigation-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		762AB117DBC94FF298BE7E25 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
-		76C06F202E4DC1BF9F0B1174 /* libPods-TestReactNavigation-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestReactNavigation-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F66DA5694C96DB604F3F8B0 /* Pods-TestReactNavigationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigationTests/Pods-TestReactNavigationTests.release.xcconfig"; sourceTree = "<group>"; };
+		64DC568B12A84999A2B324E5 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
+		66A645CE0E78497CB47ABB32 /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		927560E3A684E1B94E8D714B /* Pods-TestReactNavigation-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		997C3C4C1F7FA11E00F72425 /* RCTToast.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
-		997C3C791F7FA1EC00F72425 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
-		997C3CC61F7FA45B00F72425 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
-		A96910B356498E075AE70FBB /* libPods-TestReactNavigation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestReactNavigation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA027E384913ED1AC1530183 /* Pods-TestReactNavigationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigationTests/Pods-TestReactNavigationTests.debug.xcconfig"; sourceTree = "<group>"; };
+		85E0B95CA85E4FFBA0E4C7DD /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
+		951C2C0DF65EA4A2E5F35683 /* Pods-TestReactNavigation-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		99D1C23020513430000F24C3 /* libreact-native-camera.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-camera.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0A8A64B1578FD53AF139A3B /* Pods-TestReactNavigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestReactNavigation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation.debug.xcconfig"; sourceTree = "<group>"; };
+		BA89A599F3C37E8AEB14F1B0 /* libPods-TestReactNavigationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestReactNavigationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D953F08874154A98AB9219C0 /* RCTToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
+		FEB2329A30A841D9B414EF4D /* libRNCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCamera.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,7 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				EE54C284E3A0DEC0E0D54088 /* libPods-TestReactNavigationTests.a in Frameworks */,
+				D546163273BCCB26FE315C77 /* libPods-TestReactNavigationTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,9 +305,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				997C3CCC1F7FA46500F72425 /* libART.a in Frameworks */,
-				997C3CC51F7FA2C000F72425 /* libRCTCamera.a in Frameworks */,
-				997C3CA91F7FA29400F72425 /* libRCTToast.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -331,7 +316,9 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				E5DE0F5F02825F7A54F6D0DA /* libPods-TestReactNavigation.a in Frameworks */,
+				552879E9D823A87AE80A3D4B /* libPods-TestReactNavigation.a in Frameworks */,
+				6150102E7E8A42A8A34D4A5A /* libRCTToast.a in Frameworks */,
+				AE4FA02C1F444DC4BE4E30A0 /* libimageCropPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +341,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9749CF4358B752BF991AB59 /* libPods-TestReactNavigation-tvOSTests.a in Frameworks */,
+				9DBB00CC874C76D85F51CF17 /* libPods-TestReactNavigation-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +428,7 @@
 		13B07FAE1A68108700A75B9A /* TestReactNavigation */ = {
 			isa = PBXGroup;
 			children = (
+				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -466,14 +454,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		369A3D4E71D4F51F93E2944E /* Frameworks */ = {
+		30E60BCA8309825C6B73026C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A96910B356498E075AE70FBB /* libPods-TestReactNavigation.a */,
-				76C06F202E4DC1BF9F0B1174 /* libPods-TestReactNavigation-tvOSTests.a */,
-				59E6430DF95CCE344536CE4E /* libPods-TestReactNavigationTests.a */,
+				99D1C23020513430000F24C3 /* libreact-native-camera.a */,
+				3595199DC111E23EE9FAB82F /* libPods-TestReactNavigation.a */,
+				2F64F2052F73BC2816246AAA /* libPods-TestReactNavigation-tvOSTests.a */,
+				BA89A599F3C37E8AEB14F1B0 /* libPods-TestReactNavigationTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3A7CDF4A7E35E7884FA385B2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0A8A64B1578FD53AF139A3B /* Pods-TestReactNavigation.debug.xcconfig */,
+				3D2C4B73F2FD88401E10705D /* Pods-TestReactNavigation.release.xcconfig */,
+				951C2C0DF65EA4A2E5F35683 /* Pods-TestReactNavigation-tvOSTests.debug.xcconfig */,
+				4FF8D6288CDAA8B21F372267 /* Pods-TestReactNavigation-tvOSTests.release.xcconfig */,
+				09C33750B9579C4793902E34 /* Pods-TestReactNavigationTests.debug.xcconfig */,
+				5F66DA5694C96DB604F3F8B0 /* Pods-TestReactNavigationTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
@@ -497,9 +499,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				997C3CC61F7FA45B00F72425 /* ART.xcodeproj */,
-				997C3C791F7FA1EC00F72425 /* RCTCamera.xcodeproj */,
-				997C3C4C1F7FA11E00F72425 /* RCTToast.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -511,7 +510,8 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				762AB117DBC94FF298BE7E25 /* RCTCamera.xcodeproj */,
+				D953F08874154A98AB9219C0 /* RCTToast.xcodeproj */,
+				66A645CE0E78497CB47ABB32 /* imageCropPicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -532,8 +532,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* TestReactNavigationTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				BA5CD8FA8D6656440AF0FD28 /* Pods */,
-				369A3D4E71D4F51F93E2944E /* Frameworks */,
+				99F9D6AA203FEE1400A643D5 /* Recovered References */,
+				3A7CDF4A7E35E7884FA385B2 /* Pods */,
+				30E60BCA8309825C6B73026C /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -550,49 +551,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		997C3B721F7F949100F72425 /* Products */ = {
+		999746182052151F00F5DE48 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				997C3B791F7F949100F72425 /* libRCTCamera.a */,
+				999746212052151F00F5DE48 /* libRCTToast.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		997C3C4D1F7FA11E00F72425 /* Products */ = {
+		9997461A2052151F00F5DE48 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				997C3C601F7FA11F00F72425 /* libRCTToast.a */,
+				9997461E2052151F00F5DE48 /* libimageCropPicker.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		997C3C7A1F7FA1EC00F72425 /* Products */ = {
+		99F9D6AA203FEE1400A643D5 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				997C3C811F7FA1EC00F72425 /* libRCTCamera.a */,
+				FEB2329A30A841D9B414EF4D /* libRNCamera.a */,
+				85E0B95CA85E4FFBA0E4C7DD /* libRCTToast.a */,
+				64DC568B12A84999A2B324E5 /* libimageCropPicker.a */,
 			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		997C3CC71F7FA45B00F72425 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				997C3CCB1F7FA45C00F72425 /* libART.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		BA5CD8FA8D6656440AF0FD28 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2466F47B786DD19003199B3C /* Pods-TestReactNavigation.debug.xcconfig */,
-				2BC36FC5280442BC56621B3C /* Pods-TestReactNavigation.release.xcconfig */,
-				927560E3A684E1B94E8D714B /* Pods-TestReactNavigation-tvOSTests.debug.xcconfig */,
-				3F451C645FCCFDE84AC33F79 /* Pods-TestReactNavigation-tvOSTests.release.xcconfig */,
-				BA027E384913ED1AC1530183 /* Pods-TestReactNavigationTests.debug.xcconfig */,
-				1AB1BC02683664751A554272 /* Pods-TestReactNavigationTests.release.xcconfig */,
-			);
-			name = Pods;
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -602,12 +584,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TestReactNavigationTests" */;
 			buildPhases = (
-				C247DF21B13702654A85FE82 /* [CP] Check Pods Manifest.lock */,
+				3F9D022A684F31DBB2AA29A5 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				DAADAE50647B15239303BA3F /* [CP] Embed Pods Frameworks */,
-				3A9F5C034118B7687D28E4A0 /* [CP] Copy Pods Resources */,
+				A0E4B6F8BA16D287D6BD3DD0 /* [CP] Embed Pods Frameworks */,
+				567A27A1D588661557ACD7EA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -623,13 +605,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TestReactNavigation" */;
 			buildPhases = (
-				D585E3E0E9B471CC57D4DA3F /* [CP] Check Pods Manifest.lock */,
+				8452CDCBF78FDAB173BA6FBE /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00698A406143F6A568FCF479 /* [CP] Embed Pods Frameworks */,
-				3ACC802E8674BA4B7159E55B /* [CP] Copy Pods Resources */,
+				64A4424F88744DF910146C1B /* [CP] Embed Pods Frameworks */,
+				157B3EAA5012761105F452F4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -662,12 +644,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TestReactNavigation-tvOSTests" */;
 			buildPhases = (
-				C926E02D91BCC407D03EB88A /* [CP] Check Pods Manifest.lock */,
+				721C83FA0EEFEA9C87A8C823 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
-				280349A71426849CAE7CE8D0 /* [CP] Embed Pods Frameworks */,
-				D8046103C39C1DA7857F1F2D /* [CP] Copy Pods Resources */,
+				7E07CF584F5A0EBA0ACCD812 /* [CP] Embed Pods Frameworks */,
+				6B12A710C3CDCBEE826D4798 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -685,7 +667,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 610;
+				LastUpgradeCheck = 920;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -716,8 +698,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 997C3CC71F7FA45B00F72425 /* Products */;
-					ProjectRef = 997C3CC61F7FA45B00F72425 /* ART.xcodeproj */;
+					ProductGroup = 9997461A2052151F00F5DE48 /* Products */;
+					ProjectRef = 66A645CE0E78497CB47ABB32 /* imageCropPicker.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -726,14 +708,6 @@
 				{
 					ProductGroup = 5E91572E1DD0AC6500FF2AA8 /* Products */;
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
-				},
-				{
-					ProductGroup = 997C3C7A1F7FA1EC00F72425 /* Products */;
-					ProjectRef = 997C3C791F7FA1EC00F72425 /* RCTCamera.xcodeproj */;
-				},
-				{
-					ProductGroup = 997C3B721F7F949100F72425 /* Products */;
-					ProjectRef = 762AB117DBC94FF298BE7E25 /* RCTCamera.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -760,8 +734,8 @@
 					ProjectRef = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
 				},
 				{
-					ProductGroup = 997C3C4D1F7FA11E00F72425 /* Products */;
-					ProjectRef = 997C3C4C1F7FA11E00F72425 /* RCTToast.xcodeproj */;
+					ProductGroup = 999746182052151F00F5DE48 /* Products */;
+					ProjectRef = D953F08874154A98AB9219C0 /* RCTToast.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302E01ABCB9EE00DB3ED1 /* Products */;
@@ -962,32 +936,18 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		997C3B791F7F949100F72425 /* libRCTCamera.a */ = {
+		9997461E2052151F00F5DE48 /* libimageCropPicker.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRCTCamera.a;
-			remoteRef = 997C3B781F7F949100F72425 /* PBXContainerItemProxy */;
+			path = libimageCropPicker.a;
+			remoteRef = 9997461D2052151F00F5DE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		997C3C601F7FA11F00F72425 /* libRCTToast.a */ = {
+		999746212052151F00F5DE48 /* libRCTToast.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTToast.a;
-			remoteRef = 997C3C5F1F7FA11F00F72425 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		997C3C811F7FA1EC00F72425 /* libRCTCamera.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTCamera.a;
-			remoteRef = 997C3C801F7FA1EC00F72425 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		997C3CCB1F7FA45C00F72425 /* libART.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libART.a;
-			remoteRef = 997C3CCA1F7FA45C00F72425 /* PBXContainerItemProxy */;
+			remoteRef = 999746202052151F00F5DE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1027,21 +987,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00698A406143F6A568FCF479 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1056,19 +1001,24 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
-		280349A71426849CAE7CE8D0 /* [CP] Embed Pods Frameworks */ = {
+		157B3EAA5012761105F452F4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
+				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
@@ -1085,41 +1035,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
-		3A9F5C034118B7687D28E4A0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigationTests/Pods-TestReactNavigationTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3ACC802E8674BA4B7159E55B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
-				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C247DF21B13702654A85FE82 /* [CP] Check Pods Manifest.lock */ = {
+		3F9D022A684F31DBB2AA29A5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1137,7 +1053,52 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C926E02D91BCC407D03EB88A /* [CP] Check Pods Manifest.lock */ = {
+		567A27A1D588661557ACD7EA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigationTests/Pods-TestReactNavigationTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		64A4424F88744DF910146C1B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation/Pods-TestReactNavigation-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6B12A710C3CDCBEE826D4798 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		721C83FA0EEFEA9C87A8C823 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1155,7 +1116,22 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D585E3E0E9B471CC57D4DA3F /* [CP] Check Pods Manifest.lock */ = {
+		7E07CF584F5A0EBA0ACCD812 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8452CDCBF78FDAB173BA6FBE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1173,22 +1149,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8046103C39C1DA7857F1F2D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TestReactNavigation-tvOSTests/Pods-TestReactNavigation-tvOSTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DAADAE50647B15239303BA3F /* [CP] Embed Pods Frameworks */ = {
+		A0E4B6F8BA16D287D6BD3DD0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1270,7 +1231,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA027E384913ED1AC1530183 /* Pods-TestReactNavigationTests.debug.xcconfig */;
+			baseConfigurationReference = 09C33750B9579C4793902E34 /* Pods-TestReactNavigationTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1279,10 +1240,10 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-updateiosRCTHotUpdate/**",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios",
-					"$(SRCROOT)..\node_modules\neact-native-netease-imiosRNNeteaseImRNNeteaseIm/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-crop-pickerios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = TestReactNavigationTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1292,12 +1253,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestReactNavigation.app/TestReactNavigation";
 			};
@@ -1305,16 +1266,16 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1AB1BC02683664751A554272 /* Pods-TestReactNavigationTests.release.xcconfig */;
+			baseConfigurationReference = 5F66DA5694C96DB604F3F8B0 /* Pods-TestReactNavigationTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-updateiosRCTHotUpdate/**",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios",
-					"$(SRCROOT)..\node_modules\neact-native-netease-imiosRNNeteaseImRNNeteaseIm/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-crop-pickerios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = TestReactNavigationTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1324,12 +1285,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestReactNavigation.app/TestReactNavigation";
 			};
@@ -1337,17 +1298,20 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2466F47B786DD19003199B3C /* Pods-TestReactNavigation.debug.xcconfig */;
+			baseConfigurationReference = A0A8A64B1578FD53AF139A3B /* Pods-TestReactNavigation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-updateiosRCTHotUpdate/**",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios",
-					"$(SRCROOT)..\node_modules\neact-native-netease-imiosRNNeteaseImRNNeteaseIm/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-crop-pickerios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = TestReactNavigation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1356,6 +1320,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = TestReactNavigation;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1363,16 +1328,19 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2BC36FC5280442BC56621B3C /* Pods-TestReactNavigation.release.xcconfig */;
+			baseConfigurationReference = 3D2C4B73F2FD88401E10705D /* Pods-TestReactNavigation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-updateiosRCTHotUpdate/**",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios",
-					"$(SRCROOT)..\node_modules\neact-native-netease-imiosRNNeteaseImRNNeteaseIm/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-crop-pickerios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = TestReactNavigation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1381,6 +1349,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = TestReactNavigation;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1400,16 +1369,15 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-updateiosRCTHotUpdate/**",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios",
-					"$(SRCROOT)..\node_modules\neact-native-netease-imiosRNNeteaseImRNNeteaseIm/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-crop-pickerios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = "TestReactNavigation-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1440,16 +1408,15 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-updateiosRCTHotUpdate/**",
-					"$(SRCROOT)..\node_modules\neact-native-cameraios",
-					"$(SRCROOT)..\node_modules\neact-native-netease-imiosRNNeteaseImRNNeteaseIm/**",
-					"$(SRCROOT)..\node_modules\neact-native-image-crop-pickerios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = "TestReactNavigation-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1468,7 +1435,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 927560E3A684E1B94E8D714B /* Pods-TestReactNavigation-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 951C2C0DF65EA4A2E5F35683 /* Pods-TestReactNavigation-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1485,7 +1452,6 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TestReactNavigation-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1497,7 +1463,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F451C645FCCFDE84AC33F79 /* Pods-TestReactNavigation-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 4FF8D6288CDAA8B21F372267 /* Pods-TestReactNavigation-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1511,7 +1477,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1532,20 +1497,30 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1573,13 +1548,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1587,6 +1570,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

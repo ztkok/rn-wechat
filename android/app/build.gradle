@@ -106,10 +106,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+//            storeFile file(MYAPP_RELEASE_STORE_FILE)
+//            storePassword MYAPP_RELEASE_STORE_PASSWORD
+//            keyAlias MYAPP_RELEASE_KEY_ALIAS
+//            keyPassword MYAPP_RELEASE_KEY_PASSWORD
         }
     }
     splits {
@@ -140,7 +140,7 @@ android {
             }
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                File outputDirectory = new File(outputFile.parent);
+                File outputDirectory = new File(outputFile.parent)
                 def fileName
                 if (variant.buildType.name == "release") {
                     fileName = "RNWeChat_v${defaultConfig.versionName}_${packageTime()}_release.apk"
@@ -155,7 +155,6 @@ android {
 
 dependencies {
     compile project(':react-native-toast')
-    compile project(':react-native-camera')
     compile project(':react-native-image-crop-picker')
     compile 'com.android.support:multidex:'
     compile fileTree(dir: "libs", include: ["*.jar"])

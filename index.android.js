@@ -451,4 +451,4 @@ const MyApp = StackNavigator({
   headerMode: 'none', // 此参数设置不渲染顶部的导航条
 });
 
-AppRegistry.registerComponent('TestReactNavigation', () => MyApp);
+AppRegistry.registerComponent('RNWeChat', () => MyApp);

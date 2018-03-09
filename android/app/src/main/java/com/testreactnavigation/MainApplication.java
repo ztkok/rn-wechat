@@ -1,21 +1,18 @@
 package com.testreactnavigation;
 
-import android.content.SharedPreferences;
-import android.support.multidex.MultiDexApplication;
+import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.remobile.toast.RCTToastPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.remobile.toast.RCTToastPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends MultiDexApplication implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -27,9 +24,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new PickerPackage(),
-                    new RCTCameraPackage(),
-                    new UpgradePackage(),
                     new RCTToastPackage()
             );
         }
@@ -43,8 +37,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     @Override
     public void onCreate() {
         super.onCreate();
-        SoLoader.init(this, false);
+        SoLoader.init(this, /* native exopackage */ false);
     }
-
-
 }
