@@ -111,7 +111,7 @@ export default class LoginScreen extends Component {
       Toast.showShortCenter('用户名或密码不能为空');
       return;
     }
-    let url = 'http://app.yubo725.top/login2';
+    let url = 'http://192.168.99.89/api/login';
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
@@ -121,6 +121,8 @@ export default class LoginScreen extends Component {
       .then((json) => {
         this.setState({showProgress: false});
         if (!Utils.isEmpty(json)) {
+          console.warn('--------------------login return---------------------')
+          console.warn(JSON.stringify(json))
           if (json.code === 1) {
             // 登录服务器成功，再登录NIM的服务器
             let data = json.msg;
@@ -132,6 +134,10 @@ export default class LoginScreen extends Component {
               };
               let key = 'userInfo-' + username;
               StorageUtil.set(key, {'info': userInfo});
+              StorageUtil.set('hasLogin', {'hasLogin': true});
+              StorageUtil.set('username', {'username': username});
+              StorageUtil.set('password', {'password': password});
+              StorageUtil.set('token', {'token': data.token});
               Toast.showShortCenter('登录聊天服务器...');
               this.registerHXListener();
               this.loginToHX(username, password);
