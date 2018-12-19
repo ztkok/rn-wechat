@@ -219,6 +219,8 @@ export default class ChattingScreen extends Component {
       .then((res)=>res.json())
       .then((json)=>{
         if (!Utils.isEmpty(json)) {
+          console.warn('--------------------autoreply return---------------------')
+          console.warn(JSON.stringify(json))
           if (json.code == 1) {
             // 机器人的回复
             let reply = json.msg;
