@@ -47,6 +47,8 @@ export default class ContactsScreen extends Component {
     var url = "http://app.yubo725.top/friends"; // 新接口
     fetch(url).then((res) => res.json())
       .then((json) => {
+        console.warn('--------------------friends return---------------------')
+        console.warn(JSON.stringify(json))
         UserInfoUtil.setUserInfo(json);
         this.setState({
           loadingState: Global.loadSuccess,
