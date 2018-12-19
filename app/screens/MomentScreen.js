@@ -84,42 +84,51 @@ export default class MomentScreen extends Component {
     if (useLoading) {
       this.showLoading();
     }
-    let url = 'http://app.yubo725.top/moments?offset=' + this.offset + '&pagesize=' + this.pagesize;
-    fetch(url).then((res) => res.json())
-      .then((json) => {
-        if (useLoading) {
-          this.hideLoading();
-        }
-        if (json != null) {
-          if (json.code == 1) {
-            let data = json.msg; // 数组
-            if (data.length == 0) {
-              Toast.showShortCenter('没有更多数据了');
-              this.setState({hasMoreData: false});
-              return;
-            }
-            let moments = this.state.moments;
-            if (data != null && data.length > 0) {
-              for (let i = 0; i < data.length; i++) {
-                data[i].key = i + '-' + this.offset;
-                if (this.state.isLoadMore) {
-                  moments.push(data[i]);
+    let url = 'http://192.168.99.89/api/moments?offset=' + this.offset + '&pagesize=' + this.pagesize;
+
+    let token = '';
+    StorageUtil.get('token', (error, object) => {
+      if (!error && object && object.token) {
+          token = object.token;
+          fetch(url, {method: 'GET', headers: {'Authorization': 'Bearer '+token}}).then((res) => res.json())
+            .then((json) => {
+              if (useLoading) {
+                this.hideLoading();
+              }
+
+              if (json != null) {
+                if (json.code == 1) {
+                  let data = json.msg; // 数组
+                  if (data.length == 0) {
+                    Toast.showShortCenter('没有更多数据了');
+                    this.setState({hasMoreData: false});
+                    return;
+                  }
+                  let moments = this.state.moments;
+                  if (data != null && data.length > 0) {
+                    for (let i = 0; i < data.length; i++) {
+                      data[i].key = i + '-' + this.offset;
+                      if (this.state.isLoadMore) {
+                        moments.push(data[i]);
+                      }
+                    }
+                  }
+                  if (this.state.isLoadMore) {
+                    this.setState({moments: moments});
+                  } else {
+                    this.setState({moments: data});
+                  }
                 }
               }
+            }).catch((e) => {
+            if (useLoading) {
+              this.hideLoading();
             }
-            if (this.state.isLoadMore) {
-              this.setState({moments: moments});
-            } else {
-              this.setState({moments: data});
-            }
-          }
-        }
-      }).catch((e) => {
-      if (useLoading) {
-        this.hideLoading();
+            Toast.showShortCenter(e.toString());
+          })
+
       }
-      Toast.showShortCenter(e.toString());
-    })
+    });
   }
 
   showLoading() {
@@ -267,7 +276,7 @@ export default class MomentScreen extends Component {
           <Image style={listItemStyle.avatar} source={avatar}/>
           <View style={listItemStyle.content}>
             <Text style={listItemStyle.nameText}>{item.item.username}</Text>
-            <Text style={listItemStyle.msgText}>{Base64Utils.decoder(item.item.content)}</Text>
+            <Text style={listItemStyle.msgText}>{item.item.content}</Text>
             {this.renderImages(item.item.pictures)}
             <View style={listItemStyle.timeContainer}>
               <Text style={listItemStyle.timeText}>{TimeUtils.getFormattedTime(item.item.time)}</Text>

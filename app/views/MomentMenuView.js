@@ -81,6 +81,8 @@ export default class MomentMenuView extends Component {
 
         .then((json) => {
           if (!Utils.isEmpty(json)) {
+            console.warn('--------------------favor return---------------------')
+            console.warn(JSON.stringify(json))
             if (json.code == 1) {
               // 需要刷新页面
               let callback1 = this.state.callback1;

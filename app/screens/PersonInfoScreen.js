@@ -109,6 +109,8 @@ export default class PersonInfoScreen extends Component {
       formData.append('nick', nickName);
       fetch(url, {method: 'POST', body: formData}).then((res) => res.json())
         .then((json) => {
+          console.warn('--------------------updateNick return---------------------')
+          console.warn(JSON.stringify(json))
           this.setState({showProgress: false});
           if (json != null && json.code == 1) {
             this.setState({nick: nickName});
@@ -146,12 +148,15 @@ export default class PersonInfoScreen extends Component {
         formData.append('username', username);
         let file = {uri: image.path, type: 'multipart/form-data', name: filename};
         formData.append('file', file);
-        let url = 'http://app.yubo725.top/updateAvatar';
+        let url = 'http://192.168.99.89/api/updateAvatar';
         fetch(url, {method: 'POST', body: formData})
           .then((res) => res.json())
           .then((json) => {
             this.setState({showProgress: false});
             if (!Utils.isEmpty(json)) {
+              console.warn(JSON.stringify(json))
+              console.error('=================================')
+              console.error(JSON.stringify(json))
               if (json.code == 1) {
                 Toast.showShortCenter('修改头像成功');
                 this.setState({avatar: json.msg});

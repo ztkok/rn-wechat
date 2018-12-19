@@ -129,6 +129,8 @@ export default class LoginScreen extends Component {
       body: formData
     }).then((res) => res.json())
       .then((json) => {
+        console.warn('--------------------register return---------------------')
+        console.warn(JSON.stringify(json))
         if (!Utils.isEmpty(json)) {
           if (json.code === 1) {
             this.registerHX(username, password);

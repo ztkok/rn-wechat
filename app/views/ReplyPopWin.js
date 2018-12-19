@@ -98,6 +98,8 @@ export default class ReplyPopWin extends Component {
     fetch(url, {method: 'POST', body: formData}).then((res) => res.json())
       .then((json) => {
         if (json != null) {
+          console.warn('--------------------reply return---------------------')
+          console.warn(JSON.stringify(json))
           // 回复成功
           if (json.code == 1) {
             // 刷新回复列表

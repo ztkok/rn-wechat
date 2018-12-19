@@ -131,6 +131,8 @@ export default class SearchScreen extends Component {
       body: params
     }).then((res) => res.json())
       .then(json => {
+        console.warn('--------------------search return---------------------')
+        console.warn(JSON.stringify(json))
         for (var i = 0; i < json.length; i++) {
           var item = json[i];
           item.key = item.id;

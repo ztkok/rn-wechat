@@ -83,7 +83,7 @@ export default class PublishMomentScreen extends Component {
       return;
     }
     this.showLoading();
-    content = Base64Utils.encoder(content);
+    //content = Base64Utils.encoder(content);
     let images = this.state.selectedImages;
     let formData = new FormData();
     if (images.length > 0) {
@@ -96,28 +96,41 @@ export default class PublishMomentScreen extends Component {
     }
     formData.append('username', this.state.username);
     formData.append('content', content);
-    let url = 'http://app.yubo725.top/publishMoment';
-    fetch(url, {method: 'POST', body: formData}).then((res) => res.json())
-      .then((json) => {
-        this.hideLoading();
-        if (json != null) {
-          if (json.code == 1) {
-            // 发送成功
-            Toast.showShortCenter('发表成功');
-            // 通知朋友圈列表刷新
-            CountEmitter.emit('updateMomentList');
-            // 退出当前页面
-            this.props.navigation.goBack();
-          } else {
-            // 发送失败
-            let msg = json.msg;
-            Toast.showShortCenter(msg);
-          }
-        }
-      }).catch((e) => {
-      this.hideLoading();
-      Toast.showShortCenter(e.toString());
-    })
+    let url = 'http://192.168.99.89/api/publishMoment';
+
+    let token = '';
+    StorageUtil.get('token', (error, object) => {
+      if (!error && object && object.token) {
+        token = object.token;
+
+        fetch(url, {method: 'POST', headers: {'Authorization': 'Bearer '+token}, body: formData}).then((res) => res.json())
+          .then((json) => {
+            this.hideLoading();
+            if (json != null) {
+              if (json.code == 1) {
+                // 发送成功
+                Toast.showShortCenter('发表成功');
+                // 通知朋友圈列表刷新
+                CountEmitter.emit('updateMomentList');
+                // 退出当前页面
+                this.props.navigation.goBack();
+              } else {
+                // 发送失败
+                let msg = json.msg;
+                Toast.showShortCenter(msg);
+              }
+            }
+          }).catch((e) => {
+          this.hideLoading();
+          Toast.showShortCenter(e.toString());
+        })
+
+      } else {
+        Toast.showShortCenter('数据异常');
+      }
+    });
+
+
   }
 
   renderImageItem(item, index) {
